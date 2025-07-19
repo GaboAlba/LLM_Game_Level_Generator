@@ -35,15 +35,15 @@
             label1 = new Label();
             contextMenuStrip1 = new ContextMenuStrip(components);
             toolStrip1 = new ToolStrip();
-            Help = new ToolStripDropDownButton();
             toolStripDropDownButton1 = new ToolStripDropDownButton();
+            Help = new ToolStripDropDownButton();
             tabControl1 = new TabControl();
+            TilesTab = new TabPage();
             mapConstraintTab = new TabPage();
             customInstructionsTab = new TabPage();
+            outputTab = new TabPage();
             ClearButton = new Button();
             GenerateButton = new Button();
-            TilesTab = new TabPage();
-            outputTab = new TabPage();
             statusStrip1.SuspendLayout();
             toolStrip1.SuspendLayout();
             tabControl1.SuspendLayout();
@@ -94,15 +94,7 @@
             toolStrip1.Size = new Size(944, 25);
             toolStrip1.TabIndex = 3;
             toolStrip1.Text = "toolStrip1";
-            // 
-            // Help
-            // 
-            Help.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            Help.ImageTransparentColor = Color.Magenta;
-            Help.Name = "Help";
-            Help.Size = new Size(45, 22);
-            Help.Text = "Help";
-            Help.ToolTipText = "Help";
+            toolStrip1.ItemClicked += toolStrip1_ItemClicked;
             // 
             // toolStripDropDownButton1
             // 
@@ -112,6 +104,15 @@
             toolStripDropDownButton1.Size = new Size(38, 22);
             toolStripDropDownButton1.Text = "File";
             toolStripDropDownButton1.ToolTipText = "File";
+            // 
+            // Help
+            // 
+            Help.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            Help.ImageTransparentColor = Color.Magenta;
+            Help.Name = "Help";
+            Help.Size = new Size(45, 22);
+            Help.Text = "Help";
+            Help.ToolTipText = "Help";
             // 
             // tabControl1
             // 
@@ -124,6 +125,15 @@
             tabControl1.SelectedIndex = 0;
             tabControl1.Size = new Size(932, 376);
             tabControl1.TabIndex = 4;
+            // 
+            // TilesTab
+            // 
+            TilesTab.Location = new Point(4, 24);
+            TilesTab.Name = "TilesTab";
+            TilesTab.Size = new Size(924, 348);
+            TilesTab.TabIndex = 2;
+            TilesTab.Text = "Tiles";
+            TilesTab.UseVisualStyleBackColor = true;
             // 
             // mapConstraintTab
             // 
@@ -146,6 +156,15 @@
             customInstructionsTab.Text = "Custom Instructions";
             customInstructionsTab.UseVisualStyleBackColor = true;
             // 
+            // outputTab
+            // 
+            outputTab.Location = new Point(4, 24);
+            outputTab.Name = "outputTab";
+            outputTab.Size = new Size(924, 348);
+            outputTab.TabIndex = 3;
+            outputTab.Text = "Output";
+            outputTab.UseVisualStyleBackColor = true;
+            // 
             // ClearButton
             // 
             ClearButton.BackColor = Color.FromArgb(255, 192, 192);
@@ -166,24 +185,6 @@
             GenerateButton.TabIndex = 6;
             GenerateButton.Text = "Generate";
             GenerateButton.UseVisualStyleBackColor = false;
-            // 
-            // TilesTab
-            // 
-            TilesTab.Location = new Point(4, 24);
-            TilesTab.Name = "TilesTab";
-            TilesTab.Size = new Size(924, 348);
-            TilesTab.TabIndex = 2;
-            TilesTab.Text = "Tiles";
-            TilesTab.UseVisualStyleBackColor = true;
-            // 
-            // outputTab
-            // 
-            outputTab.Location = new Point(4, 24);
-            outputTab.Name = "outputTab";
-            outputTab.Size = new Size(924, 348);
-            outputTab.TabIndex = 3;
-            outputTab.Text = "Output";
-            outputTab.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
