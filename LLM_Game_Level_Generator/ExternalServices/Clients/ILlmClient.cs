@@ -1,7 +1,7 @@
 ﻿
-namespace LLM_Game_Level_Generator.Clients
+namespace ExternalServices.Clients
 {
-    using LLM_Game_Level_Generator.Models;
+    using ExternalServices.Contract;
     public interface ILlmClient
     {
         LLMRequest BuildRequest(

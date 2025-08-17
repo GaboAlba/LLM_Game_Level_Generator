@@ -33,7 +33,7 @@
                     PropertyNameCaseInsensitive = true,
                 };
                 this.VectorList.Clear();
-                this.VectorList = await JsonSerializer.DeserializeAsync<List<Dictionary<Guid, GameLevelContract>>>(stream, options);
+                this.VectorList = await JsonSerializer.DeserializeAsync<List<Dictionary<Guid, GameLevelContract>>>(stream, options) ?? throw new JsonException($"Deserialization was not possible for {this.Database}");
             }
             else
             {
@@ -56,7 +56,7 @@
                     Embedding = [],
                     FilePath = file,
                 };
-                document.ReadContent();
+                await document.ReadContentAsync();
             }
         }
 

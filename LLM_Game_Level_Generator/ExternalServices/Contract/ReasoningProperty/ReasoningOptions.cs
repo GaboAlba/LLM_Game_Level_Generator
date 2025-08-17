@@ -1,4 +1,4 @@
-﻿namespace LLM_Game_Level_Generator.Models.ReasoningProperty
+﻿namespace ExternalServices.Contract.ReasoningProperty
 {
     public class ReasoningOptions
     {

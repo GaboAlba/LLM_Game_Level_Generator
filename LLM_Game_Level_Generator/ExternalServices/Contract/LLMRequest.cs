@@ -1,12 +1,9 @@
-﻿using LLM_Game_Level_Generator.Models.ReasoningProperty;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LLM_Game_Level_Generator.Models
+﻿namespace ExternalServices.Contract
 {
+    using ExternalServices.Contract.ReasoningProperty;
+    using System;
+    using System.Collections.Generic;
+
     public class LLMRequest
     {
         public required List<Message> Input { get; set; }

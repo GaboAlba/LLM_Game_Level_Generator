@@ -20,13 +20,13 @@
 
         public string Content => this.Prompt + "\n" + this.Output;
 
-        public async void ReadContent()
+        public async Task ReadContentAsync()
         {
             var fullText = await File.ReadAllBytesAsync(this.FilePath);
             var stream = new MemoryStream(fullText);
             var jsonObject = await JsonSerializer.DeserializeAsync<Dictionary<string, string>>(stream);
-            this.Prompt = jsonObject.GetValueOrDefault("Prompt");
-            this.Output = jsonObject.GetValueOrDefault("Output");
+            this.Prompt = jsonObject?.GetValueOrDefault("Prompt") ?? throw new JsonException($"Prompt is null or invalid for {this.FilePath}");
+            this.Output = jsonObject?.GetValueOrDefault("Output") ?? throw new JsonException($"Output is null or invalid for {this.FilePath}");
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace LLM_Game_Level_Generator.Models
+﻿namespace ExternalServices.Contract
 {
     public static class LLMProviders
     {

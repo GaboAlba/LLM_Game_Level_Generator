@@ -1,4 +1,4 @@
-﻿namespace LLM_Game_Level_Generator.Models
+﻿namespace ExternalServices.Contract
 {
     /// <summary>
     /// Message object for the LLM
@@ -17,6 +17,7 @@
                 {
                     throw new ArgumentNullException("Role is null");
                 }
+
                 if (value != "system" ||
                     value != "user" ||
                     value != "assistant")
