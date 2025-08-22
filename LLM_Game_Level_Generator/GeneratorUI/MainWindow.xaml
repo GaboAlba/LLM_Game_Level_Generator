@@ -4,49 +4,32 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GeneratorUI"
+        xmlns:utils="clr-namespace:GeneratorUI.Utils"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="117*"/>
-            <ColumnDefinition Width="283*"/>
-        </Grid.ColumnDefinitions>
-        <ProgressBar HorizontalAlignment="Left" Height="15" Margin="10,409,0,0" VerticalAlignment="Top" Width="683" ValueChanged="ProgressBar_ValueChanged" Grid.ColumnSpan="2"/>
-        <TabControl Margin="0,68,10,42" Grid.ColumnSpan="2">
-            <TabItem Header="TabItem">
-                <Grid Background="#FFE5E5E5"/>
-            </TabItem>
-            <TabItem Header="TabItem">
-                <Grid Background="#FFE5E5E5" HorizontalAlignment="Left" Width="772" Margin="10,0,0,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <ListView>
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn/>
-                            </GridView>
-                        </ListView.View>
-                        <GridView/>
-                    </ListView>
-                </Grid>
-            </TabItem>
-        </TabControl>
-        <StackPanel HorizontalAlignment="Left" Orientation="Vertical" VerticalAlignment="Center"/>
-        <ToolBarTray x:Name="toolBarTray" Height="29" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Margin="0,0,0,0" Grid.ColumnSpan="2">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Toolbar -->
+            <RowDefinition Height="*"/>
+            <!-- Main content -->
+            <RowDefinition Height="Auto"/>
+            <!-- Progress bar -->
+        </Grid.RowDefinitions>
+
+        <ToolBarTray x:Name="toolBarTray" Grid.Row="0" Height="29" HorizontalAlignment="Stretch" VerticalAlignment="Top">
             <ToolBarTray.RenderTransform>
                 <TransformGroup>
-                    <ScaleTransform ScaleX="{Binding ActualWidth.E, ElementName=window}"/>
                     <SkewTransform/>
                     <RotateTransform/>
                     <TranslateTransform/>
                 </TransformGroup>
             </ToolBarTray.RenderTransform>
             <ToolBar Header="" Margin="0,0,-172,0">
-                <Button Content="New"/>
-                <Button Content="Open"/>
-                <Button Content="Save"/>
-                <Button Content="Save As"/>
+                <Button x:Name="newFileButton" Content="New" Click="newFileButton_Click"/>
+                <Button x:Name="openFIleButton" Content="Open" Click="openFIleButton_Click"/>
+                <Button x:Name="saveButton" Content="Save" Click="saveButton_Click"/>
+                <Button x:Name="saveAsButton" Content="Save As" Click="saveAsButton_Click"/>
             </ToolBar>
             <ToolBar Margin="293,1,-423,-1">
                 <MenuItem Header="Help" Width="109" HorizontalAlignment="Center"/>
@@ -55,5 +38,113 @@
                 <Button Content="LLM API Keys"/>
             </ToolBar>
         </ToolBarTray>
+
+
+
+        <TabControl Grid.Row="1" Margin="10">
+            <TabItem Header="General Information">
+                <Grid Background="#FFE5E5E5" Margin="0,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    
+                    <Label Grid.Column="0" Grid.Row="0" Content="Game Name" HorizontalAlignment="Left" Margin="10,10,30,0" VerticalAlignment="Top" Width="88"/>
+                    <TextBox 
+                        Grid.Column="0" 
+                        Grid.Row="0"
+                        HorizontalAlignment="Stretch" 
+                        Margin="10,36,30,0" 
+                        TextWrapping="Wrap" 
+                        Text="{Binding GeneralElements.GameName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                        VerticalAlignment="Top" 
+                        Width="Auto"
+                        utils:WatermarkService.Watermark="Add Game Name..."
+                        />
+                    
+                    <Label Grid.Column="0" Grid.Row="1" Content="Game Description" HorizontalAlignment="Left" Margin="10,10,30,0" VerticalAlignment="Top" Width="137"/>
+                    <TextBox 
+                        Grid.Column="0" 
+                        Grid.Row="1"
+                        HorizontalAlignment="Stretch" 
+                        Margin="10,35,30,10" 
+                        TextWrapping="WrapWithOverflow" 
+                        Text="{Binding GeneralElements.GameDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                        VerticalAlignment="Stretch" 
+                        Width="Auto" 
+                        MinHeight="209" 
+                        Height="Auto"
+                        utils:WatermarkService.Watermark="Add Game Description..."/>
+                    
+                    <Label Grid.Column="1" Grid.Row="0" Content="Level Name" HorizontalAlignment="Left" Margin="10,10,30,0" VerticalAlignment="Top" Width="88"/>
+                    <TextBox 
+                        Grid.Column="1" 
+                        Grid.Row="0"
+                        HorizontalAlignment="Stretch" 
+                        Margin="10,36,30,0" 
+                        TextWrapping="Wrap" 
+                        Text="{Binding GeneralElements.LevelName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        VerticalAlignment="Top" 
+                        Width="Auto"
+                        utils:WatermarkService.Watermark="Add Level Name..."/>
+                    
+                    <Label Grid.Column="1" Grid.Row="1" Content="Level Description" HorizontalAlignment="Left" Margin="10,10,30,0" VerticalAlignment="Top" Width="137"/>
+                    <TextBox 
+                        Grid.Column="1" 
+                        Grid.Row="1"
+                        HorizontalAlignment="Stretch" 
+                        Margin="10,35,30,10" 
+                        TextWrapping="WrapWithOverflow" 
+                        Text="{Binding GeneralElements.LevelDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                        VerticalAlignment="Stretch" 
+                        Width="Auto" 
+                        MinHeight="209" 
+                        Height="Auto"
+                        utils:WatermarkService.Watermark="Add Level Description..."/>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Tiles">
+                <Grid Background="#FFE5E5E5" Margin="10,0,0,0" x:Name="tilesGrid">
+                    <ListView x:Name="mapTileList" ItemsSource="{Binding MapTileOptions}" Margin="0,26,0,0">
+                        <ListView.View>
+                            <GridView x:Name="mapTilesGridView" ColumnHeaderStringFormat="Tiles Information">
+                                <GridViewColumn Header="Tile Character" Width="Auto">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{Binding Path=TileCharacter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" utils:WatermarkService.Watermark = "Add Character..." MinWidth="100"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+
+                                <GridViewColumn Header="Tile Name" Width="Auto">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{Binding Path=TileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" utils:WatermarkService.Watermark = "Add Name..." MinWidth="160"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+
+                                <GridViewColumn Header="Tile Description" Width="Auto">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{Binding Path=TileDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="WrapWithOverflow" MaxHeight="50" utils:WatermarkService.Watermark = "Add Description..." MinWidth="400" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <Button x:Name="addTileButton" Content="Add Tile" VerticalAlignment="Top" Height="26" Width="Auto" HorizontalAlignment="Stretch" Click="Button_Click" Background="#FF00DFE4"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+        <ProgressBar Grid.Row="2" Height="15" Margin="10,10,200,10" HorizontalAlignment="Stretch"/>
     </Grid>
 </Window>

@@ -20,7 +20,7 @@
                     switch(clientType)
                     {
                         case LLMProviders.GoogleAIClients.Embeddings:
-                            return new EmbeddingsClient(apiKey);
+                            return new EmbeddingsClient(model, apiKey);
                         case LLMProviders.GoogleAIClients.Other:
                         default:
                                 return new GoogleAIClient(apiKey);

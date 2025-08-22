@@ -6,7 +6,8 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    public class PromptGroundingDataInjector
+    public struct PromptGroundingData
     {
+
     }
 }
