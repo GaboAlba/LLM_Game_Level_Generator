@@ -1,8 +1,8 @@
 ﻿namespace ExternalServices.Clients
 {
-    using ExternalServices.Contract;
     using ExternalServices.Clients.GoogleAI;
     using ExternalServices.Clients.OpenAi;
+    using ExternalServices.Contract;
 
     public class LlmClientFactory
     {
@@ -13,36 +13,36 @@
                 throw new NotSupportedException($"The client type {clientType.GetType()} is not supported");
             }
 
-            switch(llmProvider)
+            switch (llmProvider)
             {
                 case LLMProviders.Providers.GoogleAI:
-                {
-                    switch(clientType)
                     {
-                        case LLMProviders.GoogleAIClients.Embeddings:
-                            return new EmbeddingsClient(model, apiKey);
-                        case LLMProviders.GoogleAIClients.Other:
-                        default:
+                        switch (clientType)
+                        {
+                            case LLMProviders.GoogleAIClients.Embeddings:
+                                return new EmbeddingsClient(model, apiKey);
+                            case LLMProviders.GoogleAIClients.Other:
+                            default:
                                 return new GoogleAIClient(apiKey);
+                        }
                     }
-                }
                 case LLMProviders.Providers.OpenAI:
                 default:
-                {
-                    switch(clientType)
                     {
-                        case LLMProviders.OpenAIClients.Embeddings:
-                            throw new NotImplementedException();
-                        case LLMProviders.OpenAIClients.ChatCompletions:
-                            throw new NotImplementedException();
-                        case LLMProviders.OpenAIClients.Completions:
-                            throw new NotImplementedException();
-                        case LLMProviders.OpenAIClients.Responses:
-                        default:
-                            return new ResponsesClient(model, apiKey);
-                    }
+                        switch (clientType)
+                        {
+                            case LLMProviders.OpenAIClients.Embeddings:
+                                throw new NotImplementedException();
+                            case LLMProviders.OpenAIClients.ChatCompletions:
+                                throw new NotImplementedException();
+                            case LLMProviders.OpenAIClients.Completions:
+                                throw new NotImplementedException();
+                            case LLMProviders.OpenAIClients.Responses:
+                            default:
+                                return new ResponsesClient(model, apiKey);
+                        }
 
-                }
+                    }
             }
         }
 

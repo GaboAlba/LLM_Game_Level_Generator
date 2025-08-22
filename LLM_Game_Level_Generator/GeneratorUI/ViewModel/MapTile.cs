@@ -16,7 +16,7 @@
 
         public required string TileCharacter
         {
-            get; 
+            get;
             set
             {
                 field = value;
@@ -25,7 +25,7 @@
         }
 
         public required string TileDescription
-        { 
+        {
             get;
             set
             {

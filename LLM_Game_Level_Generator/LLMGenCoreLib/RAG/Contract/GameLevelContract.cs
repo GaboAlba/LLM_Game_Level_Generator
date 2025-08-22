@@ -1,17 +1,13 @@
 ﻿namespace LLM_Game_Level_Generator.RAG.Contract
 {
-    using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
     using System.IO;
-    using System.Linq;
-    using System.Text;
     using System.Text.Json;
     using System.Threading.Tasks;
 
     public sealed class GameLevelContract
     {
-        public List<float> Embedding {  get; set; } = new ();
+        public List<float> Embedding { get; set; } = new();
 
         public string FilePath { get; set; } = string.Empty;
 

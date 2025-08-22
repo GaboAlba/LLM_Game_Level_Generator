@@ -2,6 +2,7 @@
 {
     using ExternalServices.Clients;
     using ExternalServices.Contract;
+
     using System.Collections.Generic;
     public class ResponsesClient : LlmClientBase, ILlmClient
     {

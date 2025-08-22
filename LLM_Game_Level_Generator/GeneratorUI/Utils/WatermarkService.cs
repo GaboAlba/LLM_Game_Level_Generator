@@ -31,7 +31,7 @@
         private static void ShowOrHideWatermark(TextBox textBox)
         {
             var layer = AdornerLayer.GetAdornerLayer(textBox);
-            if (layer == null) 
+            if (layer == null)
                 return;
 
             var adorners = layer.GetAdorners(textBox);

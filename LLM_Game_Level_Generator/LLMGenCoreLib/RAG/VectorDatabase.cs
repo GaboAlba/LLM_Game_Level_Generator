@@ -1,14 +1,11 @@
 ﻿namespace LLM_Game_Level_Generator.RAG
 {
     using LLM_Game_Level_Generator.RAG.Contract;
+
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using System.Linq;
-    using System.Text;
     using System.Text.Json;
-    using System.Text.Json.Serialization;
-    using System.Threading.Tasks;
     public class VectorDatabase
     {
         public List<Dictionary<Guid, GameLevelContract>> VectorList { get; set; } = new();

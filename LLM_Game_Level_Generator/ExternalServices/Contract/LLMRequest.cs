@@ -1,6 +1,7 @@
 ﻿namespace ExternalServices.Contract
 {
     using ExternalServices.Contract.ReasoningProperty;
+
     using System;
     using System.Collections.Generic;
 

@@ -39,7 +39,7 @@
         private void openFIleButton_Click(object sender, RoutedEventArgs e)
         {
             // TODO: Check if current file has been saved first
-            
+
             var fileDialog = new OpenFileDialog()
             {
                 RestoreDirectory = true,
@@ -60,7 +60,7 @@
         /// <param name="e"></param>
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
-            
+
         }
 
         /// <summary>

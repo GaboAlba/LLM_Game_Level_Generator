@@ -9,7 +9,7 @@ namespace GeneratorUI.UserInput
         /// 
         /// </summary>
         public required string GameDescription
-        { 
+        {
             get;
             set
             {
@@ -18,13 +18,13 @@ namespace GeneratorUI.UserInput
             }
         }
 
-        
+
         /// <summary>
         /// 
         /// </summary>
         public required string GameName
-        { 
-            get; 
+        {
+            get;
             set
             {
                 field = value;
@@ -36,7 +36,7 @@ namespace GeneratorUI.UserInput
         /// 
         /// </summary>
         public required string LevelDescription
-        { 
+        {
             get;
             set
             {
@@ -49,8 +49,8 @@ namespace GeneratorUI.UserInput
         /// 
         /// </summary>
         public required string LevelName
-        { 
-            get; 
+        {
+            get;
             set
             {
                 field = value;
