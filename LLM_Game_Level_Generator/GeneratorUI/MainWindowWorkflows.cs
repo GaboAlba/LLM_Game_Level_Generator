@@ -1,5 +1,7 @@
 ﻿namespace GeneratorUI
 {
+    using GeneratorUI.ViewModel;
+
     using System.Windows;
     using System.Windows.Forms;
 
@@ -13,12 +15,21 @@
         /// <param name="e"></param>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            this.MapTileOptions.Add(new UserInput.MapTile
+            this.MapTileOptions.Add(new MapTile
             {
                 TileCharacter = string.Empty,
                 TileDescription = string.Empty,
                 TileName = string.Empty
             });
+        }
+
+        private void deleteTileButton_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedTileList = new List<MapTile>(this.mapTileList.SelectedItems.Cast<MapTile>());
+            foreach (var selectedTile in selectedTileList)
+            {
+                this.MapTileOptions.RemoveAt(this.mapTileList.Items.IndexOf(selectedTile));
+            }
         }
 
         /// <summary>

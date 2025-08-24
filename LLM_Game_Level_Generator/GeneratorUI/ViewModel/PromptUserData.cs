@@ -1,7 +1,5 @@
-﻿namespace LLMGenCoreLib.PromptTemplates
+﻿namespace GeneratorUI.ViewModel
 {
-    using GeneratorUI.UserInput;
-
     using System.Collections.Generic;
 
     public class PromptUserData

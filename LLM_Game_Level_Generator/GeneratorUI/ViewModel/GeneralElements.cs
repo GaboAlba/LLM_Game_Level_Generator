@@ -1,5 +1,5 @@
 ﻿
-namespace GeneratorUI.UserInput
+namespace GeneratorUI.ViewModel
 {
     using System.ComponentModel;
 
@@ -17,7 +17,6 @@ namespace GeneratorUI.UserInput
                 this.OnPropertyChanged(nameof(this.GameDescription));
             }
         }
-
 
         /// <summary>
         /// 
@@ -59,7 +58,7 @@ namespace GeneratorUI.UserInput
         }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
 
         private void OnPropertyChanged(string propertyName)
