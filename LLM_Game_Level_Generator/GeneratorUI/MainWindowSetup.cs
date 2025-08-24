@@ -1,6 +1,7 @@
 ﻿namespace GeneratorUI
 {
-    using GeneratorUI.UserInput;
+    using GeneratorUI.Utils;
+    using GeneratorUI.ViewModel;
 
     using System.Collections.ObjectModel;
 
@@ -8,6 +9,7 @@
     {
         public ObservableCollection<MapTile> MapTileOptions { get; set; }
         public GeneralElements GeneralElements { get; set; }
+        public MapConstraints MapConstraints { get; set; }
         public void Start()
         {
             this.MapTileOptions = new ObservableCollection<MapTile>();

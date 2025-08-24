@@ -53,7 +53,7 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    
+
                     <Label Grid.Column="0" Grid.Row="0" Content="Game Name" HorizontalAlignment="Left" Margin="10,10,30,0" VerticalAlignment="Top" Width="88"/>
                     <TextBox 
                         Grid.Column="0" 
@@ -66,7 +66,7 @@
                         Width="Auto"
                         utils:WatermarkService.Watermark="Add Game Name..."
                         />
-                    
+
                     <Label Grid.Column="0" Grid.Row="1" Content="Game Description" HorizontalAlignment="Left" Margin="10,10,30,0" VerticalAlignment="Top" Width="137"/>
                     <TextBox 
                         Grid.Column="0" 
@@ -80,7 +80,7 @@
                         MinHeight="209" 
                         Height="Auto"
                         utils:WatermarkService.Watermark="Add Game Description..."/>
-                    
+
                     <Label Grid.Column="1" Grid.Row="0" Content="Level Name" HorizontalAlignment="Left" Margin="10,10,30,0" VerticalAlignment="Top" Width="88"/>
                     <TextBox 
                         Grid.Column="1" 
@@ -92,7 +92,7 @@
                         VerticalAlignment="Top" 
                         Width="Auto"
                         utils:WatermarkService.Watermark="Add Level Name..."/>
-                    
+
                     <Label Grid.Column="1" Grid.Row="1" Content="Level Description" HorizontalAlignment="Left" Margin="10,10,30,0" VerticalAlignment="Top" Width="137"/>
                     <TextBox 
                         Grid.Column="1" 
@@ -109,9 +109,14 @@
                 </Grid>
             </TabItem>
 
-            <TabItem Header="Tiles">
+            <TabItem Header="Tiles" Height="20" VerticalAlignment="Top">
                 <Grid Background="#FFE5E5E5" Margin="10,0,0,0" x:Name="tilesGrid">
-                    <ListView x:Name="mapTileList" ItemsSource="{Binding MapTileOptions}" Margin="0,26,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    
+                    <ListView Grid.Row="1" x:Name="mapTileList" ItemsSource="{Binding MapTileOptions}" Margin="0,26,0,0">
                         <ListView.View>
                             <GridView x:Name="mapTilesGridView" ColumnHeaderStringFormat="Tiles Information">
                                 <GridViewColumn Header="Tile Character" Width="Auto">
@@ -140,11 +145,109 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <Button x:Name="addTileButton" Content="Add Tile" VerticalAlignment="Top" Height="26" Width="Auto" HorizontalAlignment="Stretch" Click="Button_Click" Background="#FF00DFE4"/>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <Button Grid.Column="1" Content="Delete" x:Name="deleteTileButton" Width="Auto" Height="26" VerticalAlignment="Top" Background="MediumVioletRed" Click="deleteTileButton_Click"/>
+                        <Button Grid.Column="0" x:Name="addTileButton" Content="Add Tile" VerticalAlignment="Top" Height="26" Width="Auto" HorizontalAlignment="Stretch" Click="Button_Click" Background="#FF00DFE4"/>
+                    </Grid>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Constraints">
+                <Grid Background="#FFE5E5E5" Margin="0,0,0,0" x:Name="constraintsGrid">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Label Grid.Row="0" Content="Width" Margin="10,0,0,0"/>
+                        <TextBox
+                            Grid.Row="0"
+                            Text="{Binding MapConstraints.Width, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Margin="10,10,10,0"
+                            Height="19"
+                            MinWidth="50"
+                            HorizontalAlignment="Stretch"/>
+                        <Label Grid.Row="1" Content="Height" Margin="10,0,0,0"/>
+                        <TextBox
+                            Grid.Row="1"
+                            Text="{Binding MapConstraints.Height, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Margin="10,10,10,0"
+                            Height="19"
+                            MinWidth="50"
+                            HorizontalAlignment="Stretch"/>
+                        <Label Grid.Row="2" Content="Maximum Jump Height" Margin="10,0,0,0"/>
+                        <TextBox
+                            Grid.Row="2"
+                            Text="{Binding MapConstraints.MaxJumpHeight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Margin="10,10,10,0"
+                            Height="19"
+                            MinWidth="50"
+                            HorizontalAlignment="Stretch"/>
+                        <Label Grid.Row="3" Content="Maximum Jump Width" Margin="10,0,0,0"/>
+                        <TextBox
+                            Grid.Row="3"
+                            Text="{Binding MapConstraints.MaxJumpWidth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Margin="10,10,10,0"
+                            Height="19"
+                            MinWidth="50"
+                            HorizontalAlignment="Stretch"/>
+                        <Label Grid.Row="4" Content="Obstacle Count Range" Margin="10,0,0,0" VerticalAlignment="Top"/>
+                        <Grid Grid.Row="4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox
+                                Grid.Row="5"
+                                Grid.Column="0"
+                                Text="{Binding MapConstraints.MinNumberOfObstacles, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                Margin="10,0,10,0"
+                                Height="19"
+                                MinWidth="50"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Bottom"/>
+                            <TextBox
+                                Grid.Row="5"
+                                Grid.Column="1"
+                                Text="{Binding MapConstraints.MaxNumberOfObstacles, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                Margin="10,0,10,0"
+                                Height="19"
+                                MinWidth="50"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Bottom"/>
+                        </Grid>
+
+                    </Grid>
+                    <Label Grid.Column="1" Content="Custom Constraints" Margin="10,0,0,0"/>
+                    <TextBox
+                        Grid.Column="1"
+                        Text="{Binding MapConstraints.CustomConstraints, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Margin="10,25,10,20"
+                        MinWidth="50"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"/>
+
+
                 </Grid>
             </TabItem>
         </TabControl>
 
         <ProgressBar Grid.Row="2" Height="15" Margin="10,10,200,10" HorizontalAlignment="Stretch"/>
+        <Button Content="Generate" HorizontalAlignment="Right" Margin="695,0,20,0" VerticalAlignment="Center" Width="85" Background="LawnGreen"/>
     </Grid>
 </Window>
