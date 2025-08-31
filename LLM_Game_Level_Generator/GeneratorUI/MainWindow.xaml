@@ -262,6 +262,6 @@
         </TabControl>
 
         <ProgressBar Grid.Row="2" Height="15" Margin="10,10,200,10" HorizontalAlignment="Stretch"/>
-        <Button Content="Generate" HorizontalAlignment="Right" Margin="695,0,20,0" VerticalAlignment="Center" Width="85" Background="LawnGreen"/>
+        <Button Content="Generate" HorizontalAlignment="Right" Margin="695,0,20,0" VerticalAlignment="Center" Width="85" Background="LawnGreen" Click="GenerateButton_Click"/>
     </Grid>
 </Window>

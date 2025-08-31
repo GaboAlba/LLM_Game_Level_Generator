@@ -111,6 +111,17 @@
             // Handle saving
         }
 
+        /// <summary>
+        /// Workflow to generate the LLM Response
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void GenerateButton_Click(object sender, RoutedEventArgs e)
+        {
+            
+            var messages = this.LlmClient.BuildMessages();
+        }
+
         private void TilePropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             if (sender is MapTile tile && e.PropertyName == nameof(MapTile.TileCharacter))

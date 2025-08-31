@@ -1,5 +1,9 @@
 ﻿namespace GeneratorUI
 {
+    using ExternalServices.Clients;
+    using ExternalServices.Clients.OpenAi;
+    using ExternalServices.Contract;
+
     using GeneratorUI.Utils;
     using GeneratorUI.ViewModel;
 
@@ -10,8 +14,10 @@
         public ObservableCollection<MapTile> MapTileOptions { get; set; }
         public GeneralElements GeneralElements { get; set; }
         public MapConstraints MapConstraints { get; set; }
+        public ILlmClient LlmClient { get; set; }
 
         private HashSet<string> usedCharacters = new HashSet<string>();
+        private readonly Dictionary<string, string> apiKeys = new Dictionary<string, string>();
         public void Start()
         {
             this.MapTileOptions = new ObservableCollection<MapTile>();
@@ -32,6 +38,7 @@
                 MaxNumberOfObstacles = 0,
                 CustomConstraints = string.Empty,
             };
+            this.LlmClient = new ResponsesClient(this.apiKeys.GetValueOrDefault(LLMProviders.Providers.OpenAI.ToString()));
         }
     }
 }

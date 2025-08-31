@@ -13,15 +13,24 @@
             "TestModel1"
         };
 
-        public ResponsesClient(string model, string apiKey)
-            : base(model, apiKey, nameof(ResponsesClient)) { }
+        public ResponsesClient(string apiKey)
+            : base(
+                  model: "gpt-4.1",
+                  apiKey: apiKey,
+                  temperature: 0.3f,
+                  maxOutputTokens: 10000,
+                  topK: 1,
+                  topP: 1,
+                  frequencyPenalty: 0,
+                  presencePenalty: 0,
+                  clientName:nameof(ResponsesClient)) { }
 
         public List<Message> BuildMessages(string prompt)
         {
             throw new NotImplementedException();
         }
 
-        public LLMRequest BuildRequest(string model, List<Message> messages, float temperature, int maxOutputTokens, int topK, int topP, float frequencyPenalty, float presencePenalty)
+        public LLMRequest BuildRequest(List<Message> messages)
         {
             throw new NotImplementedException();
         }
