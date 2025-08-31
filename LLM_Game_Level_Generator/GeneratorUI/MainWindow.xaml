@@ -117,12 +117,26 @@
                     </Grid.RowDefinitions>
                     
                     <ListView Grid.Row="1" x:Name="mapTileList" ItemsSource="{Binding MapTileOptions}" Margin="0,26,0,0">
+                        <ListView.Resources>
+                            <Style TargetType="TextBox">
+                                <Style.Triggers>
+                                    <Trigger Property="Validation.HasError" Value="True">
+                                        <Setter Property="BorderBrush" Value="Red" />
+                                        <Setter Property="BorderThickness" Value="2" />
+                                        <Setter Property="ToolTip"
+                                                Value="{Binding (Validation.Errors)[0].ErrorContent, 
+                                                RelativeSource={RelativeSource Self}}" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ListView.Resources>
+
                         <ListView.View>
                             <GridView x:Name="mapTilesGridView" ColumnHeaderStringFormat="Tiles Information">
                                 <GridViewColumn Header="Tile Character" Width="Auto">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBox Text="{Binding Path=TileCharacter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" utils:WatermarkService.Watermark = "Add Character..." MinWidth="100"/>
+                                            <TextBox Text="{Binding Path=TileCharacter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" utils:WatermarkService.Watermark = "Add Character..." MinWidth="100"/>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
