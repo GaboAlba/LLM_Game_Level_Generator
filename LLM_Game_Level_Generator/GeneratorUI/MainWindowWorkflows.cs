@@ -1,6 +1,6 @@
 ﻿namespace GeneratorUI
 {
-    using GeneratorUI.ViewModel;
+    using GeneratorViewModel;
 
     using System.ComponentModel;
     using System.Windows;
@@ -118,8 +118,6 @@
         /// <param name="e"></param>
         private void GenerateButton_Click(object sender, RoutedEventArgs e)
         {
-            
-            var messages = this.LlmClient.BuildMessages();
         }
 
         private void TilePropertyChanged(object? sender, PropertyChangedEventArgs e)

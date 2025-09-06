@@ -5,7 +5,8 @@
     using ExternalServices.Contract;
 
     using GeneratorUI.Utils;
-    using GeneratorUI.ViewModel;
+    
+    using GeneratorViewModel;
 
     using System.Collections.ObjectModel;
 
@@ -14,9 +15,9 @@
         public ObservableCollection<MapTile> MapTileOptions { get; set; }
         public GeneralElements GeneralElements { get; set; }
         public MapConstraints MapConstraints { get; set; }
-        public ILlmClient LlmClient { get; set; }
 
         private HashSet<string> usedCharacters = new HashSet<string>();
+        private ILlmClient LlmClient;
         private readonly Dictionary<string, string> apiKeys = new Dictionary<string, string>();
         public void Start()
         {
@@ -38,7 +39,7 @@
                 MaxNumberOfObstacles = 0,
                 CustomConstraints = string.Empty,
             };
-            this.LlmClient = new ResponsesClient(this.apiKeys.GetValueOrDefault(LLMProviders.Providers.OpenAI.ToString()));
+            this.LlmClient = LlmClientFactory.CreateClient(LLMProviders.Providers.OpenAI, LLMProviders.OpenAIClients.Responses, this.apiKeys.GetValueOrDefault(LLMProviders.Providers.OpenAI.ToString()));
         }
     }
 }

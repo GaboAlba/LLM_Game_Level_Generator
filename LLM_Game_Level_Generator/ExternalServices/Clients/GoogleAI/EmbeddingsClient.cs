@@ -1,14 +1,19 @@
 ﻿namespace ExternalServices.Clients.GoogleAI
 {
-    public class EmbeddingsClient : LlmClientBase
+    using ExternalServices.Contract;
+
+    public class EmbeddingsClient : LlmClientBase, ILlmClient
     {
         protected override ISet<string> AllowedModels => new HashSet<string>
         {
             "SampleModel",
         };
 
-        public EmbeddingsClient(string model, string apiKey)
-            : base(model, apiKey, nameof(EmbeddingsClient)) { }
+        public EmbeddingsClient(string apiKey)
+            : base(
+                  model:"modelString",
+                  apiKey:apiKey,
+                  clientName: nameof(EmbeddingsClient)) { }
 
         public List<double> GetEmbeddingVector(string text)
         {
@@ -16,6 +21,8 @@
             return new List<double>(text.Count());
         }
 
-        private readonly string url = "";
+        public LLMRequest BuildRequest(List<Message> messages) => throw new NotImplementedException();
+        public List<Message> BuildMessages(string prompt) => throw new NotImplementedException();
+        public LLMResponse GetResponse(LLMRequest request) => throw new NotImplementedException();
     }
 }

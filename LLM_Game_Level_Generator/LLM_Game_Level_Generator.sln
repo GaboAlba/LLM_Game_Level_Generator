@@ -6,8 +6,14 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExternalServices", "ExternalServices\ExternalServices.csproj", "{74C59690-AC5B-4289-9AE1-C763892F591C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneratorUI", "GeneratorUI\GeneratorUI.csproj", "{26D0EC5E-B504-4C86-9F8A-963645A53190}"
+	ProjectSection(ProjectDependencies) = postProject
+		{68EB56CE-9909-4FA5-94BC-4FF092A14BC2} = {68EB56CE-9909-4FA5-94BC-4FF092A14BC2}
+		{DE4B340A-5BBB-4019-BE59-C7D5D9B173C2} = {DE4B340A-5BBB-4019-BE59-C7D5D9B173C2}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LLMGenCoreLib", "LLMGenCoreLib\LLMGenCoreLib.csproj", "{68EB56CE-9909-4FA5-94BC-4FF092A14BC2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LLMPromptProcessor", "LLMGenCoreLib\LLMPromptProcessor.csproj", "{68EB56CE-9909-4FA5-94BC-4FF092A14BC2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneratorViewModel", "GeneratorViewModel\GeneratorViewModel.csproj", "{DE4B340A-5BBB-4019-BE59-C7D5D9B173C2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +33,10 @@ Global
 		{68EB56CE-9909-4FA5-94BC-4FF092A14BC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{68EB56CE-9909-4FA5-94BC-4FF092A14BC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{68EB56CE-9909-4FA5-94BC-4FF092A14BC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE4B340A-5BBB-4019-BE59-C7D5D9B173C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE4B340A-5BBB-4019-BE59-C7D5D9B173C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE4B340A-5BBB-4019-BE59-C7D5D9B173C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE4B340A-5BBB-4019-BE59-C7D5D9B173C2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

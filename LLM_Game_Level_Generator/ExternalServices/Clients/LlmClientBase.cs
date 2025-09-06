@@ -16,13 +16,13 @@
         public LlmClientBase(
             string model,
             string apiKey,
-            float temperature,
-            int maxOutputTokens,
-            int topK,
-            int topP,
-            float frequencyPenalty,
-            float presencePenalty,
-            string clientName)
+            float temperature = 0.3f,
+            int maxOutputTokens = 10000,
+            int topK = 1,
+            int topP = 1,
+            float frequencyPenalty = 0,
+            float presencePenalty = 0,
+            string? clientName = null)
         {
             ArgumentNullException.ThrowIfNull(model);
             ArgumentNullException.ThrowIfNullOrWhiteSpace(apiKey);

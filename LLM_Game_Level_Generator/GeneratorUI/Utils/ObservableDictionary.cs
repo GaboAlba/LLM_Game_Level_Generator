@@ -1,6 +1,6 @@
 ﻿namespace GeneratorUI.Utils
 {
-    using GeneratorUI.ViewModel;
+    using GeneratorViewModel;
 
     using System;
     using System.Collections;

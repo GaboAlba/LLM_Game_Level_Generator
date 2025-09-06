@@ -1,4 +1,4 @@
-﻿namespace GeneratorUI.ViewModel
+﻿namespace GeneratorViewModel
 {
     using System.Collections.Generic;
 

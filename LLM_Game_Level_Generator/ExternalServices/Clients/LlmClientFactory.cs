@@ -6,7 +6,7 @@
 
     public class LlmClientFactory
     {
-        public static object CreateClient(LLMProviders.Providers llmProvider, Enum clientType, string apiKey, string model)
+        public static ILlmClient CreateClient(LLMProviders.Providers llmProvider, Enum clientType, string apiKey)
         {
             if (!LLMProviders.IsSupportedClientType(clientType))
             {
@@ -20,10 +20,8 @@
                         switch (clientType)
                         {
                             case LLMProviders.GoogleAIClients.Embeddings:
-                                return new EmbeddingsClient(model, apiKey);
-                            case LLMProviders.GoogleAIClients.Other:
                             default:
-                                return new GoogleAIClient(apiKey);
+                                return new EmbeddingsClient(apiKey);
                         }
                     }
                 case LLMProviders.Providers.OpenAI:
@@ -39,7 +37,7 @@
                                 throw new NotImplementedException();
                             case LLMProviders.OpenAIClients.Responses:
                             default:
-                                return new ResponsesClient(model, apiKey);
+                                return new ResponsesClient(apiKey);
                         }
 
                     }

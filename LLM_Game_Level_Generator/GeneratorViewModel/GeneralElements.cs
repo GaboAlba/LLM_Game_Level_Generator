@@ -1,5 +1,5 @@
 ﻿
-namespace GeneratorUI.ViewModel
+namespace GeneratorViewModel
 {
     using System.ComponentModel;
 
