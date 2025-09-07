@@ -18,8 +18,10 @@
                     throw new ArgumentNullException("Role is null");
                 }
 
-                if (value != "system" ||
-                    value != "user" ||
+                value = value.ToLower();
+
+                if (value != "system" &&
+                    value != "user" &&
                     value != "assistant")
                 {
                     throw new ArgumentException($"Role {value} is not valid. It must either system, user, or assistant");

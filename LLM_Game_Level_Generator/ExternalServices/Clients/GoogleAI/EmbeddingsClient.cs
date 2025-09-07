@@ -23,6 +23,6 @@
 
         public LLMRequest BuildRequest(List<Message> messages) => throw new NotImplementedException();
         public List<Message> BuildMessages(string prompt) => throw new NotImplementedException();
-        public LLMResponse GetResponse(LLMRequest request) => throw new NotImplementedException();
+        public Task<LLMResponse> GetResponseAsync(LLMRequest request) => throw new NotImplementedException();
     }
 }

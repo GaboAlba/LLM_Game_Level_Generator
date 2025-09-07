@@ -10,8 +10,7 @@
 
         public enum GoogleAIClients
         {
-            Embeddings = 1,
-            Other = 2,
+            None = 0,
         }
 
         public enum OpenAIClients

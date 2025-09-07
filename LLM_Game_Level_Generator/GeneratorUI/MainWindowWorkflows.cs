@@ -116,8 +116,11 @@
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void GenerateButton_Click(object sender, RoutedEventArgs e)
+        private async void GenerateButton_Click(object sender, RoutedEventArgs e)
         {
+            var messages = this.LlmClient.BuildMessages(string.Empty);
+            var request = this.LlmClient.BuildRequest(messages);
+            var response = await this.LlmClient.GetResponseAsync(request);
         }
 
         private void TilePropertyChanged(object? sender, PropertyChangedEventArgs e)
