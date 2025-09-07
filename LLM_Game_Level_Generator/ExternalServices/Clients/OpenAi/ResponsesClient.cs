@@ -33,19 +33,7 @@ namespace ExternalServices.Clients.OpenAi
             this.responseClient = new OpenAI.Responses.OpenAIResponseClient(this.model, this.apiKey);
         }
 
-        public List<Message> BuildMessages(string prompt)
-        {
-            // $"BuildMessages is currently only a sample of the actual functionality which will be implemented alongside the handlebar compiler"
-            var sampleMessagesList = new List<Message>
-            {
-                new Message
-                {
-                    Role = "User",
-                    Content = "Guess a number between 1 and 10",
-                },
-            };
-            return sampleMessagesList;
-        }
+        new public List<Message> BuildMessages(string prompt) => base.BuildMessages(prompt);
 
         public LLMRequest BuildRequest(List<Message> messages)
         {

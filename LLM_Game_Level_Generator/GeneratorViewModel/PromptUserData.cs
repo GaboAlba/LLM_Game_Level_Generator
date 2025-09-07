@@ -1,13 +1,13 @@
 ﻿namespace GeneratorViewModel
 {
-    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
 
     public class PromptUserData
     {
         public required GeneralElements GeneralElements { get; set; }
 
-        public required List<MapTile> MapTileOptions { get; set; }
+        public required ObservableCollection<MapTile> MapTileOptions { get; set; }
 
-        public required MapConstraints mapConstraints { get; set; }
+        public required MapConstraints MapConstraints { get; set; }
     }
 }

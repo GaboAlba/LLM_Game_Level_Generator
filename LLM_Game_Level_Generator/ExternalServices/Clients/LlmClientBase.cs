@@ -1,5 +1,9 @@
 ﻿namespace ExternalServices.Clients
 {
+    using ExternalServices.Contract;
+
+    using System.Text.Json;
+
     public abstract class LlmClientBase
     {
         // LLM Hyperparamters
@@ -46,6 +50,18 @@
             this.topP = topP;
             this.frequencyPenalty = frequencyPenalty;
             this.presencePenalty = presencePenalty;
+        }
+
+        public List<Message> BuildMessages(string prompt)
+        {
+            var lines = prompt.Split(new[] { "\n", "\r\n" }, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+            var messages = new List<Message>();
+            foreach (var line in lines)
+            {
+                messages.Add(JsonSerializer.Deserialize<Message>(line));
+            }
+
+            return messages;
         }
     }
 }
