@@ -12,9 +12,6 @@
         protected readonly float frequencyPenalty;
         protected readonly float presencePenalty;
 
-        // Http protocol
-        protected readonly HttpClient httpClient;
-
         protected abstract ISet<string> AllowedModels { get; }
         protected HashSet<string> ReasoningModels = new()
         {
@@ -49,7 +46,6 @@
             this.topP = topP;
             this.frequencyPenalty = frequencyPenalty;
             this.presencePenalty = presencePenalty;
-            this.httpClient = new HttpClient();
         }
     }
 }

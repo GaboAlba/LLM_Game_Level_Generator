@@ -18,6 +18,8 @@
         private HashSet<string> usedCharacters = new HashSet<string>();
         private ILlmClient LlmClient;
         private readonly Dictionary<string, string> apiKeys = GetApiKeys();
+
+        // TODO: Need to change this to relative path for distribution.
         private const string apiKeysDir = "C:\\Users\\Gabriel\\OneDrive\\Documents\\GitHub\\LLM_Game_Level_Generator\\LLM_Game_Level_Generator\\ExternalServices\\api_keys.json";
         public void Start()
         {

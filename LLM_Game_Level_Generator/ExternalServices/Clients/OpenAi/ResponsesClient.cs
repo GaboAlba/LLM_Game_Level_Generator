@@ -3,7 +3,6 @@ namespace ExternalServices.Clients.OpenAi
 {
     using ExternalServices.Clients;
     using ExternalServices.Contract;
-    using ExternalServices.Contract.ReasoningProperty;
 
     using OpenAI.Responses;
 
