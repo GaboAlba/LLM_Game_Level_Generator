@@ -1,5 +1,7 @@
 ﻿namespace ExternalServices.Contract
 {
+    using System.Text.Json.Serialization;
+
     /// <summary>
     /// Message object for the LLM
     /// </summary>
@@ -8,6 +10,7 @@
         /// <summary>
         /// The role of the LLM Message
         /// </summary>
+        [JsonPropertyName("role")]
         public required string Role
         {
             get;
@@ -34,6 +37,7 @@
         /// <summary>
         /// The content of the Prompt
         /// </summary>
+        [JsonPropertyName("content")]
         public required string Content { get; set; }
     }
 }

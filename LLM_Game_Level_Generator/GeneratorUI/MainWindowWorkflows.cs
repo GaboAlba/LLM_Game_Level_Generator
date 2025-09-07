@@ -2,6 +2,8 @@
 {
     using GeneratorViewModel;
 
+    using LLMGenCoreLib.PromptTemplates;
+
     using System.ComponentModel;
     using System.Windows;
     using System.Windows.Forms;
@@ -118,7 +120,8 @@
         /// <param name="e"></param>
         private async void GenerateButton_Click(object sender, RoutedEventArgs e)
         {
-            var messages = this.LlmClient.BuildMessages(string.Empty);
+            var prompt = PromptGroundingDataInjector.CreatePrompt(this.promptUserData);
+            var messages = this.LlmClient.BuildMessages(prompt);
             var request = this.LlmClient.BuildRequest(messages);
             var response = await this.LlmClient.GetResponseAsync(request);
         }

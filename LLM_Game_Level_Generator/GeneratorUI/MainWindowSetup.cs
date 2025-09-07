@@ -18,6 +18,7 @@
         private HashSet<string> usedCharacters = new HashSet<string>();
         private ILlmClient LlmClient;
         private readonly Dictionary<string, string> apiKeys = GetApiKeys();
+        private PromptUserData promptUserData;
 
         // TODO: Need to change this to relative path for distribution.
         private const string apiKeysDir = "C:\\Users\\Gabriel\\OneDrive\\Documents\\GitHub\\LLM_Game_Level_Generator\\LLM_Game_Level_Generator\\ExternalServices\\api_keys.json";
@@ -41,6 +42,14 @@
                 MaxNumberOfObstacles = 0,
                 CustomConstraints = string.Empty,
             };
+
+            this.promptUserData = new PromptUserData
+            {
+                GeneralElements = this.GeneralElements,
+                MapTileOptions = this.MapTileOptions,
+                MapConstraints = this.MapConstraints,
+            };
+
             this.LlmClient = LlmClientFactory.CreateClient(LLMProviders.Providers.OpenAI, LLMProviders.OpenAIClients.Responses, this.apiKeys.GetValueOrDefault(LLMProviders.Providers.OpenAI.ToString()));
         }
 
