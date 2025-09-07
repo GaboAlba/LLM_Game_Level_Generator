@@ -8,6 +8,6 @@ namespace ExternalServices.Clients
 
         List<Message> BuildMessages(string prompt);
 
-        LLMResponse GetResponse(LLMRequest request);
+        Task<LLMResponse> GetResponseAsync(LLMRequest request);
     }
 }

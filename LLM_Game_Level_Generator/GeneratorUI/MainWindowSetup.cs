@@ -1,14 +1,13 @@
 ﻿namespace GeneratorUI
 {
     using ExternalServices.Clients;
-    using ExternalServices.Clients.OpenAi;
     using ExternalServices.Contract;
-
-    using GeneratorUI.Utils;
     
     using GeneratorViewModel;
 
     using System.Collections.ObjectModel;
+    using System.IO;
+    using System.Text.Json;
 
     public partial class MainWindow
     {
@@ -18,7 +17,10 @@
 
         private HashSet<string> usedCharacters = new HashSet<string>();
         private ILlmClient LlmClient;
-        private readonly Dictionary<string, string> apiKeys = new Dictionary<string, string>();
+        private readonly Dictionary<string, string> apiKeys = GetApiKeys();
+
+        // TODO: Need to change this to relative path for distribution.
+        private const string apiKeysDir = "C:\\Users\\Gabriel\\OneDrive\\Documents\\GitHub\\LLM_Game_Level_Generator\\LLM_Game_Level_Generator\\ExternalServices\\api_keys.json";
         public void Start()
         {
             this.MapTileOptions = new ObservableCollection<MapTile>();
@@ -40,6 +42,20 @@
                 CustomConstraints = string.Empty,
             };
             this.LlmClient = LlmClientFactory.CreateClient(LLMProviders.Providers.OpenAI, LLMProviders.OpenAIClients.Responses, this.apiKeys.GetValueOrDefault(LLMProviders.Providers.OpenAI.ToString()));
+        }
+
+        private static Dictionary<string, string> GetApiKeys()
+        {
+            try
+            {
+                var jsonString = File.ReadAllText(apiKeysDir);
+                return JsonSerializer.Deserialize<Dictionary<string, string>>(jsonString);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"ERROR: API Keys deserializing failed. Check the existence and/or format of the json file. Exception: {ex}");
+                throw;
+            }
         }
     }
 }

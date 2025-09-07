@@ -8,4 +8,8 @@
 	<LangVersion>preview</LangVersion>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="OpenAI" Version="2.4.0" />
+  </ItemGroup>
+
 </Project>

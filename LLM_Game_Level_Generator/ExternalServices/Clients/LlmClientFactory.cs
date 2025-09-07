@@ -19,9 +19,8 @@
                     {
                         switch (clientType)
                         {
-                            case LLMProviders.GoogleAIClients.Embeddings:
                             default:
-                                return new EmbeddingsClient(apiKey);
+                                throw new NotSupportedException("Google AI LLM Models are not yet supported");
                         }
                     }
                 case LLMProviders.Providers.OpenAI:
