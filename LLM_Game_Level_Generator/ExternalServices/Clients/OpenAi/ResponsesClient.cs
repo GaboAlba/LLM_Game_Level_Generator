@@ -24,9 +24,9 @@ namespace ExternalServices.Clients.OpenAi
                   apiKey: apiKey,
                   temperature: 0.3f,
                   maxOutputTokens: 10000,
-                  topK: 1,
-                  topP: 1,
-                  frequencyPenalty: 0,
+                  topK: 0,
+                  topP: 0.9f,
+                  frequencyPenalty: 0.3f,
                   presencePenalty: 0,
                   clientName:nameof(ResponsesClient))
         {

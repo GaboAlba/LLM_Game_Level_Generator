@@ -259,6 +259,16 @@
 
                 </Grid>
             </TabItem>
+
+            <TabItem Header="Output">
+                <TextBox 
+                    IsReadOnly="True"
+                    Text="{Binding Output.GeneratedMap, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    HorizontalScrollBarVisibility="Auto"
+                    VerticalScrollBarVisibility="Auto"/>
+            </TabItem>
         </TabControl>
 
         <ProgressBar Grid.Row="2" Height="15" Margin="10,10,200,10" HorizontalAlignment="Stretch"/>
