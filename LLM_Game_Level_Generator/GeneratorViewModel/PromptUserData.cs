@@ -4,10 +4,10 @@
 
     public class PromptUserData
     {
-        public required GeneralElements GeneralElements { get; set; }
+        public GeneralElements GeneralElements { get; set; } = new();
 
-        public required ObservableCollection<MapTile> MapTileOptions { get; set; }
+        public ObservableCollection<MapTile> MapTileOptions { get; set; } = new();
 
-        public required MapConstraints MapConstraints { get; set; }
+        public MapConstraints MapConstraints { get; set; } = new();
     }
 }

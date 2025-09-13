@@ -1,6 +1,7 @@
 ﻿namespace GeneratorViewModel
 {
     using System.ComponentModel;
+    using System.Text.Json.Serialization;
 
     public class MapTile : INotifyPropertyChanged, IDataErrorInfo
     {
@@ -38,8 +39,10 @@
         } = string.Empty;
 
         // Validation support
+        [JsonIgnore]
         public string Error => string.Empty;
 
+        [JsonIgnore]
         public string this[string columnName]
         {
             get
@@ -56,7 +59,15 @@
             }
         }
 
+        [JsonIgnore]
         public Func<string, bool>? ValidateCharacter { get; set; }
+
+        public void CopyFrom(MapTile tile)
+        {
+            this.TileName = tile.TileName;
+            this.TileCharacter = tile.TileCharacter;
+            this.TileDescription = tile.TileDescription;
+        }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
         public event PropertyChangedEventHandler? PropertyChanged;
