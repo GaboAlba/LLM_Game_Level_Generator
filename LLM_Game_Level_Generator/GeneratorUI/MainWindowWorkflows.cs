@@ -166,15 +166,44 @@
         /// <param name="e"></param>
         private async void GenerateButton_Click(object sender, RoutedEventArgs e)
         {
-            var prompt = PromptGroundingDataInjector.CreatePrompt(this.promptUserData);
-            var messages = this.LlmClient.BuildMessages(prompt);
-            var request = this.LlmClient.BuildRequest(messages);
-            var response = await this.LlmClient.GetResponseAsync(request);
+            string responseMap = string.Empty;
+            try
+            {
+                var prompt = PromptGroundingDataInjector.CreatePrompt(this.promptUserData);
+                var messages = this.LlmClient.BuildMessages(prompt);
+                var request = this.LlmClient.BuildRequest(messages);
+                var response = await this.LlmClient.GetResponseAsync(request);
+                
+                if (response != null && 
+                    response?.Error?.Code == null &&
+                    response?.Error?.Message == null && 
+                    response?.OutputText != null)
+                {
+                    responseMap = response.OutputText;
+                }
+                else
+                {
+                    throw new NullReferenceException(
+                        $"Either the LLM response, or the output are null. Or there was an error" +
+                        $"Error: {response?.Error}, " +
+                        $"Output: {response?.OutputText}");
+                }
+            }
+            catch (Exception ex)
+            {
+                responseMap = ex.Message;
+                Console.WriteLine(ex);
+            }
+            finally
+            {
+                this.Output.GeneratedMap = responseMap;
+            }
         }
 
         private void Reset()
         {
             this.UpdateAllFields(new PromptUserData());
+            this.Output.GeneratedMap = string.Empty;
             this.usedCharacters.Clear();
             this.saveFilePath = string.Empty;
             this.savedInCurrentSession = false;

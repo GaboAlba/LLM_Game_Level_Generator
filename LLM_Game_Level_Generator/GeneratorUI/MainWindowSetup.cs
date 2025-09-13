@@ -14,6 +14,7 @@
         public ObservableCollection<MapTile> MapTileOptions { get; set; }
         public GeneralElements GeneralElements { get; set; }
         public MapConstraints MapConstraints { get; set; }
+        public Output Output { get; set; }
 
         private HashSet<string> usedCharacters = new HashSet<string>();
         private ILlmClient LlmClient;
@@ -47,6 +48,8 @@
                 CustomConstraints = string.Empty,
             };
             this.MapConstraints.PropertyChanged += this.MapConstraintsPropertyChanged;
+
+            this.Output = new();
 
             this.promptUserData = new PromptUserData
             {
