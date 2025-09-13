@@ -8,7 +8,7 @@ namespace GeneratorViewModel
         /// <summary>
         /// 
         /// </summary>
-        public required string GameDescription
+        public string GameDescription
         {
             get;
             set
@@ -16,12 +16,12 @@ namespace GeneratorViewModel
                 field = value;
                 this.OnPropertyChanged(nameof(this.GameDescription));
             }
-        }
+        } = string.Empty;
 
         /// <summary>
         /// 
         /// </summary>
-        public required string GameName
+        public string GameName
         {
             get;
             set
@@ -29,12 +29,12 @@ namespace GeneratorViewModel
                 field = value;
                 this.OnPropertyChanged(nameof(this.GameName));
             }
-        }
+        } = string.Empty;
 
         /// <summary>
         /// 
         /// </summary>
-        public required string LevelDescription
+        public string LevelDescription
         {
             get;
             set
@@ -42,12 +42,12 @@ namespace GeneratorViewModel
                 field = value;
                 this.OnPropertyChanged(nameof(this.LevelDescription));
             }
-        }
+        } = string.Empty;
 
         /// <summary>
         /// 
         /// </summary>
-        public required string LevelName
+        public string LevelName
         {
             get;
             set
@@ -55,6 +55,14 @@ namespace GeneratorViewModel
                 field = value;
                 this.OnPropertyChanged(nameof(this.LevelName));
             }
+        } = string.Empty;
+
+        public void CopyFrom(GeneralElements generalElements)
+        {
+            this.GameName = generalElements.GameName;
+            this.GameDescription = generalElements.GameDescription;
+            this.LevelName = generalElements.LevelName;
+            this.LevelDescription = generalElements.LevelDescription;
         }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.

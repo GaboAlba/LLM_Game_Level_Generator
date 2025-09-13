@@ -19,6 +19,9 @@
         private ILlmClient LlmClient;
         private readonly Dictionary<string, string> apiKeys = GetApiKeys();
         private PromptUserData promptUserData;
+        private string saveFilePath;
+        private bool savedInCurrentSession = false;
+        private bool modifiedInCurrentSession = false;
 
         // TODO: Need to change this to relative path for distribution.
         private const string apiKeysDir = "C:\\Users\\Gabriel\\OneDrive\\Documents\\GitHub\\LLM_Game_Level_Generator\\LLM_Game_Level_Generator\\ExternalServices\\api_keys.json";
@@ -32,6 +35,7 @@
                 LevelDescription = string.Empty,
                 LevelName = string.Empty,
             };
+            this.GeneralElements.PropertyChanged += this.GeneralElementsPropertyChanged;
             this.MapConstraints = new MapConstraints
             {
                 Height = 0,
@@ -42,6 +46,7 @@
                 MaxNumberOfObstacles = 0,
                 CustomConstraints = string.Empty,
             };
+            this.MapConstraints.PropertyChanged += this.MapConstraintsPropertyChanged;
 
             this.promptUserData = new PromptUserData
             {

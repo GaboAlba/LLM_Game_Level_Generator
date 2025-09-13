@@ -5,6 +5,8 @@
     using LLMGenCoreLib.PromptTemplates;
 
     using System.ComponentModel;
+    using System.IO;
+    using System.Text.Json;
     using System.Windows;
     using System.Windows.Forms;
 
@@ -58,7 +60,13 @@
         /// <param name="e"></param>
         private void newFileButton_Click(object sender, RoutedEventArgs e)
         {
+            if (this.IsCurrentSessionModifiedAndNotSaved())
+            {
+                // TODO: Trigger an additional dialog for the user to choose wheter to save or discard changes
+                this.saveButton_Click(sender, e);
+            }
 
+            this.Reset();
         }
 
         /// <summary>
@@ -70,9 +78,18 @@
         {
             // TODO: Check if current file has been saved first
 
+            if (this.IsCurrentSessionModifiedAndNotSaved())
+            {
+                // TODO: Trigger an additional dialog for the user to choose wheter to save or discard changes
+                this.saveButton_Click(sender, e);
+            }
+
             var fileDialog = new OpenFileDialog()
             {
                 RestoreDirectory = true,
+                DefaultExt = ".json",
+                ShowPreview = true,
+                Filter = "Json Files|*.json",
             };
 
             if (fileDialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
@@ -80,7 +97,26 @@
                 return;
             }
 
-            // Handle the opening by creating the load file logic.
+            var fileContent = File.ReadAllText(fileDialog.FileName);
+            try
+            {
+                var tempPromptUserData = JsonSerializer.Deserialize<PromptUserData>(fileContent);
+                if (tempPromptUserData != null)
+                {
+                    this.UpdateAllFields(tempPromptUserData);
+                }
+                else
+                {
+                    throw new FileLoadException("Null File tried to be loaded");
+                }
+
+                this.saveFilePath = fileDialog.FileName;
+            }
+            catch (Exception ex)
+            {
+                // TODO: Add exception message to the UI.
+                Console.WriteLine(ex);
+            }
         }
 
         /// <summary>
@@ -90,7 +126,13 @@
         /// <param name="e"></param>
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrEmpty(this.saveFilePath))
+            {
+                this.saveAsButton_Click(sender, e);
+                return;
+            }
 
+            this.SaveFileAsJson(this.saveFilePath, this.promptUserData);
         }
 
         /// <summary>
@@ -103,6 +145,9 @@
             var fileDialog = new SaveFileDialog()
             {
                 RestoreDirectory = true,
+                CheckWriteAccess = true,
+                DefaultExt = ".json",
+                Filter = "Json Files|*.json"
             };
 
             if (fileDialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
@@ -110,7 +155,8 @@
                 return;
             }
 
-            // Handle saving
+            this.SaveFileAsJson(fileDialog.FileName, this.promptUserData);
+            this.saveFilePath = fileDialog.FileName;
         }
 
         /// <summary>
@@ -126,8 +172,23 @@
             var response = await this.LlmClient.GetResponseAsync(request);
         }
 
+        private void Reset()
+        {
+            this.UpdateAllFields(new PromptUserData());
+            this.usedCharacters.Clear();
+            this.saveFilePath = string.Empty;
+            this.savedInCurrentSession = false;
+            this.modifiedInCurrentSession = false;
+        }
+
         private void TilePropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
+            if (!this.modifiedInCurrentSession)
+            {
+                this.modifiedInCurrentSession = true;
+                this.savedInCurrentSession = false;
+            }
+
             if (sender is MapTile tile && e.PropertyName == nameof(MapTile.TileCharacter))
             {
                 if (!string.IsNullOrEmpty(tile.TileCharacter) && tile.TileCharacter.Length == 1 && this.usedCharacters.Add(tile.TileCharacter))
@@ -141,5 +202,56 @@
                 }
             }
         }
+
+        private void GeneralElementsPropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (sender is GeneralElements generalElements && !this.modifiedInCurrentSession)
+            {
+                this.modifiedInCurrentSession = true;
+                this.savedInCurrentSession = false;
+            }
+        }
+
+        private void MapConstraintsPropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (sender is MapConstraints mapConstraints && !this.modifiedInCurrentSession)
+            {
+                this.modifiedInCurrentSession = true;
+                this.savedInCurrentSession = false;
+            }
+        }
+
+        private void UpdateAllFields(PromptUserData promptUserData)
+        {
+            this.GeneralElements.CopyFrom(promptUserData.GeneralElements);
+            this.MapConstraints.CopyFrom(promptUserData.MapConstraints);
+            this.MapTileOptions.Clear();
+            foreach (var tile in promptUserData.MapTileOptions)
+            {
+                this.MapTileOptions.Add(tile);
+            }
+
+            // Reset the modified flag after loading
+            this.modifiedInCurrentSession = false;
+        }
+
+        private bool IsCurrentSessionModifiedAndNotSaved()
+        {
+            if (this.modifiedInCurrentSession && !this.savedInCurrentSession)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        // TODO: Move this to it's own class
+        private void SaveFileAsJson(string filePath, PromptUserData promptUserData)
+        {
+            var jsonString = JsonSerializer.Serialize(promptUserData);
+            File.WriteAllText(filePath, jsonString);
+            this.savedInCurrentSession = true;
+        }
+
     }
 }
