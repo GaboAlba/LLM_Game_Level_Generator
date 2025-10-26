@@ -10,6 +10,11 @@ namespace ExternalServices.Clients.OpenAi
 
     public class ResponsesClient : LlmClientBase, ILlmClient
     {
+        /// <summary>
+        /// Specific output format. Used for Structured Outputs
+        /// </summary>
+        public ResponseTextFormat? ResponseTextFormat { get; set; } = null;
+
         private readonly OpenAIResponseClient responseClient;
 
         protected override ISet<string> AllowedModels => new HashSet<string>
@@ -30,7 +35,7 @@ namespace ExternalServices.Clients.OpenAi
                   presencePenalty: 0,
                   clientName:nameof(ResponsesClient))
         {
-            this.responseClient = new OpenAI.Responses.OpenAIResponseClient(this.model, this.apiKey);
+            this.responseClient = new OpenAI.Responses.OpenAIResponseClient(this.Model, this.ApiKey);
         }
 
         new public List<Message> BuildMessages(string prompt) => base.BuildMessages(prompt);
@@ -40,16 +45,16 @@ namespace ExternalServices.Clients.OpenAi
             return new LLMRequest
             {
                 Input = messages,
-                Model = this.model,
-                MaxOutputTokens = this.maxOutputTokens,
-                Temperature = this.temperature,
-                TopP = this.topP,
+                Model = this.Model,
+                MaxOutputTokens = this.MaxOutputTokens,
+                Temperature = this.Temperature,
+                TopP = this.TopP,
             };
         }
 
         public async Task<LLMResponse> GetResponseAsync(LLMRequest request)
         {
-            var options = this.SetResponseCreationOptions(request);
+            var options = this.SetResponseCreationOptions(request, this.ResponseTextFormat);
 
             var responseItems = this.CreateOpenAIResponseItemList(request);
 
@@ -57,7 +62,7 @@ namespace ExternalServices.Clients.OpenAi
             return this.GetLLMResponseFromResponsesApiResponse(openAIResponse.Value);
         }
 
-        private ResponseCreationOptions SetResponseCreationOptions(LLMRequest request)
+        private ResponseCreationOptions SetResponseCreationOptions(LLMRequest request, ResponseTextFormat? responseTextFormat = null)
         {
             var responseCreationOptions =  new ResponseCreationOptions
             {
@@ -65,6 +70,10 @@ namespace ExternalServices.Clients.OpenAi
                 TruncationMode = request.Truncation,
                 Temperature = request.Temperature,
                 TopP = request.TopP,
+                TextOptions = new ResponseTextOptions
+                {
+                    TextFormat = responseTextFormat,
+                },
             };
 
             if (this.ReasoningModels.Contains(request.Model) && request.ReasoningOptions != null)

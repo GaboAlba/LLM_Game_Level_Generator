@@ -1,8 +1,13 @@
-﻿namespace GeneratorUI
+﻿#pragma warning disable OPENAI001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+namespace GeneratorUI
 {
+    using ExternalServices.Clients.OpenAi;
+
     using GeneratorViewModel;
 
     using LLMGenCoreLib.PromptTemplates;
+
+    using OpenAI.Responses;
 
     using System.ComponentModel;
     using System.IO;
@@ -169,6 +174,7 @@
             string responseMap = string.Empty;
             try
             {
+                this.progressBar1.IsIndeterminate = true;
                 var prompt = PromptGroundingDataInjector.CreatePrompt(this.promptUserData);
                 var messages = this.LlmClient.BuildMessages(prompt);
                 var request = this.LlmClient.BuildRequest(messages);
@@ -197,7 +203,41 @@
             finally
             {
                 this.Output.GeneratedMap = responseMap;
+                this.progressBar1.IsIndeterminate = false;
             }
+        }
+
+        private async void OptimizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var prompt = PromptGroundingDataInjector.CreatePrompt(this.promptUserData); // Change to Optimizer Prompt
+                var messages = this.LlmClient.BuildMessages(prompt);
+                var request = this.LlmClient.BuildRequest(messages);
+
+                var responsesClient = this.LlmClient as ResponsesClient;
+                responsesClient.ResponseTextFormat = ResponseTextFormat.CreateJsonSchemaFormat(
+                    jsonSchemaFormatName: "2d-grid-optimizer-format",
+                    jsonSchema: BinaryData.FromString(PromptUserData.GetJsonSchema()));
+
+                var response = await responsesClient.GetResponseAsync(request);
+            }
+            catch (Exception ex )
+            {
+                Console.WriteLine($"{ex.Message}");
+            }
+
+            return;
+        }
+
+        private void ZoomInButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.FontSize *= 1.1;
+        }
+
+        private void ZoomOutButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.FontSize *= 0.9;
         }
 
         private void Reset()
@@ -281,6 +321,7 @@
             File.WriteAllText(filePath, jsonString);
             this.savedInCurrentSession = true;
         }
-
     }
 }
+
+#pragma warning restore OPENAI001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.

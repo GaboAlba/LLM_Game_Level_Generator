@@ -7,14 +7,14 @@
     public abstract class LlmClientBase
     {
         // LLM Hyperparamters
-        protected readonly string model;
-        protected readonly string apiKey;
-        protected readonly float temperature;
-        protected readonly int maxOutputTokens;
-        protected readonly float topK;
-        protected readonly float topP;
-        protected readonly float frequencyPenalty;
-        protected readonly float presencePenalty;
+        public string Model { get; set; }
+        public string ApiKey { get; set; }
+        public float Temperature { get; set; }
+        public int MaxOutputTokens { get; set; }
+        public float TopK { get; set; }
+        public float TopP { get; set; }
+        public float FrequencyPenalty { get; set; }
+        public float PresencePenalty { get; set; }
 
         protected abstract ISet<string> AllowedModels { get; }
         protected HashSet<string> ReasoningModels = new()
@@ -42,14 +42,14 @@
                 throw new ArgumentException($"Invalid {clientName} model selected: {model}");
             }
 
-            this.model = model;
-            this.apiKey = apiKey;
-            this.temperature = temperature;
-            this.maxOutputTokens = maxOutputTokens;
-            this.topK = topK;
-            this.topP = topP;
-            this.frequencyPenalty = frequencyPenalty;
-            this.presencePenalty = presencePenalty;
+            this.Model = model;
+            this.ApiKey = apiKey;
+            this.Temperature = temperature;
+            this.MaxOutputTokens = maxOutputTokens;
+            this.TopK = topK;
+            this.TopP = topP;
+            this.FrequencyPenalty = frequencyPenalty;
+            this.PresencePenalty = presencePenalty;
         }
 
         public List<Message> BuildMessages(string prompt)
