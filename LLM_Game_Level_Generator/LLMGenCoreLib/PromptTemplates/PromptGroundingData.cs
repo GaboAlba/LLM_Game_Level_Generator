@@ -23,13 +23,13 @@
 
         public required string Height { get; set; }
 
-        public string? MaxJumpHeight { get; set; }
+        public required string GameType { get; set; }
 
-        public string? MaxJumpWidth { get; set; }
+        public string? GameGenre { get; set; }
 
-        public string? MinNumberOfObstacles { get; set; }
+        public required string DifficultyLevel { get; set; }
 
-        public string? MaxNumberOfObstacles { get; set; }
+        public required string HazardLevel { get; set; }
 
         public string? CustomConstraints { get; set; } = string.Empty;
 
