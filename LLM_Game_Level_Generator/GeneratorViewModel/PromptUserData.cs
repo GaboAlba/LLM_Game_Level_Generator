@@ -29,7 +29,8 @@
                                 LevelDescription = new { type="string" },
                                 LevelName = new { type="string" },
                             },
-                            required = new[] {"GameDescription", "GameName", "LevelDescription", "LevelName"}
+                            required = new[] {"GameDescription", "GameName", "LevelDescription", "LevelName"},
+                            additionalProperties = false,
                         },
                         MapTileOptions = new
                         {
@@ -44,6 +45,7 @@
                                     TileDescription = new { type="string" },
                                 },
                                 required = new[] { "TileName", "TileCharacter", "TileDescription" },
+                                additionalProperties = false,
                             }
                         },
                         MapConstraints = new
@@ -51,30 +53,14 @@
                             type = "object",
                             properties = new
                             {
-                                Width = new { type="int" },
-                                Height = new { type="int" },
-                                GameType = new 
-                                { 
-                                    type="string",
-                                    Enum = new[] { "Other", "TopDown", "Platformer", "SideScroller"},
-                                },
-                                GameGenre = new { type="string" },
-                                DifficultyLevel = new 
-                                { 
-                                    type="string",
-                                    Enum = new[] {"Easy", "Normal", "Hard", "VeryHard", "Impossible"},
-                                },
-                                HazardDensity = new
-                                {
-                                    type="string",
-                                    Enum = new[] {"None", "VeryLow", "Low", "Normal", "High", "VeryHigh"},
-                                },
                                 CustomConstraints = new { type="string" },
                             },
-                            required = new[] {"Width", "Height", "GameType", "GameGenre", "DiffiultyLevel", "HazardDensity", "CustomConstraints"}
+                            required = new[] {"CustomConstraints"},
+                            additionalProperties = false,
                         }
                     },
                     required = new[] {"GeneralElements", "MapTileOptions", "MapConstraints"},
+                    additionalProperties = false,
                 }
              );
         }

@@ -14,6 +14,7 @@ namespace GeneratorUI
     using System.Text.Json;
     using System.Windows;
     using System.Windows.Forms;
+    using System.Windows.Media;
 
     public partial class MainWindow
     {
@@ -164,6 +165,24 @@ namespace GeneratorUI
             this.saveFilePath = fileDialog.FileName;
         }
 
+        private void saveMapButton_Click(object sender, RoutedEventArgs e)
+        {
+            var fileDialog = new SaveFileDialog()
+            {
+                RestoreDirectory = true,
+                CheckWriteAccess = true,
+                DefaultExt = ".txt",
+                Filter = "Text Files|*.txt",
+            };
+
+            if (fileDialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+            {
+                return;
+            }
+
+            File.WriteAllText(fileDialog.FileName, this.Output.GeneratedMap);
+        }
+
         /// <summary>
         /// Workflow to generate the LLM Response
         /// </summary>
@@ -211,33 +230,53 @@ namespace GeneratorUI
         {
             try
             {
-                var prompt = PromptGroundingDataInjector.CreatePrompt(this.promptUserData); // Change to Optimizer Prompt
+                this.progressBar1.IsIndeterminate = true;
+                var prompt = PromptGroundingDataInjector.CreateOptimizerPrompt(this.promptUserData); // Change to Optimizer Prompt
                 var messages = this.LlmClient.BuildMessages(prompt);
                 var request = this.LlmClient.BuildRequest(messages);
 
                 var responsesClient = this.LlmClient as ResponsesClient;
                 responsesClient.ResponseTextFormat = ResponseTextFormat.CreateJsonSchemaFormat(
                     jsonSchemaFormatName: "2d-grid-optimizer-format",
-                    jsonSchema: BinaryData.FromString(PromptUserData.GetJsonSchema()));
+                    jsonSchema: BinaryData.FromString(PromptUserData.GetJsonSchema()),
+                    jsonSchemaIsStrict: true);
 
                 var response = await responsesClient.GetResponseAsync(request);
+
+                var jsonString = response.OutputText;
+                if (!string.IsNullOrEmpty(jsonString))
+                {
+                    var newPromptData = JsonSerializer.Deserialize<PromptUserData>(jsonString);
+
+                    // Need to sync the constraints as these are not optimized, except for the custom constraints
+                    var customConstraints = newPromptData.MapConstraints.CustomConstraints;
+                    newPromptData.MapConstraints = this.MapConstraints;
+                    newPromptData.MapConstraints.CustomConstraints = customConstraints;
+
+                    this.UpdateAllFields(newPromptData);
+                    this.modifiedInCurrentSession = true;
+                }
             }
             catch (Exception ex )
             {
                 Console.WriteLine($"{ex.Message}");
             }
-
-            return;
+            finally
+            {
+                this.progressBar1.IsIndeterminate = false;
+            }
         }
 
         private void ZoomInButton_Click(object sender, RoutedEventArgs e)
         {
             this.FontSize *= 1.1;
+            this.CalculateOutputLineHeight();
         }
 
         private void ZoomOutButton_Click(object sender, RoutedEventArgs e)
         {
             this.FontSize *= 0.9;
+            this.CalculateOutputLineHeight();
         }
 
         private void Reset()
@@ -320,6 +359,21 @@ namespace GeneratorUI
             var jsonString = JsonSerializer.Serialize(promptUserData);
             File.WriteAllText(filePath, jsonString);
             this.savedInCurrentSession = true;
+        }
+
+        private void CalculateOutputLineHeight()
+        {
+            var typeface = new Typeface(new FontFamily("Consolas"), FontStyles.Normal, FontWeights.Normal, FontStretches.Normal);
+            var formattedText = new FormattedText(
+                "W",
+                System.Globalization.CultureInfo.InvariantCulture,
+                System.Windows.FlowDirection.LeftToRight,
+                typeface,
+                this.outputTextBlock.FontSize,
+                Brushes.Black,
+                1.0);
+
+            this.FontProperties.OutputLineHeight = formattedText.Width;
         }
     }
 }

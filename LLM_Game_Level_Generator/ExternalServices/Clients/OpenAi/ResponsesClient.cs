@@ -85,6 +85,9 @@ namespace ExternalServices.Clients.OpenAi
                 };
             }
 
+            // Reset Text Format
+            this.ResponseTextFormat = null;
+
             return responseCreationOptions;
         }
 

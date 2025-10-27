@@ -300,20 +300,39 @@
                         Margin="10,25,10,20"
                         MinWidth="50"
                         HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"/>
+                        VerticalAlignment="Stretch"
+                        TextWrapping="Wrap"/>
 
 
                 </Grid>
             </TabItem>
 
             <TabItem Header="Output">
-                <TextBox 
-                    IsReadOnly="True"
-                    Text="{Binding Output.GeneratedMap, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    HorizontalScrollBarVisibility="Auto"
-                    VerticalScrollBarVisibility="Auto"/>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Button 
+                        Grid.Row="0"
+                        Content="Save Map"
+                        Background="Aquamarine"
+                        Click="saveMapButton_Click"
+                        HorizontalAlignment="Stretch"/>
+                    <TextBlock 
+                        Margin="5"
+                        Grid.Row="1" 
+                        FontFamily="Consolas"
+                        FontSize="20"
+                        LineHeight="{Binding FontProperties.OutputLineHeight, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
+                        LineStackingStrategy="BlockLineHeight"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        TextWrapping="NoWrap"
+                        Text="{Binding Output.GeneratedMap, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                        x:Name="outputTextBlock">
+                    </TextBlock>
+                </Grid>
             </TabItem>
         </TabControl>
 

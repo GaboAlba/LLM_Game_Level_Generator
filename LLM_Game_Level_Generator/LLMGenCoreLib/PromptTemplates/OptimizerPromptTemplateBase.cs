@@ -1,10 +1,8 @@
-﻿namespace LLMGenCoreLib.PromptTemplates
+﻿namespace LLMPromptProcessor.PromptTemplates
 {
-    using LLMPromptProcessor.PromptTemplates;
-
-    public class PromptGroundingData : IPromptTemplate
+    public class OptimizerPromptTemplateBase : IPromptTemplate
     {
-        public PromptGroundingData(string filePath)
+        public OptimizerPromptTemplateBase(string filePath)
         {
             this.TemplateFilePath = filePath;
         }
@@ -18,18 +16,6 @@
         public required string LevelDescription { get; set; }
 
         public required string Tiles { get; set; }
-
-        public required string Width { get; set; }
-
-        public required string Height { get; set; }
-
-        public required string GameType { get; set; }
-
-        public string? GameGenre { get; set; }
-
-        public required string DifficultyLevel { get; set; }
-
-        public required string HazardLevel { get; set; }
 
         public string? CustomConstraints { get; set; } = string.Empty;
 

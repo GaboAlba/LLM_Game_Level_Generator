@@ -18,6 +18,7 @@
         public Array GameTypeArray { get; set; }
         public Array DifficultyArray { get; set; }
         public Array HazardLevelArray { get; set; }
+        public FontProperties FontProperties { get; set; }
 
         private HashSet<string> usedCharacters = new HashSet<string>();
         private ILlmClient LlmClient;
@@ -67,6 +68,9 @@
             this.GameTypeArray = Enum.GetValues<GameType>();
             this.DifficultyArray = Enum.GetValues<DifficultyLevel>();
             this.HazardLevelArray = Enum.GetValues<Density>();
+
+            this.FontProperties = new();
+            this.CalculateOutputLineHeight();
         }
 
         private static Dictionary<string, string> GetApiKeys()

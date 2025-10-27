@@ -33,9 +33,27 @@
             return handleBarsEngine.ParsePrompt(template);
         }
 
+        public static string CreateOptimizerPrompt(PromptUserData promptUserData)
+        {
+            var template = new OptimizerPromptTemplateV1
+            {
+                GameName = promptUserData.GeneralElements.GameName,
+                GameDescription = promptUserData.GeneralElements.GameDescription,
+                LevelName = promptUserData.GeneralElements.LevelName,
+                LevelDescription = promptUserData.GeneralElements.LevelDescription,
+                Tiles = ListToString(promptUserData.MapTileOptions),
+                CustomConstraints = promptUserData.MapConstraints.CustomConstraints
+            };
+
+            var handleBarsEngine = new HandlebarsEngine();
+
+            return handleBarsEngine.ParsePrompt(template);
+        }
+
         private static string ListToString(IList<MapTile> list)
         {
             var outputString = new StringBuilder();
+            outputString.AppendLine(string.Empty);
             outputString.AppendLine("Tile Character|Tile Name|Tile Description");
             outputString.AppendLine("---|---|---");
             foreach ( var item in list)
