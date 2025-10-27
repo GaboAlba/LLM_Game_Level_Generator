@@ -15,6 +15,10 @@
         public GeneralElements GeneralElements { get; set; }
         public MapConstraints MapConstraints { get; set; }
         public Output Output { get; set; }
+        public Array GameTypeArray { get; set; }
+        public Array DifficultyArray { get; set; }
+        public Array HazardLevelArray { get; set; }
+        public FontProperties FontProperties { get; set; }
 
         private HashSet<string> usedCharacters = new HashSet<string>();
         private ILlmClient LlmClient;
@@ -41,10 +45,10 @@
             {
                 Height = 0,
                 Width = 0,
-                MaxJumpHeight = 0,
-                MaxJumpWidth = 0,
-                MinNumberOfObstacles = 0,
-                MaxNumberOfObstacles = 0,
+                GameType = GameType.TopDown,
+                GameGenre = string.Empty,
+                DifficultyLevel = DifficultyLevel.Normal,
+                HazardDensity = Density.Normal,
                 CustomConstraints = string.Empty,
             };
             this.MapConstraints.PropertyChanged += this.MapConstraintsPropertyChanged;
@@ -59,6 +63,14 @@
             };
 
             this.LlmClient = LlmClientFactory.CreateClient(LLMProviders.Providers.OpenAI, LLMProviders.OpenAIClients.Responses, this.apiKeys.GetValueOrDefault(LLMProviders.Providers.OpenAI.ToString()));
+
+            // Initialize arrays for combo boxes
+            this.GameTypeArray = Enum.GetValues<GameType>();
+            this.DifficultyArray = Enum.GetValues<DifficultyLevel>();
+            this.HazardLevelArray = Enum.GetValues<Density>();
+
+            this.FontProperties = new();
+            this.CalculateOutputLineHeight();
         }
 
         private static Dictionary<string, string> GetApiKeys()

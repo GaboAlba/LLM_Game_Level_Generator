@@ -1,14 +1,20 @@
-﻿namespace GeneratorUI
+﻿#pragma warning disable OPENAI001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+namespace GeneratorUI
 {
+    using ExternalServices.Clients.OpenAi;
+
     using GeneratorViewModel;
 
     using LLMGenCoreLib.PromptTemplates;
+
+    using OpenAI.Responses;
 
     using System.ComponentModel;
     using System.IO;
     using System.Text.Json;
     using System.Windows;
     using System.Windows.Forms;
+    using System.Windows.Media;
 
     public partial class MainWindow
     {
@@ -159,6 +165,24 @@
             this.saveFilePath = fileDialog.FileName;
         }
 
+        private void saveMapButton_Click(object sender, RoutedEventArgs e)
+        {
+            var fileDialog = new SaveFileDialog()
+            {
+                RestoreDirectory = true,
+                CheckWriteAccess = true,
+                DefaultExt = ".txt",
+                Filter = "Text Files|*.txt",
+            };
+
+            if (fileDialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+            {
+                return;
+            }
+
+            File.WriteAllText(fileDialog.FileName, this.Output.GeneratedMap);
+        }
+
         /// <summary>
         /// Workflow to generate the LLM Response
         /// </summary>
@@ -169,6 +193,7 @@
             string responseMap = string.Empty;
             try
             {
+                this.progressBar1.IsIndeterminate = true;
                 var prompt = PromptGroundingDataInjector.CreatePrompt(this.promptUserData);
                 var messages = this.LlmClient.BuildMessages(prompt);
                 var request = this.LlmClient.BuildRequest(messages);
@@ -197,7 +222,61 @@
             finally
             {
                 this.Output.GeneratedMap = responseMap;
+                this.progressBar1.IsIndeterminate = false;
             }
+        }
+
+        private async void OptimizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                this.progressBar1.IsIndeterminate = true;
+                var prompt = PromptGroundingDataInjector.CreateOptimizerPrompt(this.promptUserData); // Change to Optimizer Prompt
+                var messages = this.LlmClient.BuildMessages(prompt);
+                var request = this.LlmClient.BuildRequest(messages);
+
+                var responsesClient = this.LlmClient as ResponsesClient;
+                responsesClient.ResponseTextFormat = ResponseTextFormat.CreateJsonSchemaFormat(
+                    jsonSchemaFormatName: "2d-grid-optimizer-format",
+                    jsonSchema: BinaryData.FromString(PromptUserData.GetJsonSchema()),
+                    jsonSchemaIsStrict: true);
+
+                var response = await responsesClient.GetResponseAsync(request);
+
+                var jsonString = response.OutputText;
+                if (!string.IsNullOrEmpty(jsonString))
+                {
+                    var newPromptData = JsonSerializer.Deserialize<PromptUserData>(jsonString);
+
+                    // Need to sync the constraints as these are not optimized, except for the custom constraints
+                    var customConstraints = newPromptData.MapConstraints.CustomConstraints;
+                    newPromptData.MapConstraints = this.MapConstraints;
+                    newPromptData.MapConstraints.CustomConstraints = customConstraints;
+
+                    this.UpdateAllFields(newPromptData);
+                    this.modifiedInCurrentSession = true;
+                }
+            }
+            catch (Exception ex )
+            {
+                Console.WriteLine($"{ex.Message}");
+            }
+            finally
+            {
+                this.progressBar1.IsIndeterminate = false;
+            }
+        }
+
+        private void ZoomInButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.FontSize *= 1.1;
+            this.CalculateOutputLineHeight();
+        }
+
+        private void ZoomOutButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.FontSize *= 0.9;
+            this.CalculateOutputLineHeight();
         }
 
         private void Reset()
@@ -282,5 +361,21 @@
             this.savedInCurrentSession = true;
         }
 
+        private void CalculateOutputLineHeight()
+        {
+            var typeface = new Typeface(new FontFamily("Consolas"), FontStyles.Normal, FontWeights.Normal, FontStretches.Normal);
+            var formattedText = new FormattedText(
+                "W",
+                System.Globalization.CultureInfo.InvariantCulture,
+                System.Windows.FlowDirection.LeftToRight,
+                typeface,
+                this.outputTextBlock.FontSize,
+                Brushes.Black,
+                1.0);
+
+            this.FontProperties.OutputLineHeight = formattedText.Width;
+        }
     }
 }
+
+#pragma warning restore OPENAI001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.

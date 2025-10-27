@@ -3,7 +3,7 @@
     using HandlebarsDotNet;
     using HandlebarsDotNet.IO;
 
-    using LLMGenCoreLib.PromptTemplates;
+    using LLMPromptProcessor.PromptTemplates;
 
     using System.IO;
     using System.Text.Json;
@@ -20,7 +20,7 @@
             this.templateDir = Path.Combine(root, "Prompts");
         }
 
-        public string ParsePrompt(PromptGroundingData data)
+        public string ParsePrompt(IPromptTemplate data)
         {
             RegisterHelpers();
             var path = Path.Combine(this.templateDir, data.TemplateFilePath);

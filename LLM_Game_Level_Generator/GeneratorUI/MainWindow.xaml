@@ -17,27 +17,76 @@
             <!-- Progress bar -->
         </Grid.RowDefinitions>
 
-        <ToolBarTray x:Name="toolBarTray" Grid.Row="0" Height="29" HorizontalAlignment="Stretch" VerticalAlignment="Top">
-            <ToolBarTray.RenderTransform>
-                <TransformGroup>
-                    <SkewTransform/>
-                    <RotateTransform/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </ToolBarTray.RenderTransform>
-            <ToolBar Header="" Margin="0,0,-172,0">
-                <Button x:Name="newFileButton" Content="New" Click="newFileButton_Click"/>
-                <Button x:Name="openFIleButton" Content="Open" Click="openFIleButton_Click"/>
-                <Button x:Name="saveButton" Content="Save" Click="saveButton_Click"/>
-                <Button x:Name="saveAsButton" Content="Save As" Click="saveAsButton_Click"/>
-            </ToolBar>
-            <ToolBar Margin="293,1,-423,-1">
-                <MenuItem Header="Help" Width="109" HorizontalAlignment="Center"/>
-            </ToolBar>
-            <ToolBar Margin="178,0,-291,0">
-                <Button Content="LLM API Keys"/>
-            </ToolBar>
-        </ToolBarTray>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <ToolBarTray x:Name="toolBarTray" Grid.Row="0" Grid.Column="0" Height="29" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <ToolBarTray.RenderTransform>
+                    <TransformGroup>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </ToolBarTray.RenderTransform>
+                <ToolBar Header="" Margin="0,0,0,0">
+                    <Menu>
+                        <MenuItem Header="File">
+                            <MenuItem Header="New" Click="newFileButton_Click"/>
+                            <MenuItem Header="Open" Click="openFIleButton_Click"/>
+                            <MenuItem Header="Save" Click="saveButton_Click"/>
+                            <MenuItem Header="Save As" Click="saveAsButton_Click"/>
+                        </MenuItem>
+                    </Menu>
+                </ToolBar>
+                <ToolBar>
+                    <Menu>
+                        <MenuItem Header="View">
+                            <MenuItem Header="Zoom In" Click="ZoomInButton_Click"/>
+                            <MenuItem Header="Zoom Out" Click="ZoomOutButton_Click"/>
+                        </MenuItem>
+                    </Menu>
+                </ToolBar>
+                <ToolBar Margin="0,1,0,-1">
+                    <Menu>
+                        <MenuItem Header="Help">
+                            <MenuItem Header="User Guide"/>
+                            <MenuItem Header="About"/>
+                        </MenuItem>
+                    </Menu>
+                </ToolBar>
+                <ToolBar Margin="0,0,0,0">
+                    <Button Content="LLM API Keys"/>
+                </ToolBar>
+            </ToolBarTray>
+
+            <Button
+                Grid.Row="0"
+                Grid.Column="1"
+                Content="Optimize"
+                HorizontalAlignment="Stretch"
+                MinWidth="85"
+                MinHeight="29"
+                Margin="0,0,0,0"
+                VerticalAlignment="Center"
+                Background="Teal"
+                Foreground="White"
+                Click="OptimizeButton_Click"/>
+            <Button 
+                Grid.Row="0"
+                Grid.Column="2"
+                Content="Generate"
+                HorizontalAlignment="Stretch"
+                Margin="0,0,0,0"
+                VerticalAlignment="Center"
+                MinWidth="85"
+                MinHeight="29"
+                Background="LawnGreen"
+                Click="GenerateButton_Click"/>
+        </Grid>
 
 
 
@@ -204,47 +253,44 @@
                             Height="19"
                             MinWidth="50"
                             HorizontalAlignment="Stretch"/>
-                        <Label Grid.Row="2" Content="Maximum Jump Height" Margin="10,0,0,0"/>
-                        <TextBox
+                        <Label Grid.Row="2" Content="Game Type" Margin="10,0,0,0"/>
+                        <ComboBox
                             Grid.Row="2"
-                            Text="{Binding MapConstraints.MaxJumpHeight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Margin="10,10,10,0"
-                            Height="19"
+                            Height="20"
                             MinWidth="50"
-                            HorizontalAlignment="Stretch"/>
-                        <Label Grid.Row="3" Content="Maximum Jump Width" Margin="10,0,0,0"/>
+                            HorizontalAlignment="Stretch"
+                            Background="White"
+                            ItemsSource="{Binding ElementName=window, Path=DataContext.GameTypeArray}"
+                            SelectedItem="{Binding MapConstraints.GameType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <Label Grid.Row="3" Content="Game Genre" Margin="10,0,0,0"/>
                         <TextBox
                             Grid.Row="3"
-                            Text="{Binding MapConstraints.MaxJumpWidth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Text="{Binding MapConstraints.GameGenre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Margin="10,10,10,0"
                             Height="19"
                             MinWidth="50"
                             HorizontalAlignment="Stretch"/>
-                        <Label Grid.Row="4" Content="Obstacle Count Range" Margin="10,0,0,0" VerticalAlignment="Top"/>
-                        <Grid Grid.Row="4">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBox
-                                Grid.Row="5"
-                                Grid.Column="0"
-                                Text="{Binding MapConstraints.MinNumberOfObstacles, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                Margin="10,0,10,0"
-                                Height="19"
-                                MinWidth="50"
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Bottom"/>
-                            <TextBox
-                                Grid.Row="5"
-                                Grid.Column="1"
-                                Text="{Binding MapConstraints.MaxNumberOfObstacles, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                Margin="10,0,10,0"
-                                Height="19"
-                                MinWidth="50"
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Bottom"/>
-                        </Grid>
+                        <Label Grid.Row="4" Content="Difficulty Level" Margin="10,0,0,0" VerticalAlignment="Top"/>
+                        <ComboBox
+                            Grid.Row="4"
+                            Margin="10,10,10,0"
+                            Height="20"
+                            MinWidth="50"
+                            HorizontalAlignment="Stretch"
+                            Background="White"
+                            ItemsSource="{Binding ElementName=window, Path=DataContext.DifficultyArray}"
+                            SelectedItem="{Binding MapConstraints.DifficultyLevel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <Label Grid.Row="5" Content="Hazards Density" Margin="10,0,0,0" VerticalAlignment="Top"/>
+                        <ComboBox
+                            Grid.Row="5"
+                            Margin="10,10,10,0"
+                            Height="20"
+                            MinWidth="50"
+                            HorizontalAlignment="Stretch"
+                            Background="White"
+                            ItemsSource="{Binding ElementName=window, Path=DataContext.HazardLevelArray}"
+                            SelectedItem="{Binding MapConstraints.HazardDensity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                     </Grid>
                     <Label Grid.Column="1" Content="Custom Constraints" Margin="10,0,0,0"/>
@@ -254,24 +300,50 @@
                         Margin="10,25,10,20"
                         MinWidth="50"
                         HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"/>
+                        VerticalAlignment="Stretch"
+                        TextWrapping="Wrap"/>
 
 
                 </Grid>
             </TabItem>
 
             <TabItem Header="Output">
-                <TextBox 
-                    IsReadOnly="True"
-                    Text="{Binding Output.GeneratedMap, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    HorizontalScrollBarVisibility="Auto"
-                    VerticalScrollBarVisibility="Auto"/>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Button 
+                        Grid.Row="0"
+                        Content="Save Map"
+                        Background="Aquamarine"
+                        Click="saveMapButton_Click"
+                        HorizontalAlignment="Stretch"/>
+                    <TextBlock 
+                        Margin="5"
+                        Grid.Row="1" 
+                        FontFamily="Consolas"
+                        FontSize="20"
+                        LineHeight="{Binding FontProperties.OutputLineHeight, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
+                        LineStackingStrategy="BlockLineHeight"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        TextWrapping="NoWrap"
+                        Text="{Binding Output.GeneratedMap, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                        x:Name="outputTextBlock">
+                    </TextBlock>
+                </Grid>
             </TabItem>
         </TabControl>
 
-        <ProgressBar Grid.Row="2" Height="15" Margin="10,10,200,10" HorizontalAlignment="Stretch"/>
-        <Button Content="Generate" HorizontalAlignment="Right" Margin="695,0,20,0" VerticalAlignment="Center" Width="85" Background="LawnGreen" Click="GenerateButton_Click"/>
+        <ProgressBar
+            Grid.Row="2"
+            Height="15"
+            Margin="10,10,10,10"
+            HorizontalAlignment="Stretch"
+            x:Name="progressBar1"
+            Minimum="0"
+            Maximum="100"
+            IsIndeterminate="False"/>
     </Grid>
 </Window>

@@ -24,45 +24,45 @@
             }
         } = 0;
 
-        public int? MaxJumpHeight
+        public GameType GameType
         {
             get;
             set
             {
                 field = value;
-                this.OnPropertyChanged(nameof(this.MaxJumpHeight));
+                this.OnPropertyChanged(nameof(this.GameType));
+            }
+        } = GameType.TopDown;
+
+        public string? GameGenre
+        {
+            get;
+            set
+            {
+                field = value;
+                this.OnPropertyChanged(nameof(this.GameGenre));
             }
         }
 
-        public int? MaxJumpWidth
+        public DifficultyLevel DifficultyLevel
         {
             get;
             set
             {
                 field = value;
-                this.OnPropertyChanged(nameof(this.MaxJumpWidth));
+                this.OnPropertyChanged(nameof(this.DifficultyLevel));
             }
-        }
+        } = DifficultyLevel.Normal;
 
-        public int? MinNumberOfObstacles
+        public Density HazardDensity
         {
             get;
             set
             {
                 field = value;
-                this.OnPropertyChanged(nameof(this.MinNumberOfObstacles));
+                this.OnPropertyChanged(nameof(this.HazardDensity));
             }
-        }
-
-        public int? MaxNumberOfObstacles
-        {
-            get;
-            set
-            {
-                field = value;
-                this.OnPropertyChanged(nameof(this.MaxNumberOfObstacles));
-            }
-        }
+        } = Density.Normal;
 
         public string? CustomConstraints
         {
@@ -78,10 +78,6 @@
         {
             this.Width = mapConstraints.Width;
             this.Height = mapConstraints.Height;
-            this.MaxJumpHeight = mapConstraints.MaxJumpHeight;
-            this.MaxJumpWidth = mapConstraints.MaxJumpWidth;
-            this.MinNumberOfObstacles = mapConstraints.MinNumberOfObstacles;
-            this.MaxNumberOfObstacles = mapConstraints.MaxNumberOfObstacles;
             this.CustomConstraints = mapConstraints.CustomConstraints;
         }
 
