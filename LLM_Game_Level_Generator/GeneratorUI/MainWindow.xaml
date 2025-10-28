@@ -319,8 +319,9 @@
                         Background="Aquamarine"
                         Click="saveMapButton_Click"
                         HorizontalAlignment="Stretch"/>
-                    <TextBlock 
+                    <utils:ExtendedTextBlock 
                         Margin="5"
+                        Padding="5"
                         Grid.Row="1" 
                         FontFamily="Consolas"
                         FontSize="20"
@@ -329,9 +330,10 @@
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         TextWrapping="NoWrap"
+                        Focusable="True"
                         Text="{Binding Output.GeneratedMap, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                         x:Name="outputTextBlock">
-                    </TextBlock>
+                    </utils:ExtendedTextBlock>
                 </Grid>
             </TabItem>
         </TabControl>
