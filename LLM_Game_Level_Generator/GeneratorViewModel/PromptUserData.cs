@@ -1,6 +1,7 @@
 ﻿namespace GeneratorViewModel
 {
     using System.Collections.ObjectModel;
+    using System.Text;
     using System.Text.Json;
 
     public class PromptUserData
@@ -63,6 +64,38 @@
                     additionalProperties = false,
                 }
              );
+        }
+
+        public static string GetMapResponseJsonSchema(int width, int height, ObservableCollection<MapTile> mapTiles)
+        {
+            // First we will build the regex for the allowed characters in a row
+            var sb = new StringBuilder();
+            string rowRegex;
+            foreach (var tile in mapTiles)
+            {
+                sb.Append(tile.TileCharacter);
+            }
+
+            var allowedChars = sb.ToString();
+
+            rowRegex = $@"^(?:[{allowedChars}]{{{width}}}\r?\n){{{height - 1}}}[{allowedChars}]{{{width}}}$";
+
+            return JsonSerializer.Serialize(
+                new
+                {
+                    type = "object",
+                    properties = new
+                    {
+                        mapGrid = new
+                        {
+                            type = "string",
+                            description = "The generated map",
+                            pattern = rowRegex,
+                        }
+                    },
+                    required = new[] {"mapGrid"},
+                    additionalProperties = false,
+                });
         }
     }
 }

@@ -197,6 +197,16 @@ namespace GeneratorUI
                 var prompt = PromptGroundingDataInjector.CreatePrompt(this.promptUserData);
                 var messages = this.LlmClient.BuildMessages(prompt);
                 var request = this.LlmClient.BuildRequest(messages);
+
+                var responsesClient = this.LlmClient as ResponsesClient;
+                responsesClient.ResponseTextFormat = ResponseTextFormat.CreateJsonSchemaFormat(
+                    jsonSchemaFormatName: "2d-map-grid-format",
+                    jsonSchema: BinaryData.FromString(PromptUserData.GetMapResponseJsonSchema(
+                        height: this.MapConstraints.Height,
+                        width: this.MapConstraints.Width,
+                        mapTiles: this.MapTileOptions)),
+                    jsonSchemaIsStrict: true);
+
                 var response = await this.LlmClient.GetResponseAsync(request);
                 
                 if (response != null && 
@@ -204,7 +214,8 @@ namespace GeneratorUI
                     response?.Error?.Message == null && 
                     response?.OutputText != null)
                 {
-                    responseMap = response.OutputText;
+                    var mapObject = JsonSerializer.Deserialize<Map>(response.OutputText);
+                    responseMap = mapObject.MapGrid;
                 }
                 else
                 {
