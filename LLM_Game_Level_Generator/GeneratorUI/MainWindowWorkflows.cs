@@ -315,6 +315,26 @@ namespace GeneratorUI
                     this.isCurrentCharacter = true;
                     this.usedCharacters = this.MapTileOptions.Select(tile => tile.TileCharacter).ToHashSet();
                 }
+                else if (string.IsNullOrEmpty(tile.TileCharacter))
+                {
+                    this.isCurrentCharacter = false;
+                    
+                    // Only add all non empty values
+                    this.usedCharacters = this.MapTileOptions
+                        .Select(tile => tile.TileCharacter)
+                        .Where(tileCharacter => !string.IsNullOrEmpty(tileCharacter))
+                        .ToHashSet();
+                }
+                else if (tile.TileCharacter.Length > 1)
+                {
+                    this.isCurrentCharacter = false;
+                    
+                    // Do not add multi character to the used character
+                    this.usedCharacters = this.MapTileOptions
+                        .Select(tile => tile.TileCharacter)
+                        .Where(tileCharacter => tileCharacter != tile.TileCharacter)
+                        .ToHashSet();
+                }
                 else
                 {
                     Console.WriteLine($"ERROR: Trying to add {tile.TileCharacter} to HashSet is invalid");

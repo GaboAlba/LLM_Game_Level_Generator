@@ -75,6 +75,11 @@
 
         private void OnPropertyChanged(string propertyName)
         {
+            if (this.ValidateCharacter != null)
+            {
+                _ = this.ValidateCharacter(this.TileCharacter);
+            }
+
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
