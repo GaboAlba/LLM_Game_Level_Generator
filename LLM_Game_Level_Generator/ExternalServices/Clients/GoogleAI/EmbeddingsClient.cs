@@ -2,7 +2,7 @@
 {
     using ExternalServices.Contract;
 
-    public class EmbeddingsClient : LlmClientBase, ILlmClient
+    public class EmbeddingsClient : LlmClientBase
     {
         protected override ISet<string> AllowedModels => new HashSet<string>
         {

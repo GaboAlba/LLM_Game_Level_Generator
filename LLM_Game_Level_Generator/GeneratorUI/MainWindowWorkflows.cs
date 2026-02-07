@@ -2,6 +2,7 @@
 namespace GeneratorUI
 {
     using ExternalServices.Clients.OpenAi;
+    using ExternalServices.Contract;
 
     using GeneratorViewModel;
 
@@ -33,6 +34,8 @@ namespace GeneratorUI
                 TileCharacter = string.Empty,
                 TileDescription = string.Empty,
                 TileName = string.Empty,
+                MinimumNumberOfTiles = null,
+                MaximumNumberOfTiles = null,
                 ValidateCharacter = c =>
                 {
                     if (this.isCurrentCharacter)
@@ -196,26 +199,33 @@ namespace GeneratorUI
                 this.progressBar1.IsIndeterminate = true;
                 var prompt = PromptGroundingDataInjector.CreatePrompt(this.promptUserData);
                 var messages = this.LlmClient.BuildMessages(prompt);
-                var request = this.LlmClient.BuildRequest(messages);
+                var request = this.LlmClient.BuildRequest(messages, false);
 
                 var responsesClient = this.LlmClient as ResponsesClient;
-                responsesClient.ResponseTextFormat = ResponseTextFormat.CreateJsonSchemaFormat(
-                    jsonSchemaFormatName: "2d-map-grid-format",
-                    jsonSchema: BinaryData.FromString(PromptUserData.GetMapResponseJsonSchema(
-                        height: this.MapConstraints.Height,
-                        width: this.MapConstraints.Width,
-                        mapTiles: this.MapTileOptions)),
-                    jsonSchemaIsStrict: true);
 
-                var response = await this.LlmClient.GetResponseAsync(request);
+                var response = new LLMResponse { Id = "0" };
+                var ui = SynchronizationContext.Current;
+                var progress = new Progress<string>(text =>
+                {
+                    this.Output.ReasoningSummary = text;
+                });
+
+                if (request.Stream)
+                {
+                    response = await this.LlmClient.GetResponseStreamAsync(request, progress);
+                }
+                else
+                {
+                    response = await this.LlmClient.GetResponseAsync(request, progress);
+                }
+
                 
                 if (response != null && 
                     response?.Error?.Code == null &&
                     response?.Error?.Message == null && 
                     response?.OutputText != null)
                 {
-                    var mapObject = JsonSerializer.Deserialize<Map>(response.OutputText);
-                    responseMap = mapObject.MapGrid;
+                    responseMap = response.OutputText;
                 }
                 else
                 {
@@ -252,7 +262,12 @@ namespace GeneratorUI
                     jsonSchema: BinaryData.FromString(PromptUserData.GetJsonSchema()),
                     jsonSchemaIsStrict: true);
 
-                var response = await responsesClient.GetResponseAsync(request);
+                var ui = SynchronizationContext.Current;
+                var progress = new Progress<string>(text =>
+                {
+                    this.Output.ReasoningSummary = text;
+                });
+                var response = await responsesClient.GetResponseAsync(request, progress);
 
                 var jsonString = response.OutputText;
                 if (!string.IsNullOrEmpty(jsonString))

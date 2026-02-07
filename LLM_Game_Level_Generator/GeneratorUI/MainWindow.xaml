@@ -205,6 +205,22 @@
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
+
+                                <GridViewColumn Header="Minimum Number Of Tiles" Width="Auto">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{Binding Path=MinimumNumberOfTiles, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}" TextWrapping="WrapWithOverflow" MaxHeight="50" utils:WatermarkService.Watermark = "Add Description..." MinWidth="100" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+
+                                <GridViewColumn Header="Maximum Number Of Tiles" Width="Auto">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{Binding Path=MaximumNumberOfTiles, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}" TextWrapping="WrapWithOverflow" MaxHeight="50" utils:WatermarkService.Watermark = "Add Description..." MinWidth="100" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
                             </GridView>
                         </ListView.View>
                     </ListView>
@@ -333,6 +349,30 @@
                         Focusable="True"
                         Text="{Binding Output.GeneratedMap, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                         x:Name="outputTextBlock">
+                    </utils:ExtendedTextBlock>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="LLM Reasoning">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <utils:ExtendedTextBlock 
+                        Margin="5"
+                        Padding="5"
+                        Grid.Row="1" 
+                        FontFamily="Consolas"
+                        FontSize="20"
+                        LineHeight="{Binding FontProperties.OutputLineHeight, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
+                        LineStackingStrategy="BlockLineHeight"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        TextWrapping="NoWrap"
+                        Focusable="True"
+                        Text="{Binding Output.ReasoningSummary, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                        x:Name="outputReasoningBlock">
                     </utils:ExtendedTextBlock>
                 </Grid>
             </TabItem>

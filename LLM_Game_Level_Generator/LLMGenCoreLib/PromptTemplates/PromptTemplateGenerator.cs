@@ -54,11 +54,11 @@
         {
             var outputString = new StringBuilder();
             outputString.AppendLine(string.Empty);
-            outputString.AppendLine("Tile Character|Tile Name|Tile Description");
-            outputString.AppendLine("---|---|---");
+            outputString.AppendLine("Tile Character|Tile Name|Tile Description|Minimum Number Of Tile|Maximum Number Of Tiles");
+            outputString.AppendLine("---|---|---|---|---");
             foreach ( var item in list)
             {
-                outputString.AppendLine($"{item.TileCharacter}|{item.TileName}|{item.TileDescription}");
+                outputString.AppendLine($"{item.TileCharacter}|{item.TileName}|{item.TileDescription}|{item.MinimumNumberOfTiles}|{item.MaximumNumberOfTiles}");
             }
 
             return outputString.ToString();

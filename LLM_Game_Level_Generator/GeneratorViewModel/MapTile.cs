@@ -38,6 +38,26 @@
             }
         } = string.Empty;
 
+        public int? MinimumNumberOfTiles
+        {
+            get;
+            set
+            {
+                field = value;
+                this.OnPropertyChanged(nameof(this.MinimumNumberOfTiles));
+            }
+        } = null;
+
+        public int? MaximumNumberOfTiles
+        {
+            get;
+            set
+            {
+                field = value;
+                this.OnPropertyChanged(nameof(this.MaximumNumberOfTiles));
+            }
+        } = null;
+
         // Validation support
         [JsonIgnore]
         public string Error => string.Empty;
@@ -67,6 +87,8 @@
             this.TileName = tile.TileName;
             this.TileCharacter = tile.TileCharacter;
             this.TileDescription = tile.TileDescription;
+            this.MinimumNumberOfTiles = tile.MinimumNumberOfTiles;
+            this.MaximumNumberOfTiles = tile.MaximumNumberOfTiles;
         }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
