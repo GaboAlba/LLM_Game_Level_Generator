@@ -21,6 +21,7 @@
         {
             "gpt-5",
             "gpt-o1",
+            "gpt-5.2"
         };
 
         public LlmClientBase(

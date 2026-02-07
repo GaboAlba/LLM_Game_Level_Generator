@@ -21,6 +21,8 @@
 
         public string? StopSequences { get; set; }
 
+        public bool Stream { get; set; } = false;
+
         public required float Temperature
         {
             get;

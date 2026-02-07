@@ -28,5 +28,10 @@
         /// Aggregated text output from 
         /// </summary>
         public string? OutputText { get; set; }
+
+        /// <summary>
+        /// The reasoning performed by the LLM to achieve the response
+        /// </summary>
+        public string? ReasoningText { get; set; }
     }
 }
