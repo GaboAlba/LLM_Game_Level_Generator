@@ -81,6 +81,24 @@
             this.pressedKeys.Remove(e.Key);
         }
 
+        protected override void OnMouseWheel(MouseWheelEventArgs e)
+        {
+            if (this.pressedKeys != null && this.pressedKeys.Contains(Key.LeftCtrl))
+            {
+                switch (e.Delta)
+                {
+                    case > 0:
+                        this.FontSize += 0.2;
+                        break;
+                    case < 0:
+                        this.FontSize -= 0.2;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
         private void UpdateSelectionVisual()
         {
             if (this.StartSelectPosition == null || this.EndSelectPosition == null) 
