@@ -23,7 +23,7 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            
+
             <ToolBarTray x:Name="toolBarTray" Grid.Row="0" Grid.Column="0" Height="29" HorizontalAlignment="Left" VerticalAlignment="Top">
                 <ToolBarTray.RenderTransform>
                     <TransformGroup>
@@ -66,11 +66,12 @@
             <Button
                 Grid.Row="0"
                 Grid.Column="1"
-                Content="Optimize"
+                Content="Optimize Prompt"
                 HorizontalAlignment="Stretch"
                 MinWidth="85"
                 MinHeight="29"
                 Margin="0,0,0,0"
+                Padding="10,0,10,0"
                 VerticalAlignment="Center"
                 Background="Teal"
                 Foreground="White"
@@ -164,7 +165,7 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    
+
                     <ListView Grid.Row="1" x:Name="mapTileList" ItemsSource="{Binding MapTileOptions}" Margin="0,26,0,0">
                         <ListView.Resources>
                             <Style TargetType="TextBox">
@@ -229,7 +230,7 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        
+
                         <Button Grid.Column="1" Content="Delete" x:Name="deleteTileButton" Width="Auto" Height="26" VerticalAlignment="Top" Background="MediumVioletRed" Click="deleteTileButton_Click"/>
                         <Button Grid.Column="0" x:Name="addTileButton" Content="Add Tile" VerticalAlignment="Top" Height="26" Width="Auto" HorizontalAlignment="Stretch" Click="Button_Click" Background="#FF00DFE4"/>
                     </Grid>
@@ -334,46 +335,152 @@
                         Content="Save Map"
                         Background="Aquamarine"
                         Click="saveMapButton_Click"
-                        HorizontalAlignment="Stretch"/>
-                    <utils:ExtendedTextBlock 
-                        Margin="5"
-                        Padding="5"
-                        Grid.Row="1" 
-                        FontFamily="Consolas"
-                        FontSize="20"
-                        LineHeight="{Binding FontProperties.OutputLineHeight, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
-                        LineStackingStrategy="BlockLineHeight"
                         HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"
-                        TextWrapping="NoWrap"
-                        Focusable="True"
-                        Text="{Binding Output.GeneratedMap, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                        x:Name="outputTextBlock">
-                    </utils:ExtendedTextBlock>
+                        MinHeight="30"/>
+                    <ScrollViewer Grid.Row="1" Margin="0,10,0,0">
+                        <utils:ExtendedTextBlock 
+                            Margin="5"
+                            Padding="5"
+                            Grid.Row="1" 
+                            FontFamily="Consolas"
+                            FontSize="20"
+                            LineHeight="{Binding FontProperties.OutputLineHeight, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
+                            LineStackingStrategy="BlockLineHeight"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            TextWrapping="NoWrap"
+                            Focusable="True"
+                            Text="{Binding Output.GeneratedMap, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                            x:Name="outputTextBlock">
+                        </utils:ExtendedTextBlock>
+                    </ScrollViewer>
                 </Grid>
             </TabItem>
 
             <TabItem Header="LLM Reasoning">
                 <Grid>
+                    <ScrollViewer>
+                        <utils:ExtendedTextBlock 
+                            Margin="5"
+                            Padding="5"
+                            FontFamily="Calibri"
+                            FontSize="20"
+                            LineStackingStrategy="BlockLineHeight"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            TextWrapping="Wrap"
+                            Focusable="True"
+                            Text="{Binding Output.ReasoningSummary, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                            x:Name="outputReasoningBlock">
+                        </utils:ExtendedTextBlock>
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Evaluation">
+                <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <utils:ExtendedTextBlock 
-                        Margin="5"
-                        Padding="5"
-                        Grid.Row="1" 
-                        FontFamily="Consolas"
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button
+                        Grid.Row="0"
+                        Grid.ColumnSpan="4"
+                        Content="Run Evaluation"
+                        Background="Aquamarine"
+                        MinHeight="30"
+                        Click="RunEvalButton_Click">
+                    </Button>
+
+                    <Label 
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Content="Quality"
+                        FontFamily="Calibri"
                         FontSize="20"
-                        LineHeight="{Binding FontProperties.OutputLineHeight, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
-                        LineStackingStrategy="BlockLineHeight"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"
-                        TextWrapping="NoWrap"
-                        Focusable="True"
-                        Text="{Binding Output.ReasoningSummary, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                        x:Name="outputReasoningBlock">
-                    </utils:ExtendedTextBlock>
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top"
+                        Height="Auto"
+                        />
+                    <TextBox
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        HorizontalAlignment="Center"
+                        MinWidth="200"
+                        MinHeight="10"
+                        Padding="10,10,10,10"
+                        Margin="0,50,0,50"
+                        BorderThickness="1"
+                        BorderBrush="DarkSlateGray"
+                        Background="LightGray"
+                        IsReadOnly="True"
+                        x:Name="qualityPassBox"
+                        TextAlignment="Center"
+                        FontSize="20"
+                        Text="{Binding Evaluation.QualityPass, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, FallbackValue=N/A}">
+                    </TextBox>
+
+                    <Label 
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Content="Diversity"
+                        FontFamily="Calibri"
+                        FontSize="20"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top"
+                        Height="Auto"
+                        />
+                    <TextBox
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        HorizontalAlignment="Center"
+                        MinWidth="200"
+                        MinHeight="10"
+                        Padding="10,10,10,10"
+                        Margin="0,50,0,50"
+                        BorderThickness="1"
+                        BorderBrush="DarkSlateGray"
+                        Background="LightGray"
+                        IsReadOnly="True"
+                        x:Name="diversityPassBox"
+                        TextAlignment="Center"
+                        FontSize="20"
+                        Text="{Binding Evaluation.DiversityPass, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, FallbackValue=N/A}">
+                    </TextBox>
+
+                    <Label 
+                        Grid.Row="1"
+                        Grid.Column="3"
+                        Content="Controlability"
+                        FontFamily="Calibri"
+                        FontSize="20"
+                        HorizontalAlignment="Center"
+                        Height="Auto"
+                        Padding="10,10,10,10"
+                        />
+                    <TextBox
+                        Grid.Row="1"
+                        Grid.Column="3"
+                        HorizontalAlignment="Center"
+                        MinWidth="200"
+                        MinHeight="10"
+                        Padding="10,10,10,10"
+                        Margin="0,50,0,50"
+                        BorderThickness="1"
+                        BorderBrush="DarkSlateGray"
+                        Background="LightGray"
+                        IsReadOnly="True"
+                        x:Name="controlabilityPassBox"
+                        TextAlignment="Center"
+                        FontSize="20"
+                        Text="{Binding Evaluation.ControlabilityPass, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, FallbackValue=N/A}">
+                    </TextBox>
                 </Grid>
             </TabItem>
         </TabControl>

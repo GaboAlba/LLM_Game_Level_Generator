@@ -293,6 +293,11 @@ namespace GeneratorUI
             }
         }
 
+        private void RunEvalButton_Click(object sender, RoutedEventArgs e)
+        {
+            return;
+        }
+
         private void ZoomInButton_Click(object sender, RoutedEventArgs e)
         {
             this.FontSize *= 1.1;
