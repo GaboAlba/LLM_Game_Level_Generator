@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
     <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
     <LangVersion>preview</LangVersion>
   </PropertyGroup>
 
@@ -18,6 +19,15 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ExternalServices\ExternalServices.csproj" />
+    <ProjectReference Include="..\LLMGenCoreLib\LLMPromptProcessor.csproj" />
+    <ProjectReference Include="..\GeneratorViewModel\GeneratorViewModel.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\LLMGenCoreLib\Prompts\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Prompts\%(Filename)%(Extension)</Link>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
