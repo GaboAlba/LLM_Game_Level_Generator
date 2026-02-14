@@ -25,12 +25,12 @@
                             type = "object",
                             properties = new
                             {
-                                GameDescription = new { type="string" },
-                                GameName = new { type="string" },
-                                LevelDescription = new { type="string" },
-                                LevelName = new { type="string" },
+                                GameDescription = new { type = "string" },
+                                GameName = new { type = "string" },
+                                LevelDescription = new { type = "string" },
+                                LevelName = new { type = "string" },
                             },
-                            required = new[] {"GameDescription", "GameName", "LevelDescription", "LevelName"},
+                            required = new[] { "GameDescription", "GameName", "LevelDescription", "LevelName" },
                             additionalProperties = false,
                         },
                         MapTileOptions = new
@@ -41,9 +41,9 @@
                                 type = "object",
                                 properties = new
                                 {
-                                    TileName = new { type="string" },
-                                    TileCharacter = new { type="string" },
-                                    TileDescription = new { type="string" },
+                                    TileName = new { type = "string" },
+                                    TileCharacter = new { type = "string" },
+                                    TileDescription = new { type = "string" },
                                 },
                                 required = new[] { "TileName", "TileCharacter", "TileDescription" },
                                 additionalProperties = false,
@@ -54,13 +54,13 @@
                             type = "object",
                             properties = new
                             {
-                                CustomConstraints = new { type="string" },
+                                CustomConstraints = new { type = "string" },
                             },
-                            required = new[] {"CustomConstraints"},
+                            required = new[] { "CustomConstraints" },
                             additionalProperties = false,
                         }
                     },
-                    required = new[] {"GeneralElements", "MapTileOptions", "MapConstraints"},
+                    required = new[] { "GeneralElements", "MapTileOptions", "MapConstraints" },
                     additionalProperties = false,
                 }
              );
@@ -93,7 +93,7 @@
                             pattern = rowRegex,
                         }
                     },
-                    required = new[] {"mapGrid"},
+                    required = new[] { "mapGrid" },
                     additionalProperties = false,
                 });
         }

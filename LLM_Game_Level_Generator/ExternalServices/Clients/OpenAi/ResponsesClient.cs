@@ -38,7 +38,7 @@ namespace ExternalServices.Clients.OpenAi
                   topP: 0.9f,
                   frequencyPenalty: 0.3f,
                   presencePenalty: 0,
-                  clientName:nameof(ResponsesClient))
+                  clientName: nameof(ResponsesClient))
         {
             var clientOptions = new OpenAIClientOptions
             {
@@ -121,7 +121,7 @@ namespace ExternalServices.Clients.OpenAi
                                 reasoningProgress?.Report(sb.ToString());
                             }
                         }
-                        
+
                         break;
 
                     case StreamingResponseOutputTextDeltaUpdate delta
@@ -142,7 +142,7 @@ namespace ExternalServices.Clients.OpenAi
 
         private ResponseCreationOptions SetResponseCreationOptions(LLMRequest request, ResponseTextFormat? responseTextFormat = null)
         {
-            var responseCreationOptions =  new ResponseCreationOptions
+            var responseCreationOptions = new ResponseCreationOptions
             {
                 MaxOutputTokenCount = request.MaxOutputTokens,
                 TruncationMode = request.Truncation,

@@ -43,8 +43,8 @@ namespace GeneratorUI
                         this.isCurrentCharacter = false;
                         return true;
                     }
-                    
-                    return string.IsNullOrEmpty(c) || ( !this.usedCharacters.Contains(c) && c.Length == 1 );
+
+                    return string.IsNullOrEmpty(c) || (!this.usedCharacters.Contains(c) && c.Length == 1);
                 }
             };
             tile.PropertyChanged += this.TilePropertyChanged;
@@ -219,10 +219,10 @@ namespace GeneratorUI
                     response = await this.LlmClient.GetResponseAsync(request, progress);
                 }
 
-                
-                if (response != null && 
+
+                if (response != null &&
                     response?.Error?.Code == null &&
-                    response?.Error?.Message == null && 
+                    response?.Error?.Message == null &&
                     response?.OutputText != null)
                 {
                     responseMap = response.OutputText;
@@ -283,7 +283,7 @@ namespace GeneratorUI
                     this.modifiedInCurrentSession = true;
                 }
             }
-            catch (Exception ex )
+            catch (Exception ex)
             {
                 Console.WriteLine($"{ex.Message}");
             }
@@ -333,7 +333,7 @@ namespace GeneratorUI
                 else if (string.IsNullOrEmpty(tile.TileCharacter))
                 {
                     this.isCurrentCharacter = false;
-                    
+
                     // Only add all non empty values
                     this.usedCharacters = this.MapTileOptions
                         .Select(tile => tile.TileCharacter)
@@ -343,7 +343,7 @@ namespace GeneratorUI
                 else if (tile.TileCharacter.Length > 1)
                 {
                     this.isCurrentCharacter = false;
-                    
+
                     // Do not add multi character to the used character
                     this.usedCharacters = this.MapTileOptions
                         .Select(tile => tile.TileCharacter)

@@ -2,7 +2,7 @@
 {
     using ExternalServices.Clients;
     using ExternalServices.Contract;
-    
+
     using GeneratorViewModel;
 
     using System.Collections.ObjectModel;

@@ -42,7 +42,7 @@
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
-            if (!this.isSelecting) 
+            if (!this.isSelecting)
                 return;
 
             var p = e.GetPosition(this);
@@ -53,7 +53,7 @@
         protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonUp(e);
-            if (!this.isSelecting) 
+            if (!this.isSelecting)
                 return;
 
             this.isSelecting = false;
@@ -83,7 +83,7 @@
 
         private void UpdateSelectionVisual()
         {
-            if (this.StartSelectPosition == null || this.EndSelectPosition == null) 
+            if (this.StartSelectPosition == null || this.EndSelectPosition == null)
                 return;
 
             // Normalize order
