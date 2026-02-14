@@ -1,0 +1,47 @@
+name: .NET WPF (EXE)
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    env:
+      Solution_Name: LLM_Game_Level_Generator/LLM_Game_Level_Generator.sln
+      Configuration: Release
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Restore
+        run: dotnet restore $env:Solution_Name
+
+      - name: Build
+        run: dotnet build $env:Solution_Name -c $env:Configuration --no-restore
+
+      - name: Test
+        run: dotnet test $env:Solution_Name -c $env:Configuration --no-build
+
+      # OPTIONAL: publish a folder you can run directly
+      - name: Publish
+        run: dotnet publish $env:Solution_Name -c $env:Configuration -o publish
+
+      # OPTIONAL: keep this so you can download the built exe from the workflow run
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: WPF-${{ env.Configuration }}
+          path: publish
+
