@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ExternalServices\ExternalServices.csproj" />
+    <ProjectReference Include="..\GeneratorUI\GeneratorUI.csproj" />
     <ProjectReference Include="..\LLMGenCoreLib\LLMPromptProcessor.csproj" />
     <ProjectReference Include="..\GeneratorViewModel\GeneratorViewModel.csproj" />
   </ItemGroup>
