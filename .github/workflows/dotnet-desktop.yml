@@ -34,14 +34,3 @@ jobs:
       - name: Test
         run: dotnet test $env:Solution_Name -c $env:Configuration --no-build
 
-      # OPTIONAL: publish a folder you can run directly
-      - name: Publish
-        run: dotnet publish $env:Solution_Name -c $env:Configuration -o publish
-
-      # OPTIONAL: keep this so you can download the built exe from the workflow run
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: WPF-${{ env.Configuration }}
-          path: publish
-
