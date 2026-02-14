@@ -15,6 +15,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LLMPromptProcessor", "LLMGe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneratorViewModel", "GeneratorViewModel\GeneratorViewModel.csproj", "{DE4B340A-5BBB-4019-BE59-C7D5D9B173C2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{CFCA5864-4997-4B0E-A2EC-3247B1FE7A8F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,9 +41,16 @@ Global
 		{DE4B340A-5BBB-4019-BE59-C7D5D9B173C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE4B340A-5BBB-4019-BE59-C7D5D9B173C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE4B340A-5BBB-4019-BE59-C7D5D9B173C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFCA5864-4997-4B0E-A2EC-3247B1FE7A8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFCA5864-4997-4B0E-A2EC-3247B1FE7A8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFCA5864-4997-4B0E-A2EC-3247B1FE7A8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFCA5864-4997-4B0E-A2EC-3247B1FE7A8F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CFCA5864-4997-4B0E-A2EC-3247B1FE7A8F} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A405F736-4C03-4952-969F-560AD027E191}
