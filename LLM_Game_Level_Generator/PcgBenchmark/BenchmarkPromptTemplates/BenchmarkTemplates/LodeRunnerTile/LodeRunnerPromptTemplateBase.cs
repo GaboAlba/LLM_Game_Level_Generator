@@ -3,6 +3,7 @@
     using GeneratorViewModel;
 
     using System.Collections.Generic;
+    using System.Text.Json;
     using System.Text.Json.Serialization;
 
     public class LodeRunnerPromptTemplateBase : PromptTemplateV1
@@ -20,6 +21,22 @@
             /// </summary>
             [JsonPropertyName("rope")]
             public int RopesCount { get; set; }
+        }
+
+        protected ControlParameters controlParameters = new();
+
+        public LodeRunnerPromptTemplateBase(string jsonPath)
+        {
+            try
+            {
+                var jsonString = File.ReadAllText(jsonPath);
+                this.controlParameters = JsonSerializer.Deserialize<ControlParameters>(jsonString);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
         }
 
         protected List<MapTile> GetMapTiles(int minEnemies, int minGold, int targetLadders, int targetRopes)
@@ -65,16 +82,16 @@
                     TileCharacter = "5",
                     TileName = "Ladder",
                     TileDescription = "Tile that lets the player climb vertically",
-                    MinimumNumberOfTiles = targetLadders - 1,
-                    MaximumNumberOfTiles = targetRopes + 1,
+                    MinimumNumberOfTiles = targetLadders - 5,
+                    MaximumNumberOfTiles = targetRopes + 5,
                 },
                 new MapTile()
                 {
                     TileCharacter = "6",
                     TileName = "Rope",
                     TileDescription = "Allows for horizontal movement over air gaps, but at the cost of not being able to jump",
-                    MinimumNumberOfTiles = targetRopes - 1,
-                    MaximumNumberOfTiles = targetRopes + 1,
+                    MinimumNumberOfTiles = targetRopes - 5,
+                    MaximumNumberOfTiles = targetRopes + 5,
                 }
             };
         }

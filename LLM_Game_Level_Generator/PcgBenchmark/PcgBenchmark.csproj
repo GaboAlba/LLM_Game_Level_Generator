@@ -14,7 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="BenchmarkPromptTemplates\BenchmarkTemplates\LodeRunnerTile\Variants\" />
     <Folder Include="BenchmarkPromptTemplates\BenchmarkTemplates\MiniDungeons\Variants\" />
     <Folder Include="BenchmarkPromptTemplates\BenchmarkTemplates\Sokoban\Variants\" />
     <Folder Include="BenchmarkPromptTemplates\BenchmarkTemplates\SuperMarioBrosTile\Variants\" />
