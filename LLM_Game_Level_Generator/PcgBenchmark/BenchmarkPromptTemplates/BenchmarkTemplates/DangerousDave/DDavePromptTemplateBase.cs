@@ -3,6 +3,7 @@
     using GeneratorViewModel;
 
     using System.Collections.Generic;
+    using System.Text.Json;
     using System.Text.Json.Serialization;
 
     public class DDavePromptTemplateBase : PromptTemplateV1
@@ -38,6 +39,35 @@
             /// </summary>
             [JsonPropertyName("diamonds")]
             public int DiamondsCount { get; set; }
+        }
+
+        protected ControlParameters controlParameters = new();
+
+        public DDavePromptTemplateBase(string jsonPath)
+        {
+            try
+            {
+                var jsonString = File.ReadAllText(jsonPath);
+                this.controlParameters = JsonSerializer.Deserialize<ControlParameters>(jsonString);
+                if (this.controlParameters != null)
+                {
+                    var currentPlayerStartPositionX = this.controlParameters.PlayerStartPositionX;
+                    var currentPlayerStartPositionY = this.controlParameters.PlayerStartPositionY;
+                    var currentExitPositionX = this.controlParameters.ExitPositionX;
+                    var currentExitPositionY = this.controlParameters.ExitPositionY;
+                    
+                    // Ensure these are always inside the map
+                    this.controlParameters.PlayerStartPositionX = this.controlParameters.PlayerStartPositionX >= int.Parse(this.Width) ? int.Parse(this.Width) - 1 : currentPlayerStartPositionX;
+                    this.controlParameters.PlayerStartPositionY = this.controlParameters.PlayerStartPositionY >= int.Parse(this.Height) ? int.Parse(this.Height) - 1 : currentPlayerStartPositionY;
+                    this.controlParameters.ExitPositionX = this.controlParameters.ExitPositionX >= int.Parse(this.Width) ? int.Parse(this.Width) - 1 : currentExitPositionX;
+                    this.controlParameters.ExitPositionY = this.controlParameters.ExitPositionY >= int.Parse(this.Height) ? int.Parse(this.Height) - 1 : currentExitPositionY;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
         }
 
         protected List<MapTile> GetMapTiles(int height, int width)
