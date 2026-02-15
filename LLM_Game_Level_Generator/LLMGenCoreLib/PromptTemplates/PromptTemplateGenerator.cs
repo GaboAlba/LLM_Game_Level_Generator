@@ -50,7 +50,7 @@
             return handleBarsEngine.ParsePrompt(template);
         }
 
-        private static string ListToString(IList<MapTile> list)
+        public static string ListToString(IList<MapTile> list)
         {
             var outputString = new StringBuilder();
             outputString.AppendLine(string.Empty);
