@@ -3,6 +3,7 @@
     using GeneratorViewModel;
 
     using System.Collections.Generic;
+    using System.Text.Json;
     using System.Text.Json.Serialization;
 
     public class SokobanPromptTemplateBase : PromptTemplateV1
@@ -16,8 +17,24 @@
             public int CratesCount { get; set; }
         }
 
+        protected ControlParameters controlParameters = new();
+
+        public SokobanPromptTemplateBase(string jsonPath)
+        {
+            try
+            {
+                var jsonString = File.ReadAllText(jsonPath);
+                this.controlParameters = JsonSerializer.Deserialize<ControlParameters>(jsonString);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
+        }
         protected List<MapTile> GetMapTiles(int numberOfCrates)
         {
+            var randInt = Random.Shared.Next(numberOfCrates * 2);
             return new List<MapTile>()
             {
                 new MapTile()
@@ -46,7 +63,7 @@
                     TileName = "Block",
                     TileDescription = "Movable blocks by the player",
                     MinimumNumberOfTiles = numberOfCrates,
-                    MaximumNumberOfTiles = numberOfCrates,
+                    MaximumNumberOfTiles = numberOfCrates + randInt,
                 },
                 new MapTile()
                 {
@@ -54,7 +71,7 @@
                     TileName = "Target",
                     TileDescription = "Tiles to which the \"Block\" tile need to be moved to solve the level. There **must** be the EXACT same amount, or the level becomes unsolvable",
                     MinimumNumberOfTiles = numberOfCrates,
-                    MaximumNumberOfTiles = numberOfCrates,
+                    MaximumNumberOfTiles = numberOfCrates + randInt,
                 },
             };
         }

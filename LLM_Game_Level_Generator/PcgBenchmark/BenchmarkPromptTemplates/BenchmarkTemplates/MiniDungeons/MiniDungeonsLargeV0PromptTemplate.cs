@@ -11,7 +11,7 @@
         {
             this.GameName = "Mini Dungeons";
             this.GameDescription = "MiniDungeons is a simple turn-based roguelike puzzle game, implemented as a benchmark problem for modeling decision making styles of human players";
-            this.LevelName = "mdungeons-enemies-v0";
+            this.LevelName = "mdungeons-large-v0";
             this.LevelDescription = "";
             this.Tiles = PromptGroundingDataInjector.ListToString(this.GetMapTiles(minEnemies: minEnemies, this.controlParameters.TreasuresToCollectAmount));
             this.Width = "16";

@@ -8,13 +8,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="BenchmarkPromptTemplates\BenchmarkTemplates\Sokoban\Variants\Crates_10.json" />
+    <Compile Include="BenchmarkPromptTemplates\BenchmarkTemplates\Sokoban\Variants\Crates_9.json" />
+    <Compile Include="BenchmarkPromptTemplates\BenchmarkTemplates\Sokoban\Variants\Crates_8.json" />
+    <Compile Include="BenchmarkPromptTemplates\BenchmarkTemplates\Sokoban\Variants\Crates_6.json" />
+    <Compile Include="BenchmarkPromptTemplates\BenchmarkTemplates\Sokoban\Variants\Crates_5.json" />
+    <Compile Include="BenchmarkPromptTemplates\BenchmarkTemplates\Sokoban\Variants\Crates_3.json" />
+    <Compile Include="BenchmarkPromptTemplates\BenchmarkTemplates\Sokoban\Variants\Crates_2.json" />
+    <Compile Include="BenchmarkPromptTemplates\BenchmarkTemplates\Sokoban\Variants\Crates_4.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ExternalServices\ExternalServices.csproj" />
     <ProjectReference Include="..\GeneratorViewModel\GeneratorViewModel.csproj" />
     <ProjectReference Include="..\LLMGenCoreLib\LLMPromptProcessor.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="BenchmarkPromptTemplates\BenchmarkTemplates\Sokoban\Variants\" />
     <Folder Include="BenchmarkPromptTemplates\BenchmarkTemplates\SuperMarioBrosTile\Variants\" />
     <Folder Include="BenchmarkPromptTemplates\BenchmarkTemplates\Zelda\Variants\" />
   </ItemGroup>
