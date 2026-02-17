@@ -46,14 +46,14 @@
                 new MapTile()
                 {
                     TileCharacter = "0",
-                    TileName = "Wall",
-                    TileDescription = "Solid impassable wall"
+                    TileName = "Solid",
+                    TileDescription = "Solid tile, both for walls and floors which are impassable"
                 },
                 new MapTile()
                 {
                     TileCharacter = "1",
-                    TileName = "Floor",
-                    TileDescription = "Walkable floor"
+                    TileName = "Empty",
+                    TileDescription = "Background tiles. No effects whatsoever"
                 },
                 new MapTile()
                 {
@@ -89,7 +89,7 @@
                 {
                     TileCharacter = "6",
                     TileName = "Rope",
-                    TileDescription = "Allows for horizontal movement over air gaps, but at the cost of not being able to jump",
+                    TileDescription = "Allows for horizontal movement over gaps",
                     MinimumNumberOfTiles = targetRopes - 5,
                     MaximumNumberOfTiles = targetRopes + 5,
                 }

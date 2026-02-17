@@ -3,6 +3,7 @@
     using GeneratorViewModel;
 
     using System.Collections.Generic;
+    using System.Text.Json;
     using System.Text.Json.Serialization;
 
     public class MiniDungeonsPromptTemplateBase : PromptTemplateV1
@@ -20,6 +21,22 @@
             /// </summary>
             [JsonPropertyName("solution_length")]
             public int SolutionLength { get; set; }
+        }
+
+        protected ControlParameters controlParameters = new();
+
+        public MiniDungeonsPromptTemplateBase(string jsonPath)
+        {
+            try
+            {
+                var jsonString = File.ReadAllText(jsonPath);
+                this.controlParameters = JsonSerializer.Deserialize<ControlParameters>(jsonString);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
         }
 
         protected List<MapTile> GetMapTiles(int minEnemies, int targetTreasures)
