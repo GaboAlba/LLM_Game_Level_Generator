@@ -1,2 +1,9 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿namespace PcgBenchmark
+{
+    using System;
+
+    internal partial class Program
+    {
+        static void Main(string[] args) => Run(args);
+    }
+}

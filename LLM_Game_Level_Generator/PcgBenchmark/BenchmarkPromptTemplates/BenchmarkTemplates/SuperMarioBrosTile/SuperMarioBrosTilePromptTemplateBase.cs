@@ -1,4 +1,6 @@
-﻿namespace LLMPromptProcessor.PromptTemplates.BenchmarkTemplates.SuperMarioBrosTile
+﻿using LLMPromptProcessor.PromptTemplates;
+
+namespace PcgBenchmark.BenchmarkPromptTemplates.BenchmarkTemplates.SuperMarioBrosTile
 {
     using GeneratorViewModel;
 

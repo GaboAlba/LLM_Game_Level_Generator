@@ -1,11 +1,14 @@
-﻿namespace LLMPromptProcessor.PromptTemplates.BenchmarkTemplates.Sokoban
+﻿namespace PcgBenchmark.BenchmarkPromptTemplates.BenchmarkTemplates.Sokoban
 {
     using LLMGenCoreLib.PromptTemplates;
+
+    using System.Diagnostics.CodeAnalysis;
 
     public class SokobanV0PromptTemplate : SokobanPromptTemplateBase
     {
         private const int minimumMovesToSolve = 10;
 
+        [SetsRequiredMembers]
         public SokobanV0PromptTemplate(string jsonPath)
             : base(jsonPath)
         {

@@ -1,4 +1,6 @@
-﻿namespace LLMPromptProcessor.PromptTemplates.BenchmarkTemplates.Sokoban
+﻿using LLMPromptProcessor.PromptTemplates;
+
+namespace PcgBenchmark.BenchmarkPromptTemplates.BenchmarkTemplates.Sokoban
 {
     using GeneratorViewModel;
 

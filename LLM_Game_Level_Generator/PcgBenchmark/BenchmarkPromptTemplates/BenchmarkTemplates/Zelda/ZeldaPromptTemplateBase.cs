@@ -1,4 +1,6 @@
-﻿namespace LLMPromptProcessor.PromptTemplates.BenchmarkTemplates.Zelda
+﻿using LLMPromptProcessor.PromptTemplates;
+
+namespace PcgBenchmark.BenchmarkPromptTemplates.BenchmarkTemplates.Zelda
 {
     using GeneratorViewModel;
 

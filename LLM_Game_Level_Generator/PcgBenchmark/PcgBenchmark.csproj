@@ -8,14 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="BenchmarkPromptTemplates\BenchmarkTemplates\Sokoban\Variants\Crates_10.json" />
-    <Compile Include="BenchmarkPromptTemplates\BenchmarkTemplates\Sokoban\Variants\Crates_9.json" />
-    <Compile Include="BenchmarkPromptTemplates\BenchmarkTemplates\Sokoban\Variants\Crates_8.json" />
-    <Compile Include="BenchmarkPromptTemplates\BenchmarkTemplates\Sokoban\Variants\Crates_6.json" />
-    <Compile Include="BenchmarkPromptTemplates\BenchmarkTemplates\Sokoban\Variants\Crates_5.json" />
-    <Compile Include="BenchmarkPromptTemplates\BenchmarkTemplates\Sokoban\Variants\Crates_3.json" />
-    <Compile Include="BenchmarkPromptTemplates\BenchmarkTemplates\Sokoban\Variants\Crates_2.json" />
-    <Compile Include="BenchmarkPromptTemplates\BenchmarkTemplates\Sokoban\Variants\Crates_4.json" />
+    <Content Include="BenchmarkPromptTemplates\BenchmarkTemplates\**\Variants\*.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

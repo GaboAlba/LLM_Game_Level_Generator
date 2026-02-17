@@ -1,4 +1,6 @@
-﻿namespace LLMPromptProcessor.PromptTemplates.BenchmarkTemplates.DangerousDave
+﻿using LLMPromptProcessor.PromptTemplates;
+
+namespace PcgBenchmark.BenchmarkPromptTemplates.BenchmarkTemplates.DangerousDave
 {
     using GeneratorViewModel;
 

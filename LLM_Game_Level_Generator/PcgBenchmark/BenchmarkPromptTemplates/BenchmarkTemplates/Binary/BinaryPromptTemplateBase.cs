@@ -1,4 +1,6 @@
-﻿namespace LLMPromptProcessor.PromptTemplates.BenchmarkTemplates.Binary
+﻿using LLMPromptProcessor.PromptTemplates;
+
+namespace PcgBenchmark.BenchmarkPromptTemplates.BenchmarkTemplates.Binary
 {
     using GeneratorViewModel;
 

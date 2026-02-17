@@ -219,7 +219,6 @@ namespace GeneratorUI
                     response = await this.LlmClient.GetResponseAsync(request, progress);
                 }
 
-
                 if (response != null &&
                     response?.Error?.Code == null &&
                     response?.Error?.Message == null &&

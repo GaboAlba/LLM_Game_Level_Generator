@@ -1,11 +1,14 @@
-﻿namespace LLMPromptProcessor.PromptTemplates.BenchmarkTemplates.MiniDungeons
+﻿namespace PcgBenchmark.BenchmarkPromptTemplates.BenchmarkTemplates.MiniDungeons
 {
     using LLMGenCoreLib.PromptTemplates;
+
+    using System.Diagnostics.CodeAnalysis;
 
     public class MiniDungeonsV0PromptTemplate : MiniDungeonsPromptTemplateBase
     {
         private const int minEnemies = 8;
 
+        [SetsRequiredMembers]
         public MiniDungeonsV0PromptTemplate(string jsonPath)
             : base(jsonPath)
         {

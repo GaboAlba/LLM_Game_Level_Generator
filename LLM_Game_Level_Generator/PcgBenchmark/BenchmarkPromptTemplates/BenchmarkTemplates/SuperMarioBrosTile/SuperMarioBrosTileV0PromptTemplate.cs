@@ -1,9 +1,12 @@
-﻿namespace LLMPromptProcessor.PromptTemplates.BenchmarkTemplates.SuperMarioBrosTile
+﻿namespace PcgBenchmark.BenchmarkPromptTemplates.BenchmarkTemplates.SuperMarioBrosTile
 {
     using LLMGenCoreLib.PromptTemplates;
 
+    using System.Diagnostics.CodeAnalysis;
+
     public class SuperMarioBrosTileV0PromptTemplate : SuperMarioBrosTilePromptTemplateBase
     {
+        [SetsRequiredMembers]
         public SuperMarioBrosTileV0PromptTemplate(string jsonPath)
             : base(jsonPath)
         {

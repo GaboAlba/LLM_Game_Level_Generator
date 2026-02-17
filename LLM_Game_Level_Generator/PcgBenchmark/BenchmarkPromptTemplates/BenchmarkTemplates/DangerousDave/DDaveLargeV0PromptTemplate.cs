@@ -1,9 +1,12 @@
-﻿namespace LLMPromptProcessor.PromptTemplates.BenchmarkTemplates.DangerousDave
+﻿namespace PcgBenchmark.BenchmarkPromptTemplates.BenchmarkTemplates.DangerousDave
 {
     using LLMGenCoreLib.PromptTemplates;
 
+    using System.Diagnostics.CodeAnalysis;
+
     public class DDaveLargeV0PromptTemplate : DDavePromptTemplateBase
     {
+        [SetsRequiredMembers]
         public DDaveLargeV0PromptTemplate(string jsonPath)
             : base(jsonPath)
         {

@@ -1,9 +1,12 @@
-﻿namespace LLMPromptProcessor.PromptTemplates.BenchmarkTemplates.LodeRunnerTile
+﻿namespace PcgBenchmark.BenchmarkPromptTemplates.BenchmarkTemplates.LodeRunnerTile
 {
     using LLMGenCoreLib.PromptTemplates;
 
+    using System.Diagnostics.CodeAnalysis;
+
     public class LodeRunnerV0PromptTemplate : LodeRunnerPromptTemplateBase
     {
+        [SetsRequiredMembers]
         public LodeRunnerV0PromptTemplate(string jsonPath)
             : base(jsonPath)
         {

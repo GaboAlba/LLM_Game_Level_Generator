@@ -1,9 +1,12 @@
-﻿namespace LLMPromptProcessor.PromptTemplates.BenchmarkTemplates.Binary
+﻿namespace PcgBenchmark.BenchmarkPromptTemplates.BenchmarkTemplates.Binary
 {
     using LLMGenCoreLib.PromptTemplates;
 
+    using System.Diagnostics.CodeAnalysis;
+
     public class BinaryV0PromptTemplate : BinaryPromptTemplateBase
     {
+        [SetsRequiredMembers]
         public BinaryV0PromptTemplate(string jsonPath)
             : base(jsonPath)
         {
