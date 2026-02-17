@@ -25,7 +25,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="BenchmarkPromptTemplates\BenchmarkTemplates\SuperMarioBrosTile\Variants\" />
     <Folder Include="BenchmarkPromptTemplates\BenchmarkTemplates\Zelda\Variants\" />
   </ItemGroup>
 

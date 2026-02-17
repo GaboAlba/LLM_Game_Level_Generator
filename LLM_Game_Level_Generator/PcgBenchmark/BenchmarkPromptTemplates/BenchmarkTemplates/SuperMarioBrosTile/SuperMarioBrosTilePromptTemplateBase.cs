@@ -3,6 +3,7 @@
     using GeneratorViewModel;
 
     using System.Collections.Generic;
+    using System.Text.Json;
     using System.Text.Json.Serialization;
 
     public class SuperMarioBrosTilePromptTemplateBase : PromptTemplateV1
@@ -26,6 +27,22 @@
             /// </summary>
             [JsonPropertyName("coins")]
             public int CoinsCount { get; set; }
+        }
+
+        protected ControlParameters controlParameters = new();
+
+        public SuperMarioBrosTilePromptTemplateBase(string jsonPath)
+        {
+            try
+            {
+                var jsonString = File.ReadAllText(jsonPath);
+                this.controlParameters = JsonSerializer.Deserialize<ControlParameters>(jsonString);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
         }
 
         protected List<MapTile> GetMapTiles(int targetCoins)

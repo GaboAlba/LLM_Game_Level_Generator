@@ -21,7 +21,7 @@
             this.DifficultyLevel = "Medium";
             this.HazardLevel = "Easy";
             this.CustomConstraints = $"The level solution length **must** be close to {this.controlParameters.SolutionLength} steps\n\n" +
-                $"The wall and floor tiles **must** compose at least 50% of the map" +
+                $"The wall and floor tiles **must** compose at least 50% of the map\n\n" +
                 $"The amount of enemies killed on the shortest solution for the level **must** be more than {minEnemies}";
         }
     }

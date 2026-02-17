@@ -11,7 +11,7 @@
         {
             this.GameName = "Sokoban";
             this.GameDescription = "Sokoban is an old Japanese block pushing game that inspired a lot of games like Baba is You and game engines like PuzzleScript";
-            this.LevelName = "sokoban-v0";
+            this.LevelName = "sokoban-complex-v0";
             this.LevelDescription = "";
             this.Tiles = PromptGroundingDataInjector.ListToString(this.GetMapTiles(numberOfCrates: 1));
             this.Width = "5";
