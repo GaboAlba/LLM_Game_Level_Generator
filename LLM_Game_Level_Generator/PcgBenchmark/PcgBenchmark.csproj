@@ -19,8 +19,4 @@
     <ProjectReference Include="..\LLMGenCoreLib\LLMPromptProcessor.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="BenchmarkPromptTemplates\BenchmarkTemplates\Zelda\Variants\" />
-  </ItemGroup>
-
 </Project>

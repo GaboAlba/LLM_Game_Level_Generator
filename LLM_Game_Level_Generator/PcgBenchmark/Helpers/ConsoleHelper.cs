@@ -7,6 +7,7 @@
     using PcgBenchmark.BenchmarkPromptTemplates.BenchmarkTemplates.MiniDungeons;
     using PcgBenchmark.BenchmarkPromptTemplates.BenchmarkTemplates.Sokoban;
     using PcgBenchmark.BenchmarkPromptTemplates.BenchmarkTemplates.SuperMarioBrosTile;
+    using PcgBenchmark.BenchmarkPromptTemplates.BenchmarkTemplates.Zelda;
 
     using System;
     using System.Collections.Generic;
@@ -44,6 +45,10 @@
             }
         }
 
+        private static Dictionary<string, PromptTemplateV1> GetKeyValuePairs(string argument, Dictionary<string, PromptTemplateV1> currentDict)
+        {
+            return currentDict.Where(kvp => kvp.Key.StartsWith(argument)).ToDictionary<string, PromptTemplateV1>();
+        }
         private static Dictionary<string, PromptTemplateV1> GetAllPossibleBenchmarks()
         {
             return new Dictionary<string, PromptTemplateV1>()
@@ -233,12 +238,38 @@
                 { "mario-small-v0-5", new SuperMarioBrosTileSmallV0PromptTemplate(".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\SuperMarioBrosTile\\Variants\\Enemies_6_Jumps_15_Coins_12.json")},
                 { "mario-small-v0-6", new SuperMarioBrosTileSmallV0PromptTemplate(".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\SuperMarioBrosTile\\Variants\\Enemies_4_Jumps_20_Coins_6.json")},
                 { "mario-small-v0-7", new SuperMarioBrosTileSmallV0PromptTemplate(".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\SuperMarioBrosTile\\Variants\\Enemies_8_Jumps_22_Coins_10.json")},
-            };
-        }
 
-        private static Dictionary<string, PromptTemplateV1> GetKeyValuePairs(string argument, Dictionary<string, PromptTemplateV1> currentDict)
-        {
-            return currentDict.Where(kvp => kvp.Key.StartsWith(argument)).ToDictionary<string, PromptTemplateV1>();
+                // ----------Zelda variations----------
+                // Normal
+                { "zelda-v0-0", new ZeldaV0PromptTemplate(".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Zelda\\Variants\\PKD_5_KDD_3.json")},
+                { "zelda-v0-1", new ZeldaV0PromptTemplate(".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Zelda\\Variants\\PKD_7_KDD_5.json")},
+                { "zelda-v0-2", new ZeldaV0PromptTemplate(".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Zelda\\Variants\\PKD_9_KDD_7.json")},
+                { "zelda-v0-3", new ZeldaV0PromptTemplate(".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Zelda\\Variants\\PKD_11_KDD_9.json")},
+                { "zelda-v0-4", new ZeldaV0PromptTemplate(".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Zelda\\Variants\\PKD_14_KDD_11.json")},
+                { "zelda-v0-5", new ZeldaV0PromptTemplate(".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Zelda\\Variants\\PKD_17_KDD_14.json")},
+                { "zelda-v0-6", new ZeldaV0PromptTemplate(".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Zelda\\Variants\\PKD_20_KDD_16.json")},
+                { "zelda-v0-7", new ZeldaV0PromptTemplate(".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Zelda\\Variants\\PKD_23_KDD_18.json")},
+
+                // Enemies
+                { "zelda-enemies-v0-0", new ZeldaEnemiesV0PromptTemplate(".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Zelda\\Variants\\PKD_5_KDD_3.json")},
+                { "zelda-enemies-v0-1", new ZeldaEnemiesV0PromptTemplate(".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Zelda\\Variants\\PKD_7_KDD_5.json")},
+                { "zelda-enemies-v0-2", new ZeldaEnemiesV0PromptTemplate(".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Zelda\\Variants\\PKD_9_KDD_7.json")},
+                { "zelda-enemies-v0-3", new ZeldaEnemiesV0PromptTemplate(".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Zelda\\Variants\\PKD_11_KDD_9.json")},
+                { "zelda-enemies-v0-4", new ZeldaEnemiesV0PromptTemplate(".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Zelda\\Variants\\PKD_14_KDD_11.json")},
+                { "zelda-enemies-v0-5", new ZeldaEnemiesV0PromptTemplate(".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Zelda\\Variants\\PKD_17_KDD_14.json")},
+                { "zelda-enemies-v0-6", new ZeldaEnemiesV0PromptTemplate(".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Zelda\\Variants\\PKD_20_KDD_16.json")},
+                { "zelda-enemies-v0-7", new ZeldaEnemiesV0PromptTemplate(".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Zelda\\Variants\\PKD_23_KDD_18.json")},
+
+                // Large
+                { "zelda-large-v0-0", new ZeldaLargeV0PromptTemplate(".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Zelda\\Variants\\PKD_5_KDD_3.json")},
+                { "zelda-large-v0-1", new ZeldaLargeV0PromptTemplate(".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Zelda\\Variants\\PKD_7_KDD_5.json")},
+                { "zelda-large-v0-2", new ZeldaLargeV0PromptTemplate(".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Zelda\\Variants\\PKD_9_KDD_7.json")},
+                { "zelda-large-v0-3", new ZeldaLargeV0PromptTemplate(".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Zelda\\Variants\\PKD_11_KDD_9.json")},
+                { "zelda-large-v0-4", new ZeldaLargeV0PromptTemplate(".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Zelda\\Variants\\PKD_14_KDD_11.json")},
+                { "zelda-large-v0-5", new ZeldaLargeV0PromptTemplate(".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Zelda\\Variants\\PKD_17_KDD_14.json")},
+                { "zelda-large-v0-6", new ZeldaLargeV0PromptTemplate(".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Zelda\\Variants\\PKD_20_KDD_16.json")},
+                { "zelda-large-v0-7", new ZeldaLargeV0PromptTemplate(".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Zelda\\Variants\\PKD_23_KDD_18.json")},
+            };
         }
     }
 }

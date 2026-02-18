@@ -1,10 +1,11 @@
-﻿using LLMPromptProcessor.PromptTemplates;
-
+﻿
 namespace PcgBenchmark.BenchmarkPromptTemplates.BenchmarkTemplates.Zelda
 {
     using GeneratorViewModel;
+    using LLMPromptProcessor.PromptTemplates;
 
     using System.Collections.Generic;
+    using System.Text.Json;
     using System.Text.Json.Serialization;
 
     public class ZeldaPromptTemplateBase : PromptTemplateV1
@@ -22,6 +23,22 @@ namespace PcgBenchmark.BenchmarkPromptTemplates.BenchmarkTemplates.Zelda
             /// </summary>
             [JsonPropertyName("key_door")]
             public int KeyDoorDistance { get; set; }
+        }
+
+        protected ControlParameters controlParameters = new();
+
+        public ZeldaPromptTemplateBase(string jsonPath)
+        {
+            try
+            {
+                var jsonString = File.ReadAllText(jsonPath);
+                this.controlParameters = JsonSerializer.Deserialize<ControlParameters>(jsonString);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
         }
 
         protected List<MapTile> GetMapTiles(int targetEnemies)
