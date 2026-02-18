@@ -2,6 +2,7 @@
 namespace PcgBenchmark.BenchmarkPromptTemplates.BenchmarkTemplates.Zelda
 {
     using GeneratorViewModel;
+
     using LLMPromptProcessor.PromptTemplates;
 
     using System.Collections.Generic;

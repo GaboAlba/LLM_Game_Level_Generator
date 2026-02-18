@@ -1,7 +1,5 @@
 namespace UnitTests
 {
-    using System.ComponentModel;
-
     using GeneratorViewModel;
 
     public class GeneralElementsTests

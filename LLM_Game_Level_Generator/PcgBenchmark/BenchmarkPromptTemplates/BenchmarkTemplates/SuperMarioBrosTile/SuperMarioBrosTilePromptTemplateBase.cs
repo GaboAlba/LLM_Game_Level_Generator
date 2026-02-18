@@ -1,7 +1,8 @@
 ﻿namespace PcgBenchmark.BenchmarkPromptTemplates.BenchmarkTemplates.SuperMarioBrosTile
 {
-    using LLMPromptProcessor.PromptTemplates;
     using GeneratorViewModel;
+
+    using LLMPromptProcessor.PromptTemplates;
 
     using System.Collections.Generic;
     using System.Text.Json;

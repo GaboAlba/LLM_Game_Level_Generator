@@ -57,7 +57,7 @@ namespace PcgBenchmark.BenchmarkPromptTemplates.BenchmarkTemplates.DangerousDave
                     var currentPlayerStartPositionY = this.controlParameters.PlayerStartPositionY;
                     var currentExitPositionX = this.controlParameters.ExitPositionX;
                     var currentExitPositionY = this.controlParameters.ExitPositionY;
-                    
+
                     // Ensure these are always inside the map
                     this.controlParameters.PlayerStartPositionX = this.controlParameters.PlayerStartPositionX >= int.Parse(this.Width) ? int.Parse(this.Width) - 1 : currentPlayerStartPositionX;
                     this.controlParameters.PlayerStartPositionY = this.controlParameters.PlayerStartPositionY >= int.Parse(this.Height) ? int.Parse(this.Height) - 1 : currentPlayerStartPositionY;

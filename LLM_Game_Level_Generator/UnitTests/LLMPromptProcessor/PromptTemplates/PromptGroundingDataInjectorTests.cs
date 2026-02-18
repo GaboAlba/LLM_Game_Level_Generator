@@ -1,9 +1,10 @@
 namespace UnitTests
 {
-    using System.Collections.ObjectModel;
-
     using GeneratorViewModel;
+
     using LLMGenCoreLib.PromptTemplates;
+
+    using System.Collections.ObjectModel;
 
     public class PromptGroundingDataInjectorTests
     {

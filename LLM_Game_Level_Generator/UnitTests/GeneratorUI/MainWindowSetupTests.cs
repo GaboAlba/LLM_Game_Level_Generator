@@ -1,6 +1,7 @@
 namespace UnitTests
 {
     using GeneratorUI;
+
     using GeneratorViewModel;
 
     [Collection("WPF")]

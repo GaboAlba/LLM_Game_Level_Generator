@@ -1,9 +1,8 @@
 namespace UnitTests
 {
-    using System.Text.Json;
-
     using ExternalServices.Clients;
-    using ExternalServices.Contract;
+
+    using System.Text.Json;
 
     public class LlmClientBaseTests
     {

@@ -5,7 +5,6 @@
     using LLMPromptProcessor;
     using LLMPromptProcessor.PromptTemplates;
 
-    using System.Collections;
     using System.Text;
 
     public class PromptGroundingDataInjector
@@ -56,7 +55,7 @@
             outputString.AppendLine(string.Empty);
             outputString.AppendLine("Tile Character|Tile Name|Tile Description|Minimum Number Of Tile|Maximum Number Of Tiles");
             outputString.AppendLine("---|---|---|---|---");
-            foreach ( var item in list)
+            foreach (var item in list)
             {
                 outputString.AppendLine($"{item.TileCharacter}|{item.TileName}|{item.TileDescription}|{item.MinimumNumberOfTiles}|{item.MaximumNumberOfTiles}");
             }

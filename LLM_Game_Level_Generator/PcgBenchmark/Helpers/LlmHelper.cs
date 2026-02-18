@@ -47,6 +47,21 @@
             }
         }
 
+        internal static ISet<string> GetValidModels()
+        {
+            return new HashSet<string>
+            {
+                "gpt-4.1",
+                "gpt-5.2"
+            };
+        }
+
+        internal static bool IsValidModel(string model, out ISet<string> validModels)
+        {
+            validModels = GetValidModels();
+            return validModels.Contains(model);
+        }
+
         private static Dictionary<string, string> GetApiKeys()
         {
             try

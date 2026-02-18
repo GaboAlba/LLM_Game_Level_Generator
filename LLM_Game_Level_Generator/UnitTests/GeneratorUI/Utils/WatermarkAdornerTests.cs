@@ -1,10 +1,9 @@
 namespace UnitTests
 {
-    using System.Windows;
+    using GeneratorUI.Utils;
+
     using System.Windows.Controls;
     using System.Windows.Media;
-
-    using GeneratorUI.Utils;
 
     [Collection("WPF")]
     public class WatermarkAdornerTests
