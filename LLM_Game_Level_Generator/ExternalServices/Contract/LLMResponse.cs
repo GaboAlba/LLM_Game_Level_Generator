@@ -8,7 +8,7 @@
         /// Unique identifier for this response. Useful for debugging in the future
         /// </summary>
         public required string Id { get; set; }
-        
+
         /// <summary>
         /// Model Id used to generate the response
         /// </summary>

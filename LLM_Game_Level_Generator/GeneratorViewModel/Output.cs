@@ -4,8 +4,8 @@
 
     public class Output : INotifyPropertyChanged
     {
-        public string GeneratedMap 
-        { 
+        public string GeneratedMap
+        {
             get;
             set
             {

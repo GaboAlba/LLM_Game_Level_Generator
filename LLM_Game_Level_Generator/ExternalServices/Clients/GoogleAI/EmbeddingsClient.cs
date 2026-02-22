@@ -11,9 +11,10 @@
 
         public EmbeddingsClient(string apiKey)
             : base(
-                  model:"modelString",
-                  apiKey:apiKey,
-                  clientName: nameof(EmbeddingsClient)) { }
+                  model: "modelString",
+                  apiKey: apiKey,
+                  clientName: nameof(EmbeddingsClient))
+        { }
 
         public List<double> GetEmbeddingVector(string text)
         {

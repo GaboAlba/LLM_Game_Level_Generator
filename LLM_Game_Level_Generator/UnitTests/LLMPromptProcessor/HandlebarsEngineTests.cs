@@ -1,6 +1,5 @@
 namespace UnitTests
 {
-    using LLMGenCoreLib.PromptTemplates;
     using LLMPromptProcessor;
     using LLMPromptProcessor.PromptTemplates;
 

@@ -38,7 +38,7 @@ namespace ExternalServices.Clients.OpenAi
                   topP: 0.9f,
                   frequencyPenalty: 0.3f,
                   presencePenalty: 0,
-                  clientName:nameof(ResponsesClient))
+                  clientName: nameof(ResponsesClient))
         {
             var clientOptions = new OpenAIClientOptions
             {
@@ -75,15 +75,23 @@ namespace ExternalServices.Clients.OpenAi
 
             var responseItems = this.CreateOpenAIResponseItemList(request);
 
-            var openAIResponse = await this.responseClient.CreateResponseAsync(responseItems, options);
-
-            var reasoningMessage = openAIResponse.Value.OutputItems.Where(x => x is ReasoningResponseItem).First() as ReasoningResponseItem;
-            if (reasoningMessage != null)
+            try
             {
-                reasoningProgress?.Report(reasoningMessage.GetSummaryText());
-            }
+                var openAIResponse = await this.responseClient.CreateResponseAsync(responseItems, options);
 
-            return this.GetLLMResponseFromResponsesApiResponse(openAIResponse.Value);
+                var reasoningMessage = openAIResponse.Value.OutputItems.Where(x => x is ReasoningResponseItem).FirstOrDefault() as ReasoningResponseItem;
+                if (reasoningMessage != null)
+                {
+                    reasoningProgress?.Report(reasoningMessage.GetSummaryText());
+                }
+
+                return this.GetLLMResponseFromResponsesApiResponse(openAIResponse.Value);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                throw;
+            }
         }
 
         public async Task<LLMResponse> GetResponseStreamAsync(LLMRequest request, IProgress<string>? reasoningProgress)
@@ -121,7 +129,7 @@ namespace ExternalServices.Clients.OpenAi
                                 reasoningProgress?.Report(sb.ToString());
                             }
                         }
-                        
+
                         break;
 
                     case StreamingResponseOutputTextDeltaUpdate delta
@@ -142,7 +150,7 @@ namespace ExternalServices.Clients.OpenAi
 
         private ResponseCreationOptions SetResponseCreationOptions(LLMRequest request, ResponseTextFormat? responseTextFormat = null)
         {
-            var responseCreationOptions =  new ResponseCreationOptions
+            var responseCreationOptions = new ResponseCreationOptions
             {
                 MaxOutputTokenCount = request.MaxOutputTokens,
                 TruncationMode = request.Truncation,

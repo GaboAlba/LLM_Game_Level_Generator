@@ -1,8 +1,8 @@
 namespace UnitTests
 {
-    using System.Text.Json;
-
     using GeneratorViewModel;
+
+    using System.Text.Json;
 
     public class MapTests
     {

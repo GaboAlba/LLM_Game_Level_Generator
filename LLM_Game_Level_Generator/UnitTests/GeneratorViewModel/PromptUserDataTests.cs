@@ -1,9 +1,9 @@
 namespace UnitTests
 {
+    using GeneratorViewModel;
+
     using System.Collections.ObjectModel;
     using System.Text.Json;
-
-    using GeneratorViewModel;
 
     public class PromptUserDataTests
     {

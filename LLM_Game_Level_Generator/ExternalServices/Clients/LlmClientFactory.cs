@@ -1,6 +1,5 @@
 ﻿namespace ExternalServices.Clients
 {
-    using ExternalServices.Clients.GoogleAI;
     using ExternalServices.Clients.OpenAi;
     using ExternalServices.Contract;
 

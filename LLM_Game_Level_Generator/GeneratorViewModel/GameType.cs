@@ -1,7 +1,5 @@
 ﻿namespace GeneratorViewModel
 {
-    using System.ComponentModel;
-
     public enum GameType
     {
         Other,
