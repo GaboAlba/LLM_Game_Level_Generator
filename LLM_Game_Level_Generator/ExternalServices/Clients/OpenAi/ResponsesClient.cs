@@ -160,6 +160,7 @@ namespace ExternalServices.Clients.OpenAi
                 {
                     TextFormat = responseTextFormat,
                 },
+                ServiceTier = ResponseServiceTier.Flex, // This wnsures lower costs (equivalent to the Batch API)
             };
 
             if (this.ReasoningModels.Contains(request.Model) && request.ReasoningOptions != null)
