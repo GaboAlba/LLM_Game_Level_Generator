@@ -25,7 +25,7 @@ namespace PcgBenchmark.BenchmarkPromptTemplates.BenchmarkTemplates.LodeRunnerTil
             public int RopesCount { get; set; }
         }
 
-        protected ControlParameters controlParameters = new();
+        public ControlParameters controlParameters { get; }
 
         public LodeRunnerPromptTemplateBase(string jsonPath)
         {

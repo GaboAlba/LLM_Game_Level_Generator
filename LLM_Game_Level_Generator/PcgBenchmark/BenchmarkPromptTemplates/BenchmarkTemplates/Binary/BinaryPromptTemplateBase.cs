@@ -1,8 +1,7 @@
-﻿using LLMPromptProcessor.PromptTemplates;
-
-namespace PcgBenchmark.BenchmarkPromptTemplates.BenchmarkTemplates.Binary
+﻿namespace PcgBenchmark.BenchmarkPromptTemplates.BenchmarkTemplates.Binary
 {
     using GeneratorViewModel;
+    using LLMPromptProcessor.PromptTemplates;
 
     using System.Collections.Generic;
     using System.Text.Json;
@@ -19,7 +18,7 @@ namespace PcgBenchmark.BenchmarkPromptTemplates.BenchmarkTemplates.Binary
             public int PathLength { get; set; }
         }
 
-        protected ControlParameters controlParameters = new();
+        public ControlParameters controlParameters { get; }
 
         public BinaryPromptTemplateBase(string jsonPath)
         {

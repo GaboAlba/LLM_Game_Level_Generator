@@ -8,14 +8,12 @@
     {
         [SetsRequiredMembers]
         public DDaveComplexV0PromptTemplate(string jsonPath)
-            : base(jsonPath)
+            : base(jsonPath, "11", "7")
         {
             this.GameName = "Dangerous Dave";
             this.GameDescription = "This is a small discrete version of the DOS game Dangerous Dave similar to the one implemented in the PCGRL Framework. Dangerous dave is a small platformer where you need to get a key avoid spikes and collect diamonds and get to exit.";
             this.LevelName = "ddave-complex-v0";
             this.LevelDescription = "";
-            this.Width = "11";
-            this.Height = "7";
             this.Tiles = PromptGroundingDataInjector.ListToString(this.GetMapTiles(int.Parse(this.Height), int.Parse(this.Width)));
             this.GameType = "Platformer";
             this.GameGenre = "Puzzle";

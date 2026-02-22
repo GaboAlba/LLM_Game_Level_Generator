@@ -26,7 +26,7 @@ namespace PcgBenchmark.BenchmarkPromptTemplates.BenchmarkTemplates.Zelda
             public int KeyDoorDistance { get; set; }
         }
 
-        protected ControlParameters controlParameters = new();
+        public ControlParameters controlParameters { get; }
 
         public ZeldaPromptTemplateBase(string jsonPath)
         {

@@ -10,10 +10,19 @@
     {
         internal struct ConsoleOutput
         {
+            public ConsoleOutput()
+            {
+                this.BenchmarksToRun = new Dictionary<string, object>();
+                this.RawOutput = new Dictionary<string, string>();
+                this.Output = new Dictionary<string, List<List<string>>>();
+                this.DebugMessage = string.Empty;
+                this.Error = string.Empty;
+            }
+
             /// <summary>
             /// 
             /// </summary>
-            public Dictionary<string, PromptTemplateV1> BenchmarksToRun { get; internal set; }
+            public Dictionary<string, object> BenchmarksToRun { get; internal set; }
 
             /// <summary>
             /// 
@@ -77,7 +86,7 @@
             // TODO: Parallelize this so that it runs faster
             foreach (var benchmark in output.BenchmarksToRun)
             {
-                var prompt = handleBarsEngine.ParsePrompt(benchmark.Value);
+                var prompt = handleBarsEngine.ParsePrompt(benchmark.Value as PromptTemplateV1);
                 if (prompt != null)
                 {
                     try
@@ -97,7 +106,7 @@
 
             // Generate the JSON output file to be able to pass it to the Python benchmark runner
             var jsonString = JsonSerializer.Serialize(output);
-            var jsonPath = ".\\.\\tools\\pcg_benchmark\\pcg_results.json";
+            var jsonPath = "..\\..\\..\\..\\tools\\pcg_benchmark\\pcg_results.json";
             File.WriteAllText(jsonPath, jsonString);
             return output;
         }

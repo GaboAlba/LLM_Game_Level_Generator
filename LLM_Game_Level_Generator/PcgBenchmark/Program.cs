@@ -2,6 +2,6 @@
 {
     internal partial class Program
     {
-        static void Main(string[] args) => Run(args);
+        static async Task Main(string[] args) => await Run(args);
     }
 }

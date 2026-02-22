@@ -21,8 +21,7 @@
             {
                 var messages = llmClient.BuildMessages(prompt);
                 var request = llmClient.BuildRequest(messages, false);
-                var responsesClient = llmClient as ResponsesClient;
-                var response = await llmClient.GetResponseAsync(request, null);
+                var response = await llmClient.GetResponseAsync(request, null) ?? null;
 
                 if (response != null &&
                     response?.Error?.Code == null &&

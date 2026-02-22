@@ -19,7 +19,7 @@ namespace PcgBenchmark.BenchmarkPromptTemplates.BenchmarkTemplates.Sokoban
             public int CratesCount { get; set; }
         }
 
-        protected ControlParameters controlParameters = new();
+        public ControlParameters controlParameters { get; }
 
         public SokobanPromptTemplateBase(string jsonPath)
         {

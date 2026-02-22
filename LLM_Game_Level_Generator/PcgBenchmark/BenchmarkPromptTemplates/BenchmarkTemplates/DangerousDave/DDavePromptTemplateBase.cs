@@ -1,8 +1,7 @@
-﻿using LLMPromptProcessor.PromptTemplates;
-
-namespace PcgBenchmark.BenchmarkPromptTemplates.BenchmarkTemplates.DangerousDave
+﻿namespace PcgBenchmark.BenchmarkPromptTemplates.BenchmarkTemplates.DangerousDave
 {
     using GeneratorViewModel;
+    using LLMPromptProcessor.PromptTemplates;
 
     using System.Collections.Generic;
     using System.Text.Json;
@@ -43,10 +42,12 @@ namespace PcgBenchmark.BenchmarkPromptTemplates.BenchmarkTemplates.DangerousDave
             public int DiamondsCount { get; set; }
         }
 
-        protected ControlParameters controlParameters = new();
+        public ControlParameters controlParameters { get; }
 
-        public DDavePromptTemplateBase(string jsonPath)
+        public DDavePromptTemplateBase(string jsonPath, string width, string height)
         {
+            this.Width = width;
+            this.Height = height;
             try
             {
                 var jsonString = File.ReadAllText(jsonPath);

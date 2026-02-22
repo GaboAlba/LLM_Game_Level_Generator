@@ -25,7 +25,7 @@ namespace PcgBenchmark.BenchmarkPromptTemplates.BenchmarkTemplates.MiniDungeons
             public int SolutionLength { get; set; }
         }
 
-        protected ControlParameters controlParameters = new();
+        public ControlParameters controlParameters { get; }
 
         public MiniDungeonsPromptTemplateBase(string jsonPath)
         {

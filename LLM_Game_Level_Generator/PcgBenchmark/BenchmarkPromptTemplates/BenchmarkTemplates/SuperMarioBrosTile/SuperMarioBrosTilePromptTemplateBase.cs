@@ -31,7 +31,7 @@
             public int CoinsCount { get; set; }
         }
 
-        protected ControlParameters controlParameters = new();
+        public ControlParameters controlParameters { get; }
 
         public SuperMarioBrosTilePromptTemplateBase(string jsonPath)
         {

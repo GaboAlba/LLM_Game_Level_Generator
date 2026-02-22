@@ -75,15 +75,23 @@ namespace ExternalServices.Clients.OpenAi
 
             var responseItems = this.CreateOpenAIResponseItemList(request);
 
-            var openAIResponse = await this.responseClient.CreateResponseAsync(responseItems, options);
-
-            var reasoningMessage = openAIResponse.Value.OutputItems.Where(x => x is ReasoningResponseItem).First() as ReasoningResponseItem;
-            if (reasoningMessage != null)
+            try
             {
-                reasoningProgress?.Report(reasoningMessage.GetSummaryText());
-            }
+                var openAIResponse = await this.responseClient.CreateResponseAsync(responseItems, options);
 
-            return this.GetLLMResponseFromResponsesApiResponse(openAIResponse.Value);
+                var reasoningMessage = openAIResponse.Value.OutputItems.Where(x => x is ReasoningResponseItem).FirstOrDefault() as ReasoningResponseItem;
+                if (reasoningMessage != null)
+                {
+                    reasoningProgress?.Report(reasoningMessage.GetSummaryText());
+                }
+
+                return this.GetLLMResponseFromResponsesApiResponse(openAIResponse.Value);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                throw;
+            }
         }
 
         public async Task<LLMResponse> GetResponseStreamAsync(LLMRequest request, IProgress<string>? reasoningProgress)
