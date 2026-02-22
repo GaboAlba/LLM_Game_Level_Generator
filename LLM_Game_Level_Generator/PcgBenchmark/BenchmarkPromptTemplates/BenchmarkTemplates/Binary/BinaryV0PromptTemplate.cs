@@ -21,7 +21,9 @@
             this.GameGenre = "Maze";
             this.DifficultyLevel = "Easy";
             this.HazardLevel = "None";
-            this.CustomConstraints = $"The maze **must** have a minimum path length of {this.controlParameters.PathLength}";
+            this.CustomConstraints = $"The maze **must** have a minimum path length of 28 steps \n\n" +
+                $"To pass the controlabiltiy criteria, the longest shortest path **must** be as close as possible to {this.controlParameters.PathLength}\n\n" +
+                $"The map **must** be creative and entertaining";
         }
     }
 }

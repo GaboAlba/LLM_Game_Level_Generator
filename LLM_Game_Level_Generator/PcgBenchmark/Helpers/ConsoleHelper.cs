@@ -83,8 +83,8 @@
 
             // Call the model
             var handleBarsEngine = new HandlebarsEngine();
-            // TODO: Parallelize this so that it runs faster
-            foreach (var benchmark in output.BenchmarksToRun)
+            var lockObj = new object();
+            var tasks = output.BenchmarksToRun.Select(async benchmark =>
             {
                 var prompt = handleBarsEngine.ParsePrompt(benchmark.Value as PromptTemplateV1);
                 if (prompt != null)
@@ -93,16 +93,24 @@
                     {
                         var outputString = await LlmHelper.InvokeModelAsync(prompt);
                         Console.WriteLine($"LLM Call for benchmark {benchmark.Key} has been successful");
-                        output.RawOutput[benchmark.Key] = outputString;
-                        output.Output[benchmark.Key] = BenchmarkHelper.ConvertToListOfLists(outputString);
+                        lock (lockObj)
+                        {
+                            output.RawOutput[benchmark.Key] = outputString;
+                            output.Output[benchmark.Key] = BenchmarkHelper.ConvertToListOfLists(outputString);
+                        }
                     }
                     catch (Exception ex)
                     {
-                        output.Error = ex.ToString();
-                        return output;
+                        lock (lockObj)
+                        {
+                            output.Error = ex.ToString();
+                        }
                     }
                 }
-            }
+                
+                return output;
+            });
+            await Task.WhenAll(tasks);
 
             // Generate the JSON output file to be able to pass it to the Python benchmark runner
             var jsonString = JsonSerializer.Serialize(output);

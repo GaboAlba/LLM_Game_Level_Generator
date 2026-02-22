@@ -1,5 +1,4 @@
-﻿
-namespace PcgBenchmark.BenchmarkPromptTemplates.BenchmarkTemplates.Zelda
+﻿namespace PcgBenchmark.BenchmarkPromptTemplates.BenchmarkTemplates.Zelda
 {
     using GeneratorViewModel;
 

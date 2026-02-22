@@ -1,8 +1,8 @@
-﻿using LLMPromptProcessor.PromptTemplates;
-
+﻿
 namespace PcgBenchmark.BenchmarkPromptTemplates.BenchmarkTemplates.Sokoban
 {
     using GeneratorViewModel;
+    using LLMPromptProcessor.PromptTemplates;
 
     using System.Collections.Generic;
     using System.Text.Json;
