@@ -33,7 +33,7 @@ namespace ExternalServices.Clients.OpenAi
                   model: "gpt-5.2",
                   apiKey: apiKey,
                   temperature: 0.3f,
-                  maxOutputTokens: 10000,
+                  maxOutputTokens: 20000,
                   topK: 0,
                   topP: 0.9f,
                   frequencyPenalty: 0.3f,
