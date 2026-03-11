@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\Unit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PcgBenchmark", "PcgBenchmark\PcgBenchmark.csproj", "{3B36D267-8E07-4A6B-AD69-33C06C73A1B5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MAUI_UI", "MAUI_UI\MAUI_UI.csproj", "{535C93EF-25DA-443C-8E2D-ED20316D4009}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,11 @@ Global
 		{3B36D267-8E07-4A6B-AD69-33C06C73A1B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3B36D267-8E07-4A6B-AD69-33C06C73A1B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B36D267-8E07-4A6B-AD69-33C06C73A1B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{535C93EF-25DA-443C-8E2D-ED20316D4009}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{535C93EF-25DA-443C-8E2D-ED20316D4009}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{535C93EF-25DA-443C-8E2D-ED20316D4009}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{535C93EF-25DA-443C-8E2D-ED20316D4009}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{535C93EF-25DA-443C-8E2D-ED20316D4009}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
