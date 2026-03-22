@@ -1,5 +1,6 @@
 namespace UnitTests
 {
+    using System.IO;
     using System.Runtime.ExceptionServices;
 
     /// <summary>
@@ -8,9 +9,16 @@ namespace UnitTests
     internal static class StaTestHelper
     {
         private static readonly object AppLock = new();
+        private const string jsonName = "api_keys.json";
 
         private static void EnsureApplication()
         {
+            if (!File.Exists(jsonName))
+            {
+                var jsonString = """[{"Provider":"OpenAI","Key":"mockKey"}]""";
+                File.WriteAllText(jsonName, jsonString);
+            }
+
             lock (AppLock)
             {
                 if (System.Windows.Application.Current == null)
@@ -44,6 +52,8 @@ namespace UnitTests
             {
                 ExceptionDispatchInfo.Capture(exception).Throw();
             }
+
+            File.Delete(jsonName);
         }
 
         public static T RunOnSta<T>(Func<T> func)

@@ -7,7 +7,7 @@ namespace UnitTests
     [Collection("WPF")]
     public class MainWindowSetupTests
     {
-        [Fact(Skip ="Needs local path and api_key. Needs architecture change")]
+        [Fact]
         public void Start_InitializesMapTileOptionsAsEmpty()
         {
             StaTestHelper.RunOnSta(() =>
@@ -19,7 +19,7 @@ namespace UnitTests
             });
         }
 
-        [Fact(Skip = "Needs local path and api_key. Needs architecture change")]
+        [Fact]
         public void Start_InitializesGeneralElementsWithEmptyStrings()
         {
             StaTestHelper.RunOnSta(() =>
@@ -34,7 +34,7 @@ namespace UnitTests
             });
         }
 
-        [Fact(Skip = "Needs local path and api_key. Needs architecture change")]
+        [Fact]
         public void Start_InitializesMapConstraintsWithDefaults()
         {
             StaTestHelper.RunOnSta(() =>
@@ -52,7 +52,7 @@ namespace UnitTests
             });
         }
 
-        [Fact(Skip = "Needs local path and api_key. Needs architecture change")]
+        [Fact]
         public void Start_InitializesOutput()
         {
             StaTestHelper.RunOnSta(() =>
@@ -63,7 +63,7 @@ namespace UnitTests
             });
         }
 
-        [Fact(Skip = "Needs local path and api_key. Needs architecture change")]
+        [Fact]
         public void Start_InitializesGameTypeArray()
         {
             StaTestHelper.RunOnSta(() =>
@@ -75,7 +75,7 @@ namespace UnitTests
             });
         }
 
-        [Fact(Skip = "Needs local path and api_key. Needs architecture change")]
+        [Fact]
         public void Start_InitializesDifficultyArray()
         {
             StaTestHelper.RunOnSta(() =>
@@ -87,7 +87,7 @@ namespace UnitTests
             });
         }
 
-        [Fact(Skip = "Needs local path and api_key. Needs architecture change")]
+        [Fact]
         public void Start_InitializesHazardLevelArray()
         {
             StaTestHelper.RunOnSta(() =>
@@ -99,7 +99,7 @@ namespace UnitTests
             });
         }
 
-        [Fact(Skip = "Needs local path and api_key. Needs architecture change")]
+        [Fact]
         public void Start_InitializesFontProperties()
         {
             StaTestHelper.RunOnSta(() =>
@@ -110,7 +110,7 @@ namespace UnitTests
             });
         }
 
-        [Fact(Skip = "Needs local path and api_key. Needs architecture change")]
+        [Fact]
         public void Start_SetsDataContextToSelf()
         {
             StaTestHelper.RunOnSta(() =>

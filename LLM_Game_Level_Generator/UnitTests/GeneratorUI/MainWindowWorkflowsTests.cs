@@ -31,7 +31,7 @@ namespace UnitTests
 
         // IsCurrentSessionModifiedAndNotSaved
 
-        [Fact(Skip = "Needs local path and api_key. Needs architecture change")]
+        [Fact]
         public void IsCurrentSessionModifiedAndNotSaved_AfterInit_ReturnsFalse()
         {
             StaTestHelper.RunOnSta(() =>
@@ -44,7 +44,7 @@ namespace UnitTests
             });
         }
 
-        [Fact(Skip = "Needs local path and api_key. Needs architecture change")]
+        [Fact]
         public void IsCurrentSessionModifiedAndNotSaved_WhenModifiedAndNotSaved_ReturnsTrue()
         {
             StaTestHelper.RunOnSta(() =>
@@ -59,7 +59,7 @@ namespace UnitTests
             });
         }
 
-        [Fact(Skip = "Needs local path and api_key. Needs architecture change")]
+        [Fact]
         public void IsCurrentSessionModifiedAndNotSaved_WhenModifiedAndSaved_ReturnsFalse()
         {
             StaTestHelper.RunOnSta(() =>
@@ -74,7 +74,7 @@ namespace UnitTests
             });
         }
 
-        [Fact(Skip = "Needs local path and api_key. Needs architecture change")]
+        [Fact]
         public void IsCurrentSessionModifiedAndNotSaved_WhenNotModified_ReturnsFalse()
         {
             StaTestHelper.RunOnSta(() =>
@@ -91,7 +91,7 @@ namespace UnitTests
 
         // Reset
 
-        [Fact(Skip = "Needs local path and api_key. Needs architecture change")]
+        [Fact]
         public void Reset_ClearsMapTileOptions()
         {
             StaTestHelper.RunOnSta(() =>
@@ -105,7 +105,7 @@ namespace UnitTests
             });
         }
 
-        [Fact(Skip = "Needs local path and api_key. Needs architecture change")]
+        [Fact]
         public void Reset_ClearsOutputGeneratedMap()
         {
             StaTestHelper.RunOnSta(() =>
@@ -119,7 +119,7 @@ namespace UnitTests
             });
         }
 
-        [Fact(Skip = "Needs local path and api_key. Needs architecture change")]
+        [Fact]
         public void Reset_ClearsUsedCharacters()
         {
             StaTestHelper.RunOnSta(() =>
@@ -136,7 +136,7 @@ namespace UnitTests
             });
         }
 
-        [Fact(Skip = "Needs local path and api_key. Needs architecture change")]
+        [Fact]
         public void Reset_ClearsSaveFilePath()
         {
             StaTestHelper.RunOnSta(() =>
@@ -151,7 +151,7 @@ namespace UnitTests
             });
         }
 
-        [Fact(Skip = "Needs local path and api_key. Needs architecture change")]
+        [Fact]
         public void Reset_ResetsSessionFlags()
         {
             StaTestHelper.RunOnSta(() =>
@@ -169,7 +169,7 @@ namespace UnitTests
 
         // UpdateAllFields
 
-        [Fact(Skip = "Needs local path and api_key. Needs architecture change")]
+        [Fact]
         public void UpdateAllFields_CopiesGeneralElements()
         {
             StaTestHelper.RunOnSta(() =>
@@ -195,7 +195,7 @@ namespace UnitTests
             });
         }
 
-        [Fact(Skip = "Needs local path and api_key. Needs architecture change")]
+        [Fact]
         public void UpdateAllFields_CopiesMapConstraints()
         {
             StaTestHelper.RunOnSta(() =>
@@ -219,7 +219,7 @@ namespace UnitTests
             });
         }
 
-        [Fact(Skip = "Needs local path and api_key. Needs architecture change")]
+        [Fact]
         public void UpdateAllFields_ReplacesMapTileOptions()
         {
             StaTestHelper.RunOnSta(() =>
@@ -244,7 +244,7 @@ namespace UnitTests
             });
         }
 
-        [Fact(Skip = "Needs local path and api_key. Needs architecture change")]
+        [Fact]
         public void UpdateAllFields_ResetsModifiedFlag()
         {
             StaTestHelper.RunOnSta(() =>
@@ -260,7 +260,7 @@ namespace UnitTests
 
         // GeneralElements PropertyChanged marks session as modified
 
-        [Fact(Skip = "Needs local path and api_key. Needs architecture change")]
+        [Fact]
         public void GeneralElements_WhenChanged_MarksSessionAsModified()
         {
             StaTestHelper.RunOnSta(() =>
@@ -276,7 +276,7 @@ namespace UnitTests
 
         // MapConstraints PropertyChanged marks session as modified
 
-        [Fact(Skip = "Needs local path and api_key. Needs architecture change")]
+        [Fact]
         public void MapConstraints_WhenChanged_MarksSessionAsModified()
         {
             StaTestHelper.RunOnSta(() =>
@@ -292,7 +292,7 @@ namespace UnitTests
 
         // TilePropertyChanged - character tracking
 
-        [Fact(Skip = "Needs local path and api_key. Needs architecture change")]
+        [Fact]
         public void TilePropertyChanged_WhenTileCharacterSet_AddsToUsedCharacters()
         {
             StaTestHelper.RunOnSta(() =>
@@ -313,7 +313,7 @@ namespace UnitTests
             });
         }
 
-        [Fact(Skip = "Needs local path and api_key. Needs architecture change")]
+        [Fact]
         public void TilePropertyChanged_WhenTileCharacterCleared_RemovesFromUsedCharacters()
         {
             StaTestHelper.RunOnSta(() =>
@@ -335,7 +335,7 @@ namespace UnitTests
             });
         }
 
-        [Fact(Skip = "Needs local path and api_key. Needs architecture change")]
+        [Fact]
         public void TilePropertyChanged_WhenMultiCharacterSet_DoesNotAddToUsedCharacters()
         {
             StaTestHelper.RunOnSta(() =>
@@ -356,7 +356,7 @@ namespace UnitTests
             });
         }
 
-        [Fact(Skip = "Needs local path and api_key. Needs architecture change")]
+        [Fact]
         public void TilePropertyChanged_MarksSessionAsModified()
         {
             StaTestHelper.RunOnSta(() =>
@@ -377,7 +377,7 @@ namespace UnitTests
 
         // SaveFileAsJson
 
-        [Fact(Skip = "Needs local path and api_key. Needs architecture change")]
+        [Fact]
         public void SaveFileAsJson_WritesJsonToFile()
         {
             StaTestHelper.RunOnSta(() =>
@@ -403,7 +403,7 @@ namespace UnitTests
             });
         }
 
-        [Fact(Skip = "Needs local path and api_key. Needs architecture change")]
+        [Fact]
         public void SaveFileAsJson_SetsSavedFlag()
         {
             StaTestHelper.RunOnSta(() =>
