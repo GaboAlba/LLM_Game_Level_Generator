@@ -26,7 +26,7 @@ namespace UnitTests
             var client = CreateClient();
 
             Assert.Equal(0.3f, client.Temperature);
-            Assert.Equal(10000, client.MaxOutputTokens);
+            Assert.Equal(20000, client.MaxOutputTokens);
             Assert.Equal(0f, client.TopK);
             Assert.Equal(0.9f, client.TopP);
             Assert.Equal(0.3f, client.FrequencyPenalty);
@@ -108,7 +108,7 @@ namespace UnitTests
 
             var request = client.BuildRequest(messages, shouldStream: false);
 
-            Assert.Equal(10000, request.MaxOutputTokens);
+            Assert.Equal(20000, request.MaxOutputTokens);
         }
 
         [Fact]
