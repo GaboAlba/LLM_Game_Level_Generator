@@ -1,0 +1,96 @@
+﻿<Window x:Class="GeneratorUI.ApiKeysWindow"
+        x:Name="apiKeyWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GeneratorUI"
+        mc:Ignorable="d"
+        Title="Api Keys" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Button 
+            Grid.Column="0"
+            Grid.Row="0"
+            Content="Add Key"
+            Click="AddApiKey_Click"/>
+
+        <Button 
+            x:Name="apiKeysSaveButton"
+            Grid.Column="1"
+            Grid.Row="0"
+            Content="Save Keys"
+            Click="SaveApiKeys_Click"/>
+
+        <ListView x:Name="apiKeysList" Grid.Row="1" Grid.ColumnSpan="2" Margin="25,25,25,25" ItemsSource="{Binding LlmApiKeys}">
+            <ListView.View>
+                <GridView ColumnHeaderStringFormat="Api Keys Information">
+                    <GridViewColumn Header="Key Type" Width="400">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox
+                                    Margin="10,10,10,0"
+                                    Height="20"
+                                    MinWidth="50"
+                                    HorizontalAlignment="Stretch"
+                                    Background="White"
+                                    ItemsSource="{Binding ElementName=apiKeyWindow, Path=DataContext.LlmProvidersArray}"
+                                    SelectedItem="{Binding Path=Provider, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    
+                    <GridViewColumn Header="Key" Width="400">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox Text="{Binding Path=Key, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MinWidth="200"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <Grid Grid.Column="1" Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+        
+            <Button
+                Grid.Column="0"
+                Content="OK"
+                HorizontalAlignment="Stretch"
+                Click="ApiKeyOkButton_Click"
+                Margin="10"/>
+
+            <Button
+                Grid.Column="1"
+                Content="Cancel"
+                HorizontalAlignment="Stretch"
+                Click="ApiKeyCancelButton"
+                Margin="10"/>
+        </Grid>
+        <TextBlock
+            x:Name="savedKeysTextBlock"
+            Text="Keys Saved!"
+            FontSize="52"
+            Grid.ColumnSpan="2"
+            Grid.RowSpan="3" 
+            MinWidth="100" 
+            HorizontalAlignment="Center" 
+            VerticalAlignment="Center"
+            Background="Beige"
+            Visibility="Hidden"
+            />
+    </Grid>
+</Window>

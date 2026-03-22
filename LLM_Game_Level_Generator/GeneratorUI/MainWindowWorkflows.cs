@@ -196,6 +196,7 @@ namespace GeneratorUI
             string responseMap = string.Empty;
             try
             {
+                this.Output.GeneratedMap = string.Empty;
                 this.progressBar1.IsIndeterminate = true;
                 var prompt = PromptGroundingDataInjector.CreatePrompt(this.promptUserData);
                 var messages = this.LlmClient.BuildMessages(prompt);
@@ -237,6 +238,7 @@ namespace GeneratorUI
             catch (Exception ex)
             {
                 responseMap = ex.Message;
+                this.Output.GeneratedMap = responseMap;
                 Console.WriteLine(ex);
             }
             finally
@@ -256,10 +258,6 @@ namespace GeneratorUI
                 var request = this.LlmClient.BuildRequest(messages);
 
                 var responsesClient = this.LlmClient as ResponsesClient;
-                responsesClient.ResponseTextFormat = ResponseTextFormat.CreateJsonSchemaFormat(
-                    jsonSchemaFormatName: "2d-grid-optimizer-format",
-                    jsonSchema: BinaryData.FromString(PromptUserData.GetJsonSchema()),
-                    jsonSchemaIsStrict: true);
 
                 var ui = SynchronizationContext.Current;
                 var progress = new Progress<string>(text =>
@@ -302,6 +300,12 @@ namespace GeneratorUI
         {
             this.FontSize *= 0.9;
             this.CalculateOutputLineHeight();
+        }
+
+        private void ApiKeysWindow_Click(object sender, RoutedEventArgs e)
+        {
+            var apiKeysWindow = new ApiKeysWindow();
+            apiKeysWindow.ShowDialog();
         }
 
         private void Reset()
