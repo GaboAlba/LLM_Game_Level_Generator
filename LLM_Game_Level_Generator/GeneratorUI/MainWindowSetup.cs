@@ -20,16 +20,20 @@
         public Array HazardLevelArray { get; set; }
         public FontProperties FontProperties { get; set; }
 
+        // ApiKeysUI section
+        public Array LlmProvidersArray { get; set; }
+        public ObservableCollection<GeneratorViewModel.LlmApiKey> llmApiKeys { get; set; }
+
         private HashSet<string> usedCharacters = new HashSet<string>();
         private ILlmClient LlmClient;
-        private readonly Dictionary<string, string> apiKeys = GetApiKeys();
+        private Dictionary<string, string> apiKeys;
         private PromptUserData promptUserData;
         private string saveFilePath;
         private bool savedInCurrentSession = false;
         private bool modifiedInCurrentSession = false;
 
         // TODO: Need to change this to relative path for distribution.
-        private const string apiKeysDir = "C:\\Users\\Gabriel\\OneDrive\\Documents\\GitHub\\LLM_Game_Level_Generator\\LLM_Game_Level_Generator\\ExternalServices\\api_keys.json";
+        private const string ApiKeyFileName = "api_keys.json";
         public void Start()
         {
             this.MapTileOptions = new ObservableCollection<MapTile>();
@@ -62,6 +66,7 @@
                 MapConstraints = this.MapConstraints,
             };
 
+            this.apiKeys = this.GetApiKeys();
             this.LlmClient = LlmClientFactory.CreateClient(LLMProviders.Providers.OpenAI, LLMProviders.OpenAIClients.Responses, this.apiKeys.GetValueOrDefault(LLMProviders.Providers.OpenAI.ToString()));
 
             // Initialize arrays for combo boxes
@@ -69,21 +74,55 @@
             this.DifficultyArray = Enum.GetValues<DifficultyLevel>();
             this.HazardLevelArray = Enum.GetValues<Density>();
 
+            // ApiKeyUI init
+            this.LlmProvidersArray = Enum.GetValues<LlmProviders>();
+
             this.FontProperties = new();
             this.CalculateOutputLineHeight();
         }
 
-        private static Dictionary<string, string> GetApiKeys()
+        private Dictionary<string, string> GetApiKeys()
         {
             try
             {
-                var jsonString = File.ReadAllText(apiKeysDir);
-                return JsonSerializer.Deserialize<Dictionary<string, string>>(jsonString);
+                var jsonString = File.ReadAllText(ApiKeyFileName);
+                var jsonObject = JsonSerializer.Deserialize<ObservableCollection<ExternalServices.Clients.LlmApiKey>>(jsonString);
+                var keysDict = new Dictionary<string, string>();
+                foreach (var obj in jsonObject)
+                {
+                    var key = obj.Provider;
+                    var value = obj.Key;
+                    keysDict.TryAdd(key.ToString(), value);
+                }
+
+                if (keysDict.Count > 0)
+                {
+                    return keysDict;
+                }
+                else
+                {
+                    throw new Exception("ERROR: No kays found!");
+                }
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"ERROR: API Keys deserializing failed. Check the existence and/or format of the json file. Exception: {ex}");
-                throw;
+                // Need to trigger the Api Keys window and await until it is closed
+                // Window Open
+                // await close
+                var apiKeyWindow = new ApiKeysWindow();
+                this.Show();
+                apiKeyWindow.Owner = this;
+                var result = apiKeyWindow.ShowDialog();
+
+                if (result == true)
+                {
+                    return this.GetApiKeys();
+                }
+                else
+                {
+                    throw ex;
+                }
             }
         }
     }
