@@ -203,6 +203,13 @@ namespace GeneratorUI
                 var request = this.LlmClient.BuildRequest(messages, false);
 
                 var responsesClient = this.LlmClient as ResponsesClient;
+                responsesClient?.ResponseTextFormat = ResponseTextFormat.CreateJsonSchemaFormat(
+                   jsonSchemaFormatName: "2d-map-grid-format",
+                   jsonSchema: BinaryData.FromString(PromptUserData.GetMapResponseJsonSchema(
+                       height: this.MapConstraints.Height,
+                       width: this.MapConstraints.Width,
+                       mapTiles: this.MapTileOptions)),
+                   jsonSchemaIsStrict: true);
 
                 var response = new LLMResponse { Id = "0" };
                 var ui = SynchronizationContext.Current;
@@ -225,7 +232,14 @@ namespace GeneratorUI
                     response?.Error?.Message == null &&
                     response?.OutputText != null)
                 {
-                    responseMap = response.OutputText;
+                    var responseObject = JsonSerializer.Deserialize<Map>(response.OutputText);
+                    string responseLines = string.Empty;
+                    foreach(var line in responseObject.MapGrid.EnumerateLines())
+                    {
+                        responseLines += line.ToString() + '\n';
+                    }
+
+                    responseMap = responseLines;
                 }
                 else
                 {
