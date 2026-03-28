@@ -34,7 +34,7 @@
         <ListView x:Name="apiKeysList" Grid.Row="1" Grid.ColumnSpan="2" Margin="25,25,25,25" ItemsSource="{Binding LlmApiKeys}">
             <ListView.View>
                 <GridView ColumnHeaderStringFormat="Api Keys Information">
-                    <GridViewColumn Header="Key Type" Width="400">
+                    <GridViewColumn Header="Key Type" Width="100">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox
@@ -53,6 +53,17 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox Text="{Binding Path=Key, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MinWidth="200"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Header="" Width="100">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button
+                                    Content="👁"
+                                    Width="Auto"
+                                    Click="ShowApiKey_Click"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

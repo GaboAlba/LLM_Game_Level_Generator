@@ -8,6 +8,7 @@
     using System.IO;
     using System.Text.Json;
     using System.Windows;
+    using System.Windows.Controls;
 
     /// <summary>
     /// Interaction logic for Window1.xaml
@@ -34,6 +35,8 @@
                 this.LlmApiKeys = new ObservableCollection<GeneratorViewModel.LlmApiKey>();
             }
 
+            this.HideKeysOnStartup();
+
             this.DataContext = this;
         }
 
@@ -43,6 +46,7 @@
             {
                 Provider = LlmProviders.OpenAI,
                 Key = string.Empty,
+                IsKeyHidden = true
             };
             key.PropertyChanged += this.KeyPropertyChanged;
             this.LlmApiKeys.Add(key);
@@ -77,6 +81,25 @@
         {
             this.DialogResult = false;
             this.Close();
+        }
+
+        private void ShowApiKey_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (var keyObject in this.LlmApiKeys)
+            {
+                if (sender is Button button && button.DataContext == keyObject)
+                {
+                    keyObject.IsKeyHidden = !keyObject.IsKeyHidden; // Invert state
+                }
+            }
+        }
+
+        private void HideKeysOnStartup()
+        {
+            foreach (var keyObject in this.LlmApiKeys)
+            {
+                keyObject.IsKeyHidden = true;
+            }
         }
     }
 }

@@ -18,11 +18,32 @@
 
         public string Key
         {
-            get;
+            get
+            {
+                if (this.IsKeyHidden)
+                {
+                    return new string('*', field.Length);
+                }
+                else
+                {
+                    return field;
+                }
+            }
             set
             {
                 field = value;
                 this.OnPropertyChanged(nameof(this.Key));
+            }
+        }
+
+        public bool IsKeyHidden
+        {
+            get;
+            set
+            {
+                // Setting key to changed instead of the bool value to force update display
+                field = value;
+                this.OnPropertyChanged(nameof(this.Key)); 
             }
         }
 
