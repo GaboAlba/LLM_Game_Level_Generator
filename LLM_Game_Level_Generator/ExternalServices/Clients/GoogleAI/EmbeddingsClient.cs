@@ -4,7 +4,7 @@
 
     public class EmbeddingsClient : LlmClientBase
     {
-        protected override ISet<string> AllowedModels => new HashSet<string>
+        public override ISet<string> AllowedModels => new HashSet<string>
         {
             "SampleModel",
         };

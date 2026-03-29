@@ -21,7 +21,7 @@ namespace ExternalServices.Clients.OpenAi
 
         private readonly OpenAIResponseClient responseClient;
 
-        protected override ISet<string> AllowedModels => new HashSet<string>
+        public override ISet<string> AllowedModels => new HashSet<string>
         {
             // TODO: This must be moved to a YAML or JSON config for better scalability
             "gpt-4.1",
