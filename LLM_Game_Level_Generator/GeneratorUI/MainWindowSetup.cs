@@ -1,6 +1,7 @@
 ﻿namespace GeneratorUI
 {
     using ExternalServices.Clients;
+    using ExternalServices.Clients.OpenAi;
     using ExternalServices.Contract;
 
     using GeneratorViewModel;
@@ -15,10 +16,12 @@
         public GeneralElements GeneralElements { get; set; }
         public MapConstraints MapConstraints { get; set; }
         public Output Output { get; set; }
+        public Model Model { get; set; }
         public Array GameTypeArray { get; set; }
         public Array DifficultyArray { get; set; }
         public Array HazardLevelArray { get; set; }
         public FontProperties FontProperties { get; set; }
+        public Array AvailableModels { get; set; }
 
         // ApiKeysUI section
         public Array LlmProvidersArray { get; set; }
@@ -31,6 +34,7 @@
         private string saveFilePath;
         private bool savedInCurrentSession = false;
         private bool modifiedInCurrentSession = false;
+        
 
         // TODO: Need to change this to relative path for distribution.
         private const string ApiKeyFileName = "api_keys.json";
@@ -68,6 +72,17 @@
 
             this.apiKeys = this.GetApiKeys();
             this.LlmClient = LlmClientFactory.CreateClient(LLMProviders.Providers.OpenAI, LLMProviders.OpenAIClients.Responses, this.apiKeys.GetValueOrDefault(LLMProviders.Providers.OpenAI.ToString()));
+            this.Model = new()
+            {
+                SelectedModel = string.Empty,
+            };
+
+            if (this.LlmClient is LlmClientBase baseClient)
+            {
+                this.AvailableModels = baseClient.AllowedModels.ToArray();
+                this.Model.SelectedModel = baseClient.Model;
+                this.Model.PropertyChanged += this.ModelPropertyChanged;
+            }
 
             // Initialize arrays for combo boxes
             this.GameTypeArray = Enum.GetValues<GameType>();

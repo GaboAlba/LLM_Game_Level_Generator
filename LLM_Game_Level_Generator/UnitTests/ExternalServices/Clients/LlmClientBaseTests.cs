@@ -8,7 +8,7 @@ namespace UnitTests
     {
         private class TestLlmClient : LlmClientBase
         {
-            protected override ISet<string> AllowedModels => new HashSet<string> { "test-model", "test-model-2" };
+            public override ISet<string> AllowedModels => new HashSet<string> { "test-model", "test-model-2" };
 
             public TestLlmClient(
                 string model,

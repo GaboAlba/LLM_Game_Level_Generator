@@ -1,6 +1,7 @@
 ﻿#pragma warning disable OPENAI001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
 namespace GeneratorUI
 {
+    using ExternalServices.Clients;
     using ExternalServices.Clients.OpenAi;
     using ExternalServices.Contract;
 
@@ -389,6 +390,18 @@ namespace GeneratorUI
             {
                 this.modifiedInCurrentSession = true;
                 this.savedInCurrentSession = false;
+            }
+        }
+
+        private void ModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (
+                sender != null && 
+                sender is Model model && 
+                model.SelectedModel != null &&
+                this.LlmClient is LlmClientBase baseClient)
+            {                
+                    baseClient.Model = model.SelectedModel;
             }
         }
 

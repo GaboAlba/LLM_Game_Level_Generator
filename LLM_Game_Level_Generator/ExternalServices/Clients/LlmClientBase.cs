@@ -16,7 +16,7 @@
         public float FrequencyPenalty { get; set; }
         public float PresencePenalty { get; set; }
 
-        protected abstract ISet<string> AllowedModels { get; }
+        public abstract ISet<string> AllowedModels { get; }
         protected HashSet<string> ReasoningModels = new()
         {
             "gpt-5",
