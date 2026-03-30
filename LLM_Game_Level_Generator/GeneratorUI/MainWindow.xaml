@@ -232,7 +232,7 @@
                                 <GridViewColumn Header="Minimum Number Of Tiles" Width="Auto">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBox Text="{Binding Path=MinimumNumberOfTiles, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}" TextWrapping="WrapWithOverflow" MaxHeight="50" utils:WatermarkService.Watermark = "Add Description..." MinWidth="100" />
+                                            <TextBox Text="{Binding Path=MinimumNumberOfTiles, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, TargetNullValue='', ValidatesOnDataErrors=True}" TextWrapping="WrapWithOverflow" MaxHeight="50" utils:WatermarkService.Watermark = "Add Description..." MinWidth="100" />
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
@@ -240,7 +240,7 @@
                                 <GridViewColumn Header="Maximum Number Of Tiles" Width="Auto">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBox Text="{Binding Path=MaximumNumberOfTiles, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}" TextWrapping="WrapWithOverflow" MaxHeight="50" utils:WatermarkService.Watermark = "Add Description..." MinWidth="100" />
+                                            <TextBox Text="{Binding Path=MaximumNumberOfTiles, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, TargetNullValue='', ValidatesOnDataErrors=True}" TextWrapping="WrapWithOverflow" MaxHeight="50" utils:WatermarkService.Watermark = "Add Description..." MinWidth="100" />
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
@@ -279,7 +279,7 @@
                         <Label Grid.Row="0" Content="Width" Margin="10,0,0,0"/>
                         <TextBox
                             Grid.Row="0"
-                            Text="{Binding MapConstraints.Width, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Text="{Binding MapConstraints.Width, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                             Margin="10,10,10,0"
                             Height="19"
                             MinWidth="50"
@@ -287,7 +287,7 @@
                         <Label Grid.Row="1" Content="Height" Margin="10,0,0,0"/>
                         <TextBox
                             Grid.Row="1"
-                            Text="{Binding MapConstraints.Height, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Text="{Binding MapConstraints.Height, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                             Margin="10,10,10,0"
                             Height="19"
                             MinWidth="50"

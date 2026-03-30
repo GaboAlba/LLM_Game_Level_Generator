@@ -75,6 +75,19 @@
                     }
                 }
 
+                if ((columnName == nameof(this.MinimumNumberOfTiles) ||  columnName == nameof(this.MaximumNumberOfTiles)))
+                {
+                    if (this.MinimumNumberOfTiles > this.MaximumNumberOfTiles)
+                    {
+                        return "The minimum number of tiles cannot be larger than the maximum";    
+                    }
+
+                    if (this.MaximumNumberOfTiles < 0 || this.MinimumNumberOfTiles < 0)
+                    {
+                        return "The number of tiles must be larger or equal to zero";
+                    }
+                }
+
                 return string.Empty;
             }
         }

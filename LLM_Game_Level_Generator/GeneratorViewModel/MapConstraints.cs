@@ -1,9 +1,12 @@
 ﻿namespace GeneratorViewModel
 {
     using System.ComponentModel;
+    using System.Text.Json.Serialization;
 
-    public class MapConstraints : INotifyPropertyChanged
+    public class MapConstraints : INotifyPropertyChanged, IDataErrorInfo
     {
+        private const string NegativeDimensionErrorString = "Dimensions must be larger than zero";
+
         public int Width
         {
             get;
@@ -71,6 +74,29 @@
             {
                 field = value;
                 this.OnPropertyChanged(nameof(this.CustomConstraints));
+            }
+        }
+
+        // Validation support
+        [JsonIgnore]
+        public string Error => string.Empty;
+
+        [JsonIgnore]
+        public string this[string columnName]
+        {
+            get
+            {
+                if (columnName == nameof(this.Width) && this.Width <= 0)
+                {
+                    return NegativeDimensionErrorString;
+                }
+
+                if (columnName == nameof(this.Height) && this.Height <= 0)
+                {
+                    return NegativeDimensionErrorString;
+                }
+
+                return string.Empty;
             }
         }
 
