@@ -91,7 +91,7 @@
                 {
                     try
                     {
-                        var outputString = await LlmHelper.InvokeModelAsync(prompt);
+                        var outputString = await LlmHelper.InvokeModelAsync(prompt, benchmark.Value as PromptTemplateV1);
                         Console.WriteLine($"LLM Call for benchmark {benchmark.Key} has been successful");
                         lock (lockObj)
                         {
@@ -115,6 +115,11 @@
             // Generate the JSON output file to be able to pass it to the Python benchmark runner
             var jsonString = JsonSerializer.Serialize(output);
             var jsonPath = "..\\..\\..\\..\\tools\\pcg_benchmark\\pcg_results.json";
+            if (File.Exists(jsonPath))
+            {
+                File.Copy(jsonPath, jsonPath + ".old", true);
+            }
+
             File.WriteAllText(jsonPath, jsonString);
             return output;
         }
@@ -132,6 +137,7 @@
                 "   * Sokoban: run the benchmark on the Sokoban game\n" +
                 "   * Mario: runs the benchmark on Super Mario Bros\n" +
                 "   * Zelda: runs the benchmark on the Zelda game\n" +
+                "   * Debug: runs only the binary-v0 benchmark for quick testing\n" +
                 "-m: (Optional) Specifies the model that will be run to generate the levels. Current allowed models are:\n" +
                 "   * GPT 4.1: Non-reasoning text model with 1M token limit for the context window\n" +
                 "   * GPT 5.2: Reasoning model with a 400k token limit for the context window";

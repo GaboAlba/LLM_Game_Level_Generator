@@ -253,7 +253,7 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         
-                        <Button Grid.Column="1" Content="Delete" x:Name="deleteTileButton" Width="Auto" Height="26" VerticalAlignment="Top" Background="MediumVioletRed" Click="deleteTileButton_Click"/>
+                        <Button Grid.Column="1" Content="Delete" x:Name="deleteTileButton" Width="Auto" Height="26" VerticalAlignment="Top" Background="MediumVioletRed" Click="deleteTileButton_Click" Foreground="White"/>
                         <Button Grid.Column="0" x:Name="addTileButton" Content="Add Tile" VerticalAlignment="Top" Height="26" Width="Auto" HorizontalAlignment="Stretch" Click="Button_Click" Background="#FF00DFE4"/>
                     </Grid>
                 </Grid>

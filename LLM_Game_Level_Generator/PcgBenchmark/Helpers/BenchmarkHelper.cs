@@ -67,14 +67,32 @@
         internal static Dictionary<string, object> GetAllPossibleBenchmarks()
         {
             // Constants Definition
-            const string BinaryPathZero = ".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Binary\\Variants\\Path10.json";
-            const string BinaryPathOne = ".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Binary\\Variants\\Path20.json";
-            const string BinaryPathTwo = ".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Binary\\Variants\\Path30.json";
-            const string BinaryPathThree = ".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Binary\\Variants\\Path40.json";
-            const string BinaryPathFour = ".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Binary\\Variants\\Path50.json";
-            const string BinaryPathFive = ".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Binary\\Variants\\Path60.json";
-            const string BinaryPathSix = ".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Binary\\Variants\\Path70.json";
-            const string BinaryPathSeven = ".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Binary\\Variants\\Path80.json";
+            const string BinaryPathZero = ".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Binary\\Variants\\Path28.json";
+            const string BinaryPathOne = ".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Binary\\Variants\\Path28.json";
+            const string BinaryPathTwo = ".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Binary\\Variants\\Path28.json";
+            const string BinaryPathThree = ".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Binary\\Variants\\Path28.json";
+            const string BinaryPathFour = ".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Binary\\Variants\\Path28.json";
+            const string BinaryPathFive = ".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Binary\\Variants\\Path28.json";
+            const string BinaryPathSix = ".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Binary\\Variants\\Path28.json";
+            const string BinaryPathSeven = ".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Binary\\Variants\\Path28.json";
+
+            const string BinaryLargePathZero = ".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Binary\\Variants\\Path56.json";
+            const string BinaryLargePathOne = ".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Binary\\Variants\\Path56.json";
+            const string BinaryLargePathTwo = ".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Binary\\Variants\\Path56.json";
+            const string BinaryLargePathThree = ".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Binary\\Variants\\Path56.json";
+            const string BinaryLargePathFour = ".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Binary\\Variants\\Path56.json";
+            const string BinaryLargePathFive = ".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Binary\\Variants\\Path56.json";
+            const string BinaryLargePathSix = ".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Binary\\Variants\\Path56.json";
+            const string BinaryLargePathSeven = ".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Binary\\Variants\\Path56.json";
+
+            const string BinaryWidePathZero = ".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Binary\\Variants\\Path42.json";
+            const string BinaryWidePathOne = ".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Binary\\Variants\\Path42.json";
+            const string BinaryWidePathTwo = ".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Binary\\Variants\\Path42.json";
+            const string BinaryWidePathThree = ".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Binary\\Variants\\Path42.json";
+            const string BinaryWidePathFour = ".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Binary\\Variants\\Path42.json";
+            const string BinaryWidePathFive = ".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Binary\\Variants\\Path42.json";
+            const string BinaryWidePathSix = ".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Binary\\Variants\\Path42.json";
+            const string BinaryWidePathSeven = ".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\Binary\\Variants\\Path42.json";
 
             const string DDavePathZero = ".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\DangerousDave\\Variants\\Start_0_0_End_10_6_Diamonds_4.json";
             const string DDavePathOne = ".\\BenchmarkPromptTemplates\\BenchmarkTemplates\\DangerousDave\\Variants\\Start_0_0_End_16_10_Diamonds_12.json";
@@ -144,24 +162,24 @@
                 { "binary-v0-7", new BinaryV0PromptTemplate(BinaryPathSeven)},
 
                 // Large
-                { "binary-large-v0-0", new BinaryV0LargePromptTemplate(BinaryPathZero)},
-                { "binary-large-v0-1", new BinaryV0LargePromptTemplate(BinaryPathOne)},
-                { "binary-large-v0-2", new BinaryV0LargePromptTemplate(BinaryPathTwo)},
-                { "binary-large-v0-3", new BinaryV0LargePromptTemplate(BinaryPathThree)},
-                { "binary-large-v0-4", new BinaryV0LargePromptTemplate(BinaryPathFour)},
-                { "binary-large-v0-5", new BinaryV0LargePromptTemplate(BinaryPathFive)},
-                { "binary-large-v0-6", new BinaryV0LargePromptTemplate(BinaryPathSix)},
-                { "binary-large-v0-7", new BinaryV0LargePromptTemplate(BinaryPathSeven)},
+                { "binary-large-v0-0", new BinaryV0LargePromptTemplate(BinaryLargePathZero)},
+                { "binary-large-v0-1", new BinaryV0LargePromptTemplate(BinaryLargePathOne)},
+                { "binary-large-v0-2", new BinaryV0LargePromptTemplate(BinaryLargePathTwo)},
+                { "binary-large-v0-3", new BinaryV0LargePromptTemplate(BinaryLargePathThree)},
+                { "binary-large-v0-4", new BinaryV0LargePromptTemplate(BinaryLargePathFour)},
+                { "binary-large-v0-5", new BinaryV0LargePromptTemplate(BinaryLargePathFive)},
+                { "binary-large-v0-6", new BinaryV0LargePromptTemplate(BinaryLargePathSix)},
+                { "binary-large-v0-7", new BinaryV0LargePromptTemplate(BinaryLargePathSeven)},
 
                 // Wide
-                { "binary-wide-v0-0", new BinaryV0WidePromptTemplate(BinaryPathZero)},
-                { "binary-wide-v0-1", new BinaryV0WidePromptTemplate(BinaryPathOne)},
-                { "binary-wide-v0-2", new BinaryV0WidePromptTemplate(BinaryPathTwo)},
-                { "binary-wide-v0-3", new BinaryV0WidePromptTemplate(BinaryPathThree)},
-                { "binary-wide-v0-4", new BinaryV0WidePromptTemplate(BinaryPathFour)},
-                { "binary-wide-v0-5", new BinaryV0WidePromptTemplate(BinaryPathFive)},
-                { "binary-wide-v0-6", new BinaryV0WidePromptTemplate(BinaryPathSix)},
-                { "binary-wide-v0-7", new BinaryV0WidePromptTemplate(BinaryPathSeven)},
+                { "binary-wide-v0-0", new BinaryV0WidePromptTemplate(BinaryWidePathZero)},
+                { "binary-wide-v0-1", new BinaryV0WidePromptTemplate(BinaryWidePathOne)},
+                { "binary-wide-v0-2", new BinaryV0WidePromptTemplate(BinaryWidePathTwo)},
+                { "binary-wide-v0-3", new BinaryV0WidePromptTemplate(BinaryWidePathThree)},
+                { "binary-wide-v0-4", new BinaryV0WidePromptTemplate(BinaryWidePathFour)},
+                { "binary-wide-v0-5", new BinaryV0WidePromptTemplate(BinaryWidePathFive)},
+                { "binary-wide-v0-6", new BinaryV0WidePromptTemplate(BinaryWidePathSix)},
+                { "binary-wide-v0-7", new BinaryV0WidePromptTemplate(BinaryWidePathSeven)},
 
                 // ----------Dangerous Dave variations----------
                 // Normal
