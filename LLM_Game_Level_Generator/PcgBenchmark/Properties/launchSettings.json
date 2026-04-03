@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "PcgBenchmark": {
+      "commandName": "Project",
+      "commandLineArgs": "-b Debug"
+    }
+  }
+}

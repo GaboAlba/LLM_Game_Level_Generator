@@ -5,9 +5,10 @@
     using LLMPromptProcessor;
     using LLMPromptProcessor.PromptTemplates;
 
+    using System.Collections.ObjectModel;
     using System.Text;
 
-    public class PromptGroundingDataInjector
+    public static class PromptGroundingDataInjector
     {
         public static string CreatePrompt(PromptUserData promptUserData)
         {
@@ -61,6 +62,35 @@
             }
 
             return outputString.ToString();
+        }
+
+        public static IList<MapTile> StringToList(string tileString)
+        {
+            var lines = tileString.Split("\r\n");
+            var result = new ObservableCollection<MapTile>();
+            
+            // Starting from three to avoid markdown formatting lines
+            for (var line = 3; line < lines.Length - 1; line++)
+            {
+                var tempString = lines[line];
+                var mapTile = new MapTile();
+                var splitString = tempString.Split("|");
+
+                // Numeric values
+                _ = int.TryParse(splitString[3], null, out var minimumTiles);
+                _ = int.TryParse(splitString[4], null, out var maximumTiles);
+
+                // Static order. Need to create test to ensure refactoring does not break order
+                mapTile.TileCharacter = splitString[0];
+                mapTile.TileName = splitString[1];
+                mapTile.TileDescription = splitString[2];
+                mapTile.MinimumNumberOfTiles = minimumTiles;
+                mapTile.MaximumNumberOfTiles = maximumTiles;
+
+                result.Add(mapTile);
+            }
+
+            return result;
         }
     }
 }
