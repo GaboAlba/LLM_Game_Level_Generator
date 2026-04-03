@@ -33,5 +33,10 @@
         /// The reasoning performed by the LLM to achieve the response
         /// </summary>
         public string? ReasoningText { get; set; }
+
+        /// <summary>
+        /// Details on token usage for the request
+        /// </summary>
+        public LLMUsage? Usage { get; set; }
     }
 }

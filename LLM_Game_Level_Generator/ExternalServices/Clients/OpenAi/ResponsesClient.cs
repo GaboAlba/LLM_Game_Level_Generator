@@ -220,6 +220,20 @@ namespace ExternalServices.Clients.OpenAi
                 },
                 MaxOutputTokens = openAIResponse.MaxOutputTokenCount,
                 OutputText = openAIResponse.GetOutputText(),
+                Usage = new Contract.LLM_Response.LLMUsage
+                {
+                    InputTokens = openAIResponse.Usage.InputTokenCount,
+                    InputTokenDetails = new Contract.LLM_Response.InputTokenDetails
+                    {
+                        CachedTokens = openAIResponse.Usage.InputTokenDetails.CachedTokenCount,
+                    },
+                    OutputTokens = openAIResponse.Usage.OutputTokenCount,
+                    OutputTokenDetails = new Contract.LLM_Response.OutputTokenDetails
+                    {
+                        ReasoningTokens = openAIResponse.Usage.OutputTokenDetails.ReasoningTokenCount,
+                    },
+                    TotalTokens = openAIResponse.Usage.TotalTokenCount,
+                },
             };
         }
     }

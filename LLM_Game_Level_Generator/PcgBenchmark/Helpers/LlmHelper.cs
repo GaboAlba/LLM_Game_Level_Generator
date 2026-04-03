@@ -21,7 +21,7 @@ namespace PcgBenchmark.Helpers
 
     internal static class LlmHelper
     {
-        internal static async Task<string> InvokeModelAsync(string prompt, PromptTemplateV1 benchmarkObject, string model = "gpt-5.2")
+        internal static async Task<(string, int)> InvokeModelAsync(string prompt, PromptTemplateV1 benchmarkObject, string model = "gpt-5.2")
         {
             var responseMap = string.Empty;
             var apiKeys = GetApiKeys();
@@ -63,7 +63,7 @@ namespace PcgBenchmark.Helpers
                     responseLines = responseLines.Trim();
 
                     responseMap = responseLines;
-                    return responseMap;
+                    return (responseMap, response.Usage.TotalTokens);
                 }
                 else
                 {
