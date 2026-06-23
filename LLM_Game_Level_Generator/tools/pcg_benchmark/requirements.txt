@@ -1,1 +1,3 @@
 git+https://github.com/amidos2006/pcg_benchmark.git
+pandas
+matplotlib

@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Iteration 1 — PCG Benchmark</title><style>
+:root { color-scheme: light; }
+* { box-sizing: border-box; }
+body { font-family: -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+       margin: 0; color: #1f2933; background: #f5f7fa; line-height: 1.5; }
+.container { max-width: 1100px; margin: 0 auto; padding: 32px 24px 80px; }
+h1 { font-size: 28px; margin: 0 0 4px; }
+h2 { font-size: 21px; margin: 40px 0 12px; border-bottom: 2px solid #e4e7eb; padding-bottom: 6px; }
+h3 { font-size: 16px; margin: 28px 0 8px; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.subtitle { color: #616e7c; margin: 0 0 24px; }
+.verdict { display: inline-block; padding: 10px 18px; border-radius: 8px; font-weight: 600;
+           background: #e8f0fe; color: #1a3e8c; margin: 8px 0 16px; }
+.verdict.llm { background: #e6f4ea; color: #1e7d34; }
+.verdict.pcg { background: #fdeceb; color: #b3261e; }
+.verdict.tie { background: #f3f0e6; color: #8a6d1f; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; background: #fff;
+        box-shadow: 0 1px 2px rgba(0,0,0,.06); border-radius: 8px; overflow: hidden; }
+th, td { padding: 8px 10px; text-align: right; border-bottom: 1px solid #eef1f4; }
+th:first-child, td:first-child { text-align: left; }
+thead th { background: #1f2933; color: #fff; font-weight: 600; }
+tbody tr:hover { background: #f8fafc; }
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+.card { background: #fff; border-radius: 10px; padding: 18px; box-shadow: 0 1px 3px rgba(0,0,0,.08);
+        display: block; }
+.card h3 { margin: 0 0 6px; }
+img.chart { max-width: 100%; background: #fff; border-radius: 8px; padding: 8px;
+            box-shadow: 0 1px 2px rgba(0,0,0,.06); margin: 8px 0; }
+.gallery { margin: 8px 0 24px; }
+.gallery .row { display: flex; gap: 24px; flex-wrap: wrap; }
+.gallery .col { flex: 1 1 360px; }
+.gallery .strip { display: flex; flex-wrap: wrap; gap: 4px; }
+.gallery .strip img { height: 72px; image-rendering: pixelated; border: 1px solid #d2d6dc;
+                      background: #fff; border-radius: 2px; }
+.method-label { font-weight: 600; font-size: 13px; margin: 4px 0; color: #3e4c59; }
+.muted { color: #9aa5b1; font-size: 13px; }
+</style></head>
+<body><div class="container">
+<p><a href="../index.html">&larr; All iterations</a></p>
+<h1>Iteration 1</h1>
+<p class="subtitle">Slight Prompt Changes to Binary Levels</p>
+<div class="verdict llm">Overall winner: LLM
+&nbsp;·&nbsp; 21 variant(s)</div>
+
+<h2>Metric comparison</h2>
+<table><thead><tr><th>Metric</th><th>LLM mean</th><th>Non-LLM mean</th><th>Δ</th>
+<th>LLM wins</th><th>Non-LLM wins</th><th>Ties</th><th>Winner</th></tr></thead>
+<tbody><tr><td>Quality</td><td>0.141</td><td>0.051</td><td>+0.090</td><td>3</td><td>0</td><td>18</td><td>LLM</td></tr><tr><td>Diversity</td><td>0.102</td><td>0.143</td><td>-0.041</td><td>0</td><td>3</td><td>18</td><td>Non-LLM</td></tr><tr><td>Controlability</td><td>0.111</td><td>0.031</td><td>+0.079</td><td>3</td><td>0</td><td>18</td><td>LLM</td></tr></tbody></table>
+
+<h2>Charts</h2>
+<img class="chart" src="chart_overall.png" alt="overall means"><img class="chart" src="chart_quality.png" alt="quality by variant"><img class="chart" src="chart_diversity.png" alt="diversity by variant"><img class="chart" src="chart_controlability.png" alt="controlability by variant">
+
+<h2>Per-variant summary</h2>
+<table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Variant</th>
+      <th>LLM qual</th>
+      <th>PCG qual</th>
+      <th>Δ qual</th>
+      <th>Win qual</th>
+      <th>LLM dive</th>
+      <th>PCG dive</th>
+      <th>Δ dive</th>
+      <th>Win dive</th>
+      <th>LLM cont</th>
+      <th>PCG cont</th>
+      <th>Δ cont</th>
+      <th>Win cont</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Binary V0</td>
+      <td>1.000</td>
+      <td>0.317</td>
+      <td>+0.683</td>
+      <td>LLM</td>
+      <td>0.773</td>
+      <td>1.000</td>
+      <td>-0.227</td>
+      <td>Non-LLM</td>
+      <td>0.919</td>
+      <td>0.260</td>
+      <td>+0.659</td>
+      <td>LLM</td>
+    </tr>
+    <tr>
+      <td>Binary Large V0</td>
+      <td>0.979</td>
+      <td>0.389</td>
+      <td>+0.589</td>
+      <td>LLM</td>
+      <td>0.727</td>
+      <td>1.000</td>
+      <td>-0.273</td>
+      <td>Non-LLM</td>
+      <td>0.603</td>
+      <td>0.222</td>
+      <td>+0.381</td>
+      <td>LLM</td>
+    </tr>
+    <tr>
+      <td>Binary Wide V0</td>
+      <td>0.982</td>
+      <td>0.373</td>
+      <td>+0.609</td>
+      <td>LLM</td>
+      <td>0.643</td>
+      <td>1.000</td>
+      <td>-0.357</td>
+      <td>Non-LLM</td>
+      <td>0.806</td>
+      <td>0.177</td>
+      <td>+0.629</td>
+      <td>LLM</td>
+    </tr>
+    <tr>
+      <td>Ddave V0</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+    </tr>
+    <tr>
+      <td>Ddave Complex V0</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+    </tr>
+    <tr>
+      <td>Ddave Large V0</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+    </tr>
+    <tr>
+      <td>Loderunner V0</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+    </tr>
+    <tr>
+      <td>Loderunner Gold V0</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+    </tr>
+    <tr>
+      <td>Loderunner Enemies V0</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+    </tr>
+    <tr>
+      <td>Mdungeons V0</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+    </tr>
+    <tr>
+      <td>Mdungeons Large V0</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+    </tr>
+    <tr>
+      <td>Mdungeons Enemies V0</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+    </tr>
+    <tr>
+      <td>Sokoban V0</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+    </tr>
+    <tr>
+      <td>Sokoban Large V0</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+    </tr>
+    <tr>
+      <td>Sokoban Complex V0</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+    </tr>
+    <tr>
+      <td>Smbtile V0</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+    </tr>
+    <tr>
+      <td>Smbtile Medium V0</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+    </tr>
+    <tr>
+      <td>Smbtile Small V0</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+    </tr>
+    <tr>
+      <td>Zelda V0</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+    </tr>
+    <tr>
+      <td>Zelda Enemies V0</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+    </tr>
+    <tr>
+      <td>Zelda Large V0</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>+0.000</td>
+      <td>Tie</td>
+    </tr>
+  </tbody>
+</table>
+<p class="muted">Raw data: <a href="analysis.csv">analysis.csv</a> (per map) ·
+<a href="summary.csv">summary.csv</a> (per variant) ·
+<a href="eval_results.json">eval_results.json</a></p>
+
+<h2>Map gallery</h2>
+
+        <h3>Binary V0</h3>
+        <div class="gallery"><div class="row">
+          <div class="col"><div class="method-label">LLM</div><div class="strip"><img src="binary_v0_0.png" alt="binary_v0_0.png"><img src="binary_v0_1.png" alt="binary_v0_1.png"><img src="binary_v0_2.png" alt="binary_v0_2.png"><img src="binary_v0_3.png" alt="binary_v0_3.png"><img src="binary_v0_4.png" alt="binary_v0_4.png"><img src="binary_v0_5.png" alt="binary_v0_5.png"><img src="binary_v0_6.png" alt="binary_v0_6.png"><img src="binary_v0_7.png" alt="binary_v0_7.png"></div></div>
+          <div class="col"><div class="method-label">Non-LLM (random)</div><div class="strip"><span class="muted">not rendered for this iteration</span></div></div>
+        </div></div>
+        <h3>Binary Large V0</h3>
+        <div class="gallery"><div class="row">
+          <div class="col"><div class="method-label">LLM</div><div class="strip"><img src="binary_large_v0_0.png" alt="binary_large_v0_0.png"><img src="binary_large_v0_1.png" alt="binary_large_v0_1.png"><img src="binary_large_v0_2.png" alt="binary_large_v0_2.png"><img src="binary_large_v0_3.png" alt="binary_large_v0_3.png"><img src="binary_large_v0_4.png" alt="binary_large_v0_4.png"><img src="binary_large_v0_5.png" alt="binary_large_v0_5.png"><img src="binary_large_v0_6.png" alt="binary_large_v0_6.png"></div></div>
+          <div class="col"><div class="method-label">Non-LLM (random)</div><div class="strip"><span class="muted">not rendered for this iteration</span></div></div>
+        </div></div>
+        <h3>Binary Wide V0</h3>
+        <div class="gallery"><div class="row">
+          <div class="col"><div class="method-label">LLM</div><div class="strip"><img src="binary_wide_v0_0.png" alt="binary_wide_v0_0.png"><img src="binary_wide_v0_1.png" alt="binary_wide_v0_1.png"><img src="binary_wide_v0_2.png" alt="binary_wide_v0_2.png"><img src="binary_wide_v0_3.png" alt="binary_wide_v0_3.png"><img src="binary_wide_v0_4.png" alt="binary_wide_v0_4.png"><img src="binary_wide_v0_5.png" alt="binary_wide_v0_5.png"><img src="binary_wide_v0_6.png" alt="binary_wide_v0_6.png"><img src="binary_wide_v0_7.png" alt="binary_wide_v0_7.png"></div></div>
+          <div class="col"><div class="method-label">Non-LLM (random)</div><div class="strip"><span class="muted">not rendered for this iteration</span></div></div>
+        </div></div>
+</div></body></html>
