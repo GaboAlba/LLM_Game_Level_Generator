@@ -9,16 +9,15 @@
         private const int minimumMovesToSolve = 10;
 
         [SetsRequiredMembers]
-        public SokobanV0PromptTemplate(string jsonPath)
-            : base(jsonPath)
+        public SokobanV0PromptTemplate()
         {
+            this.Width = "5";
+            this.Height = "5";
             this.GameName = "Sokoban";
             this.GameDescription = "Sokoban is an old Japanese block pushing game that inspired a lot of games like Baba is You and game engines like PuzzleScript";
             this.LevelName = "sokoban-v0";
             this.LevelDescription = "";
-            this.Tiles = PromptGroundingDataInjector.ListToString(this.GetMapTiles(numberOfCrates: 1));
-            this.Width = "5";
-            this.Height = "5";
+            this.Tiles = PromptGroundingDataInjector.ListToString(this.GetMapTiles(height: int.Parse(this.Height), width: int.Parse(this.Width)));
             this.GameType = "Top Down";
             this.GameGenre = "Puzzle";
             this.DifficultyLevel = "Medium";

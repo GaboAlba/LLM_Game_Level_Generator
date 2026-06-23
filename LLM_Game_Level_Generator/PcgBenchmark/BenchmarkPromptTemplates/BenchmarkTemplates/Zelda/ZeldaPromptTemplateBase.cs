@@ -5,40 +5,30 @@
     using LLMPromptProcessor.PromptTemplates;
 
     using System.Collections.Generic;
-    using System.Text.Json;
-    using System.Text.Json.Serialization;
 
     public class ZeldaPromptTemplateBase : PromptTemplateV1
     {
-        public class ControlParameters
+        protected Dictionary<string, int> PlayerKeyDistanceRange;
+        protected Dictionary<string, int> KeyDoorDistanceRange;
+
+        public ZeldaPromptTemplateBase(int targetSteps, string widthString, string heightString)
         {
-            /// <summary>
-            /// How much the player need to reach the key.
-            /// </summary>
-            [JsonPropertyName("player_key")]
-            public int PlayerKeyDistance { get; set; }
+            this.Width = widthString;
+            this.Height = heightString;
+            var width = int.Parse(this.Width);
+            var height = int.Parse(this.Height);
 
-            /// <summary>
-            /// Distance that should be in between the Key and the Door
-            /// </summary>
-            [JsonPropertyName("key_door")]
-            public int KeyDoorDistance { get; set; }
-        }
-
-        public ControlParameters controlParameters { get; }
-
-        public ZeldaPromptTemplateBase(string jsonPath)
-        {
-            try
+            this.PlayerKeyDistanceRange = new Dictionary<string, int>
             {
-                var jsonString = File.ReadAllText(jsonPath);
-                this.controlParameters = JsonSerializer.Deserialize<ControlParameters>(jsonString);
-            }
-            catch (Exception ex)
+                { "min", targetSteps / 2 },
+                { "max", width * height / 4 },
+            };
+
+            this.KeyDoorDistanceRange = new Dictionary<string, int>
             {
-                Console.WriteLine(ex.Message);
-                throw;
-            }
+                { "min", targetSteps / 2 },
+                { "max", width * height / 4 },
+            };
         }
 
         protected List<MapTile> GetMapTiles(int targetEnemies)

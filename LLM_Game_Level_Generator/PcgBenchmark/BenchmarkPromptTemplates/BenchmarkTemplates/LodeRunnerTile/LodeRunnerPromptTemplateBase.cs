@@ -5,43 +5,13 @@ namespace PcgBenchmark.BenchmarkPromptTemplates.BenchmarkTemplates.LodeRunnerTil
     using LLMPromptProcessor.PromptTemplates;
 
     using System.Collections.Generic;
-    using System.Text.Json;
-    using System.Text.Json.Serialization;
 
     public class LodeRunnerPromptTemplateBase : PromptTemplateV1
     {
-        public class ControlParameters
-        {
-            /// <summary>
-            /// The quantity of ladder tiles the map should contain.
-            /// </summary>
-            [JsonPropertyName("ladder")]
-            public int LaddersCount { get; set; }
+        public LodeRunnerPromptTemplateBase()
+        {}
 
-            /// <summary>
-            /// The quantity of rope tiles the map should contain.
-            /// </summary>
-            [JsonPropertyName("rope")]
-            public int RopesCount { get; set; }
-        }
-
-        public ControlParameters controlParameters { get; }
-
-        public LodeRunnerPromptTemplateBase(string jsonPath)
-        {
-            try
-            {
-                var jsonString = File.ReadAllText(jsonPath);
-                this.controlParameters = JsonSerializer.Deserialize<ControlParameters>(jsonString);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                throw;
-            }
-        }
-
-        protected List<MapTile> GetMapTiles(int minEnemies, int minGold, int targetLadders, int targetRopes)
+        protected List<MapTile> GetMapTiles(int minEnemies, int minGold, int width, int height)
         {
             return new List<MapTile>()
             {
@@ -84,16 +54,16 @@ namespace PcgBenchmark.BenchmarkPromptTemplates.BenchmarkTemplates.LodeRunnerTil
                     TileCharacter = "5",
                     TileName = "Ladder",
                     TileDescription = "Tile that lets the player climb vertically",
-                    MinimumNumberOfTiles = targetLadders - 5,
-                    MaximumNumberOfTiles = targetRopes + 5,
+                    MinimumNumberOfTiles = 0,
+                    MaximumNumberOfTiles = (int)(0.2 * height * width),
                 },
                 new MapTile()
                 {
                     TileCharacter = "6",
                     TileName = "Rope",
                     TileDescription = "Allows for horizontal movement over gaps",
-                    MinimumNumberOfTiles = targetRopes - 5,
-                    MaximumNumberOfTiles = targetRopes + 5,
+                    MinimumNumberOfTiles = 0,
+                    MaximumNumberOfTiles = (int)(0.2 * height * width),
                 }
             };
         }

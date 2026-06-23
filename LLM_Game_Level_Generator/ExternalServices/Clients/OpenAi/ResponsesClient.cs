@@ -85,6 +85,8 @@ namespace ExternalServices.Clients.OpenAi
                     reasoningProgress?.Report(reasoningMessage.GetSummaryText());
                 }
 
+                var headers = openAIResponse.GetRawResponse().Headers;
+
                 return this.GetLLMResponseFromResponsesApiResponse(openAIResponse.Value);
             }
             catch (Exception ex)
@@ -233,7 +235,7 @@ namespace ExternalServices.Clients.OpenAi
                         ReasoningTokens = openAIResponse.Usage.OutputTokenDetails.ReasoningTokenCount,
                     },
                     TotalTokens = openAIResponse.Usage.TotalTokenCount,
-                },
+                }
             };
         }
     }

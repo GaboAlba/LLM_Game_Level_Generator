@@ -5,43 +5,16 @@ namespace PcgBenchmark.BenchmarkPromptTemplates.BenchmarkTemplates.MiniDungeons
     using LLMPromptProcessor.PromptTemplates;
 
     using System.Collections.Generic;
-    using System.Text.Json;
-    using System.Text.Json.Serialization;
 
     public class MiniDungeonsPromptTemplateBase : PromptTemplateV1
     {
-        public class ControlParameters
+        public MiniDungeonsPromptTemplateBase(string width, string height)
         {
-            /// <summary>
-            /// The quantity of treasures that must be collected by the player
-            /// </summary>
-            [JsonPropertyName("col_treasure")]
-            public int TreasuresToCollectAmount { get; set; }
-
-            /// <summary>
-            /// The solution length of the level
-            /// </summary>
-            [JsonPropertyName("solution_length")]
-            public int SolutionLength { get; set; }
+            this.Width = width;
+            this.Height = height;
         }
 
-        public ControlParameters controlParameters { get; }
-
-        public MiniDungeonsPromptTemplateBase(string jsonPath)
-        {
-            try
-            {
-                var jsonString = File.ReadAllText(jsonPath);
-                this.controlParameters = JsonSerializer.Deserialize<ControlParameters>(jsonString);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                throw;
-            }
-        }
-
-        protected List<MapTile> GetMapTiles(int minEnemies, int targetTreasures)
+        protected List<MapTile> GetMapTiles(int minEnemies)
         {
             return new List<MapTile>()
             {
@@ -85,8 +58,8 @@ namespace PcgBenchmark.BenchmarkPromptTemplates.BenchmarkTemplates.MiniDungeons
                     TileCharacter = "5",
                     TileName = "Treasure",
                     TileDescription = "These must be collected by the player to unlock the exit",
-                    MinimumNumberOfTiles = targetTreasures - 1,
-                    MaximumNumberOfTiles = targetTreasures + 1,
+                    MinimumNumberOfTiles = 0,
+                    MaximumNumberOfTiles = int.Parse(this.Height) + int.Parse(this.Width),
                 },
                 new MapTile()
                 {

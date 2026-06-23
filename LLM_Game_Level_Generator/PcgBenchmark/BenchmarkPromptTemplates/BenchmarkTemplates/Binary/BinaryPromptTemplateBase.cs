@@ -9,30 +9,8 @@
 
     public class BinaryPromptTemplateBase : PromptTemplateV1
     {
-        public class ControlParameters
-        {
-            /// <summary>
-            /// How long the shortest longest path has to be.
-            /// </summary>
-            [JsonPropertyName("path")]
-            public int PathLength { get; set; }
-        }
-
-        public ControlParameters controlParameters { get; }
-
-        public BinaryPromptTemplateBase(string jsonPath)
-        {
-            try
-            {
-                var jsonString = File.ReadAllText(jsonPath);
-                this.controlParameters = JsonSerializer.Deserialize<ControlParameters>(jsonString);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                throw;
-            }
-        }
+        public BinaryPromptTemplateBase()
+        {}
 
         protected List<MapTile> GetMapTiles()
         {

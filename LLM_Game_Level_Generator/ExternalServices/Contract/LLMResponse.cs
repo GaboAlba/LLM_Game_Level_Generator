@@ -2,6 +2,8 @@
 {
     using ExternalServices.Contract.LLM_Response;
 
+    using System.Net.Http.Headers;
+
     public class LLMResponse
     {
         /// <summary>

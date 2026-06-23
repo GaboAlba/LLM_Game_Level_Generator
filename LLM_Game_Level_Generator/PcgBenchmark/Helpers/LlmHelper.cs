@@ -75,7 +75,7 @@ namespace PcgBenchmark.Helpers
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                Console.WriteLine("LLM_EXCEPTION: " + ex.ToString());
                 throw;
             }
         }

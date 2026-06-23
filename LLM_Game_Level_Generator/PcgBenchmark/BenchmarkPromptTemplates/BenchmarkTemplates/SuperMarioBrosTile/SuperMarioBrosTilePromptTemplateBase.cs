@@ -10,44 +10,10 @@
 
     public class SuperMarioBrosTilePromptTemplateBase : PromptTemplateV1
     {
-        public class ControlParameters
-        {
-            /// <summary>
-            /// How many enemies should the map have.
-            /// </summary>
-            [JsonPropertyName("enemies")]
-            public int EnemiesCount { get; set; }
+        public SuperMarioBrosTilePromptTemplateBase()
+        {}
 
-            /// <summary>
-            /// The amount of jumps that the map should have.
-            /// </summary>
-            [JsonPropertyName("jumps")]
-            public int JumpsCount { get; set; }
-
-            /// <summary>
-            /// The amount of coins that the map should hve.
-            /// </summary>
-            [JsonPropertyName("coins")]
-            public int CoinsCount { get; set; }
-        }
-
-        public ControlParameters controlParameters { get; }
-
-        public SuperMarioBrosTilePromptTemplateBase(string jsonPath)
-        {
-            try
-            {
-                var jsonString = File.ReadAllText(jsonPath);
-                this.controlParameters = JsonSerializer.Deserialize<ControlParameters>(jsonString);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                throw;
-            }
-        }
-
-        protected List<MapTile> GetMapTiles(int targetCoins)
+        protected List<MapTile> GetMapTiles(int targetMinCoins, int targetMaxCoins)
         {
             return new List<MapTile>()
             {
@@ -92,8 +58,8 @@
                     TileCharacter = "6",
                     TileName = "Coin",
                     TileDescription = "Collectible coin",
-                    MinimumNumberOfTiles = targetCoins - 1,
-                    MaximumNumberOfTiles = targetCoins + 1,
+                    MinimumNumberOfTiles = targetMinCoins,
+                    MaximumNumberOfTiles = targetMaxCoins,
                 },
                 new MapTile()
                 {
