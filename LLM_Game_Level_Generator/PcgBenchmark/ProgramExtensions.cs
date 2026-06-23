@@ -9,15 +9,13 @@
         internal async static Task Run(string[] args)
         {
             var output = await ConsoleHelper.HandleRequestAsync(args);
-            if (output.Value.Error != null && output.Value.Error != string.Empty)
+            if (output.Value.Error != null && output.Value.Error.Count > 0)
             {
                 Console.WriteLine($"ERROR: {output.Value.Error}");
-                return;
             }
             else if (output.Value.DebugMessage != null && output.Value.DebugMessage != string.Empty)
             {
                 Console.WriteLine(output.Value.DebugMessage);
-                return;
             }
             else
             {

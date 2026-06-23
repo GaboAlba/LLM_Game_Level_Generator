@@ -1,0 +1,22 @@
+variant,label,llm_quality,pcg_quality,delta_quality,winner_quality,llm_diversity,pcg_diversity,delta_diversity,winner_diversity,llm_controlability,pcg_controlability,delta_controlability,winner_controlability
+binary_v0,Binary V0,1.0,0.3171322963452215,0.6828677036547786,LLM,0.7725100977467834,1.0,-0.22748990225321664,Non-LLM,0.9190114152448374,0.26047757609494787,0.6585338391498896,LLM
+binary_large_v0,Binary Large V0,0.9785041923373388,0.38945907815331937,0.5890451141840194,LLM,0.7273824708431652,1.0,-0.2726175291568348,Non-LLM,0.602541600548593,0.221714579124293,0.38082702142429997,LLM
+binary_wide_v0,Binary Wide V0,0.982002617773036,0.3729275740798193,0.6090750436932166,LLM,0.6434151785572523,1.0,-0.3565848214427477,Non-LLM,0.8057750913480568,0.17675545484206492,0.6290196365059919,LLM
+ddave_v0,Ddave V0,0.0,0.0,0.0,Tie,0.0,0.0,0.0,Tie,0.0,0.0,0.0,Tie
+ddave_complex_v0,Ddave Complex V0,0.0,0.0,0.0,Tie,0.0,0.0,0.0,Tie,0.0,0.0,0.0,Tie
+ddave_large_v0,Ddave Large V0,0.0,0.0,0.0,Tie,0.0,0.0,0.0,Tie,0.0,0.0,0.0,Tie
+loderunner_v0,Loderunner V0,0.0,0.0,0.0,Tie,0.0,0.0,0.0,Tie,0.0,0.0,0.0,Tie
+loderunner_gold_v0,Loderunner Gold V0,0.0,0.0,0.0,Tie,0.0,0.0,0.0,Tie,0.0,0.0,0.0,Tie
+loderunner_enemies_v0,Loderunner Enemies V0,0.0,0.0,0.0,Tie,0.0,0.0,0.0,Tie,0.0,0.0,0.0,Tie
+mdungeons_v0,Mdungeons V0,0.0,0.0,0.0,Tie,0.0,0.0,0.0,Tie,0.0,0.0,0.0,Tie
+mdungeons_large_v0,Mdungeons Large V0,0.0,0.0,0.0,Tie,0.0,0.0,0.0,Tie,0.0,0.0,0.0,Tie
+mdungeons_enemies_v0,Mdungeons Enemies V0,0.0,0.0,0.0,Tie,0.0,0.0,0.0,Tie,0.0,0.0,0.0,Tie
+sokoban_v0,Sokoban V0,0.0,0.0,0.0,Tie,0.0,0.0,0.0,Tie,0.0,0.0,0.0,Tie
+sokoban_large_v0,Sokoban Large V0,0.0,0.0,0.0,Tie,0.0,0.0,0.0,Tie,0.0,0.0,0.0,Tie
+sokoban_complex_v0,Sokoban Complex V0,0.0,0.0,0.0,Tie,0.0,0.0,0.0,Tie,0.0,0.0,0.0,Tie
+smbtile_v0,Smbtile V0,0.0,0.0,0.0,Tie,0.0,0.0,0.0,Tie,0.0,0.0,0.0,Tie
+smbtile_medium_v0,Smbtile Medium V0,0.0,0.0,0.0,Tie,0.0,0.0,0.0,Tie,0.0,0.0,0.0,Tie
+smbtile_small_v0,Smbtile Small V0,0.0,0.0,0.0,Tie,0.0,0.0,0.0,Tie,0.0,0.0,0.0,Tie
+zelda_v0,Zelda V0,0.0,0.0,0.0,Tie,0.0,0.0,0.0,Tie,0.0,0.0,0.0,Tie
+zelda_enemies_v0,Zelda Enemies V0,0.0,0.0,0.0,Tie,0.0,0.0,0.0,Tie,0.0,0.0,0.0,Tie
+zelda_large_v0,Zelda Large V0,0.0,0.0,0.0,Tie,0.0,0.0,0.0,Tie,0.0,0.0,0.0,Tie

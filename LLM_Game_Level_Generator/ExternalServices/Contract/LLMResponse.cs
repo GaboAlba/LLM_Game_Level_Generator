@@ -2,6 +2,8 @@
 {
     using ExternalServices.Contract.LLM_Response;
 
+    using System.Net.Http.Headers;
+
     public class LLMResponse
     {
         /// <summary>
@@ -33,5 +35,10 @@
         /// The reasoning performed by the LLM to achieve the response
         /// </summary>
         public string? ReasoningText { get; set; }
+
+        /// <summary>
+        /// Details on token usage for the request
+        /// </summary>
+        public LLMUsage? Usage { get; set; }
     }
 }

@@ -7,8 +7,7 @@
     public class BinaryV0PromptTemplate : BinaryPromptTemplateBase
     {
         [SetsRequiredMembers]
-        public BinaryV0PromptTemplate(string jsonPath)
-            : base(jsonPath)
+        public BinaryV0PromptTemplate()
         {
             this.GameName = "Binary";
             this.GameDescription = "The binary problem is from the PCGRL framework where the goal is to generate a 2D maze of empty and solid tile where it is fully connected and have a long path in it that is more than the a specific distance. The default value is equal to the width + height of the map.";
@@ -21,9 +20,9 @@
             this.GameGenre = "Maze";
             this.DifficultyLevel = "Easy";
             this.HazardLevel = "None";
-            this.CustomConstraints = $"The maze **must** have a minimum path length of 28 steps \n\n" +
-                $"To pass the controlabiltiy criteria, the longest shortest path **must** be as close as possible to {this.controlParameters.PathLength}\n\n" +
-                $"The map **must** be creative and entertaining";
+            this.CustomConstraints = $"The maze **must** have a minimum path length of 28 steps\n" +
+                $"The map **must** be creative and entertaining \n" +
+                $"You have to use the complete level dimensions to create several areas combinig open with tight areas without violating the path length";
         }
     }
 }

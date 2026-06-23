@@ -7,8 +7,8 @@
     public class ZeldaLargeV0PromptTemplate : ZeldaPromptTemplateBase
     {
         [SetsRequiredMembers]
-        public ZeldaLargeV0PromptTemplate(string jsonPath)
-            : base(jsonPath)
+        public ZeldaLargeV0PromptTemplate()
+            : base(30, "18", "12")
         {
             this.GameName = "Zelda";
             this.GameDescription = "SuperThe zelda problem was introduced originally throught the GVGAI framework. The problem is a bit more complicated than generating a maze as there has to be connectivity and specific number of items on the map which made it get a lot of research attraction and used in many papers (\"Path of Destruction\", \"PCGRL: Procedural Content Generation via Reinforcement Learning\", \"Bootstrapping conditional gans for video game level generation\"). The problem is just a simple dungeon crawler where the player need to get a key and go to the door without dying from the enemies. The goal of the problem is to generate a fully connected playable level with enemies.";
@@ -22,8 +22,8 @@
             this.DifficultyLevel = "Medium";
             this.HazardLevel = "Easy";
             this.CustomConstraints = $"The solution length **must** take at least 30 steps\n\n" +
-                $"The amount of steps from the starting position to the key **must** be close to {this.controlParameters.PlayerKeyDistance}\n\n" +
-                $"The amount of steps from the key to the door **must** be close to {this.controlParameters.KeyDoorDistance}";
+                $"The amount of steps from the starting position to the key **must** be between {this.PlayerKeyDistanceRange["min"]} and {this.PlayerKeyDistanceRange["max"]}\n\n" +
+                $"The amount of steps from the key to the door **must** be between {this.KeyDoorDistanceRange["min"]} and {this.KeyDoorDistanceRange["max"]}";
         }
     }
 }

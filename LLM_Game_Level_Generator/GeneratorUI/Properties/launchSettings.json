@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "GeneratorUI": {
+      "commandName": "Project",
+      "commandLineArgs": "-b Debug -n 1"
+    }
+  }
+}

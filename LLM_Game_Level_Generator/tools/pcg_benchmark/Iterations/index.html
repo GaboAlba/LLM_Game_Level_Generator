@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PCG Benchmark — LLM vs Non-LLM</title><style>
+:root { color-scheme: light; }
+* { box-sizing: border-box; }
+body { font-family: -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+       margin: 0; color: #1f2933; background: #f5f7fa; line-height: 1.5; }
+.container { max-width: 1100px; margin: 0 auto; padding: 32px 24px 80px; }
+h1 { font-size: 28px; margin: 0 0 4px; }
+h2 { font-size: 21px; margin: 40px 0 12px; border-bottom: 2px solid #e4e7eb; padding-bottom: 6px; }
+h3 { font-size: 16px; margin: 28px 0 8px; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.subtitle { color: #616e7c; margin: 0 0 24px; }
+.verdict { display: inline-block; padding: 10px 18px; border-radius: 8px; font-weight: 600;
+           background: #e8f0fe; color: #1a3e8c; margin: 8px 0 16px; }
+.verdict.llm { background: #e6f4ea; color: #1e7d34; }
+.verdict.pcg { background: #fdeceb; color: #b3261e; }
+.verdict.tie { background: #f3f0e6; color: #8a6d1f; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; background: #fff;
+        box-shadow: 0 1px 2px rgba(0,0,0,.06); border-radius: 8px; overflow: hidden; }
+th, td { padding: 8px 10px; text-align: right; border-bottom: 1px solid #eef1f4; }
+th:first-child, td:first-child { text-align: left; }
+thead th { background: #1f2933; color: #fff; font-weight: 600; }
+tbody tr:hover { background: #f8fafc; }
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+.card { background: #fff; border-radius: 10px; padding: 18px; box-shadow: 0 1px 3px rgba(0,0,0,.08);
+        display: block; }
+.card h3 { margin: 0 0 6px; }
+img.chart { max-width: 100%; background: #fff; border-radius: 8px; padding: 8px;
+            box-shadow: 0 1px 2px rgba(0,0,0,.06); margin: 8px 0; }
+.gallery { margin: 8px 0 24px; }
+.gallery .row { display: flex; gap: 24px; flex-wrap: wrap; }
+.gallery .col { flex: 1 1 360px; }
+.gallery .strip { display: flex; flex-wrap: wrap; gap: 4px; }
+.gallery .strip img { height: 72px; image-rendering: pixelated; border: 1px solid #d2d6dc;
+                      background: #fff; border-radius: 2px; }
+.method-label { font-weight: 600; font-size: 13px; margin: 4px 0; color: #3e4c59; }
+.muted { color: #9aa5b1; font-size: 13px; }
+</style></head>
+<body><div class="container">
+<h1>PCG Benchmark Report</h1>
+<p class="subtitle">Comparing LLM-generated levels against a non-LLM random baseline.</p>
+
+<h2>What is being evaluated</h2>
+<p>For each game variant the benchmark takes a set of <strong>LLM-generated</strong>
+levels and an equally sized <strong>non-LLM</strong> baseline (levels sampled randomly
+from the same content space). Both sets are scored against the same control targets so
+the comparison is fair. The goal is to determine which method produces better levels.</p>
+
+<h2>How it is measured</h2>
+<p>Every level set is scored on three metrics, each reported as a fraction in [0, 1]
+(higher is better):</p>
+<table><thead><tr><th>Metric</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>Quality</td><td>Fraction of levels that are valid / playable (e.g. solvable,
+correctly connected, right number of objects for that game).</td></tr>
+<tr><td>Diversity</td><td>Fraction of levels that are sufficiently different from the
+others in the set (avoids near-duplicate output).</td></tr>
+<tr><td>Controlability</td><td>Fraction of levels that match the requested control
+targets (e.g. a target path length or object count).</td></tr>
+</tbody></table>
+<p>Each iteration aggregates these per variant, declares a winner per metric, and an
+overall winner (the method that wins the most metrics). Raw per-map and per-variant
+data is exported as CSV next to each iteration for deeper analysis.</p>
+
+<h2>Iterations</h2>
+<div class="cards">
+        <a class="card" href="0/index.html">
+          <h3>Iteration 0</h3>
+          <p class="muted">Only Binary Levels</p>
+          <div class="verdict llm">Winner: LLM</div>
+        </a>
+        <a class="card" href="1/index.html">
+          <h3>Iteration 1</h3>
+          <p class="muted">Slight Prompt Changes to Binary Levels</p>
+          <div class="verdict llm">Winner: LLM</div>
+        </a>
+        <a class="card" href="2/index.html">
+          <h3>Iteration 2</h3>
+          <p class="muted">Complete Benchmark run</p>
+          <div class="verdict llm">Winner: LLM</div>
+        </a></div>
+</div></body></html>

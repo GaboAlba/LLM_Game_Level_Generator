@@ -7,16 +7,15 @@
     public class LodeRunnerV0PromptTemplate : LodeRunnerPromptTemplateBase
     {
         [SetsRequiredMembers]
-        public LodeRunnerV0PromptTemplate(string jsonPath)
-            : base(jsonPath)
+        public LodeRunnerV0PromptTemplate()
         {
+            this.Width = "32";
+            this.Height = "21";
             this.GameName = "Lode Runner";
             this.GameDescription = "This is a simple version of the classic game Lode Runner. Lode Runner is an arcade puzzle platformer where the player can't jump and they need to collect all the gold without being caught by the enemies. The player can move horizontal and climb ladders.";
             this.LevelName = "loderunner-v0";
             this.LevelDescription = "";
-            this.Tiles = PromptGroundingDataInjector.ListToString(this.GetMapTiles(minEnemies: 3, minGold: 6, targetLadders: this.controlParameters.LaddersCount, targetRopes: this.controlParameters.RopesCount));
-            this.Width = "32";
-            this.Height = "21";
+            this.Tiles = PromptGroundingDataInjector.ListToString(this.GetMapTiles(minEnemies: 3, minGold: 6, width: int.Parse(this.Width), height: int.Parse(this.Height)));
             this.GameType = "Platformer";
             this.GameGenre = "Arcade Puzzle";
             this.DifficultyLevel = "Medium";

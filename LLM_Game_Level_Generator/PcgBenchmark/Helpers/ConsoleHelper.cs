@@ -8,6 +8,9 @@
 
     internal static class ConsoleHelper
     {
+        private const int MaxTokensPerDay = 1000000;
+        private const int MaxConcurrentRequests = 8;
+
         internal struct ConsoleOutput
         {
             public ConsoleOutput()
@@ -16,7 +19,7 @@
                 this.RawOutput = new Dictionary<string, string>();
                 this.Output = new Dictionary<string, List<List<string>>>();
                 this.DebugMessage = string.Empty;
-                this.Error = string.Empty;
+                this.Error = [];
             }
 
             /// <summary>
@@ -42,16 +45,18 @@
             /// <summary>
             /// 
             /// </summary>
-            public string Error { get; internal set; }
+            public List<string> Error { get; internal set; }
         }
 
         internal async static Task<ConsoleOutput?> HandleRequestAsync(string[] args)
         {
             var output = new ConsoleOutput();
             var model = string.Empty;
+            var numberOfIterations = 1;
             if (args.Length == 0)
             {
                 output.BenchmarksToRun = BenchmarkHelper.GetAllPossibleBenchmarks();
+                numberOfIterations = 1;
             }
             else
             {
@@ -74,16 +79,33 @@
                             }
                             else
                             {
-                                return new ConsoleOutput() { Error = $"Model must be one of \n\n {validModels}" };
+                                return new ConsoleOutput() { Error = [$"Model must be one of \n\n {validModels}"] };
                             }
+                        case "-n":
+                            _ = int.TryParse(args[i + 1], out numberOfIterations);
+                            break;
 
                     }
                 }
             }
 
+            // Add all iterations to the benchmarks
+            var tempDict = new Dictionary<string, object>();
+            foreach (var kvp in output.BenchmarksToRun)
+            {
+                for (var i = 0; i < numberOfIterations; i++)
+                {
+                    tempDict.Add(kvp.Key + $"_{i}", kvp.Value);
+                }
+            }
+
+            output.BenchmarksToRun = tempDict;
+
             // Call the model
             var handleBarsEngine = new HandlebarsEngine();
             var lockObj = new object();
+            var currentTokenCountInDay = 0;
+            var currentConcurrentRequests = 0;
             var tasks = output.BenchmarksToRun.Select(async benchmark =>
             {
                 var prompt = handleBarsEngine.ParsePrompt(benchmark.Value as PromptTemplateV1);
@@ -91,24 +113,59 @@
                 {
                     try
                     {
-                        var outputString = await LlmHelper.InvokeModelAsync(prompt, benchmark.Value as PromptTemplateV1);
-                        Console.WriteLine($"LLM Call for benchmark {benchmark.Key} has been successful");
-                        lock (lockObj)
+                        // Make sure we always check after 
+                        while (true)
                         {
-                            output.RawOutput[benchmark.Key] = outputString;
-                            output.Output[benchmark.Key] = BenchmarkHelper.ConvertToListOfLists(outputString);
+                            if (currentTokenCountInDay >= MaxTokensPerDay)
+                            {
+                                var midnightUTC = new DateTimeOffset(DateTime.UtcNow.Date.AddDays(1).AddMinutes(1)).ToUnixTimeMilliseconds();
+                                var now = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeMilliseconds();
+
+                                var timeUntilMidnightUTC = midnightUTC - now;
+                                Console.WriteLine($"Milliseconds To Wait for {benchmark.Key}: {timeUntilMidnightUTC}");
+                                await Task.Delay((int)timeUntilMidnightUTC);
+                                currentTokenCountInDay = 0; // Reset count after waiting all day
+                                Console.WriteLine($"Resuming processing for {benchmark.Key}");
+                                continue;
+                            }
+
+                            if (currentConcurrentRequests >= MaxConcurrentRequests)
+                            {
+                                // Poll every minute until a thread is free
+                                await Task.Delay(60000);
+                                continue;
+                            }
+
+                            lock (lockObj)
+                            {
+                                currentConcurrentRequests++;
+                            }
+
+                            Console.WriteLine($"LLM Call for benchmark {benchmark.Key} has started");
+                            (var outputString, var tokenCount) = await LlmHelper.InvokeModelAsync(prompt, benchmark.Value as PromptTemplateV1);
+                            Console.WriteLine($"LLM Call for benchmark {benchmark.Key} has successfully ended");
+                            lock (lockObj)
+                            {
+                                output.RawOutput[benchmark.Key] = outputString;
+                                output.Output[benchmark.Key] = BenchmarkHelper.ConvertToListOfLists(outputString);
+                                currentConcurrentRequests--;
+                                currentTokenCountInDay += tokenCount;
+                            }
+
+                            // If request succeeds break the cycle
+                            break;
                         }
                     }
                     catch (Exception ex)
                     {
                         lock (lockObj)
                         {
-                            output.Error = ex.ToString();
+                            output.Error.Add(ex.ToString());
+                            Console.WriteLine("CONSOLE_EXCEPTION: " + ex.ToString());
+                            currentConcurrentRequests--;
                         }
                     }
                 }
-                
-                return output;
             });
             await Task.WhenAll(tasks);
 
@@ -139,8 +196,8 @@
                 "   * Zelda: runs the benchmark on the Zelda game\n" +
                 "   * Debug: runs only the binary-v0 benchmark for quick testing\n" +
                 "-m: (Optional) Specifies the model that will be run to generate the levels. Current allowed models are:\n" +
-                "   * GPT 4.1: Non-reasoning text model with 1M token limit for the context window\n" +
-                "   * GPT 5.2: Reasoning model with a 400k token limit for the context window";
+                "   * gpt-4.1: Non-reasoning text model with 1M token limit for the context window\n" +
+                "   * gpt-5.2: Reasoning model with a 400k token limit for the context window";
         }
     }
 }

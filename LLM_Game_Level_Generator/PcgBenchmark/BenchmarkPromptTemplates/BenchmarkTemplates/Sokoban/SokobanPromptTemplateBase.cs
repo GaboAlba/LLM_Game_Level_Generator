@@ -5,38 +5,14 @@ namespace PcgBenchmark.BenchmarkPromptTemplates.BenchmarkTemplates.Sokoban
     using LLMPromptProcessor.PromptTemplates;
 
     using System.Collections.Generic;
-    using System.Text.Json;
-    using System.Text.Json.Serialization;
 
     public class SokobanPromptTemplateBase : PromptTemplateV1
     {
-        public class ControlParameters
+        public SokobanPromptTemplateBase()
+        {}
+        protected List<MapTile> GetMapTiles(int height, int width)
         {
-            /// <summary>
-            /// The exact amount of crates that should be created in the map.
-            /// </summary>
-            [JsonPropertyName("crates")]
-            public int CratesCount { get; set; }
-        }
-
-        public ControlParameters controlParameters { get; }
-
-        public SokobanPromptTemplateBase(string jsonPath)
-        {
-            try
-            {
-                var jsonString = File.ReadAllText(jsonPath);
-                this.controlParameters = JsonSerializer.Deserialize<ControlParameters>(jsonString);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                throw;
-            }
-        }
-        protected List<MapTile> GetMapTiles(int numberOfCrates)
-        {
-            var randInt = Random.Shared.Next(numberOfCrates * 2);
+            var numberOfCrates = Random.Shared.Next(1, Math.Max(width + 1, height + 1));
             return new List<MapTile>()
             {
                 new MapTile()
@@ -65,7 +41,7 @@ namespace PcgBenchmark.BenchmarkPromptTemplates.BenchmarkTemplates.Sokoban
                     TileName = "Block",
                     TileDescription = "Movable blocks by the player",
                     MinimumNumberOfTiles = numberOfCrates,
-                    MaximumNumberOfTiles = numberOfCrates + randInt,
+                    MaximumNumberOfTiles = numberOfCrates,
                 },
                 new MapTile()
                 {
@@ -73,7 +49,7 @@ namespace PcgBenchmark.BenchmarkPromptTemplates.BenchmarkTemplates.Sokoban
                     TileName = "Target",
                     TileDescription = "Tiles to which the \"Block\" tile need to be moved to solve the level. There **must** be the EXACT same amount, or the level becomes unsolvable",
                     MinimumNumberOfTiles = numberOfCrates,
-                    MaximumNumberOfTiles = numberOfCrates + randInt,
+                    MaximumNumberOfTiles = numberOfCrates,
                 },
             };
         }
