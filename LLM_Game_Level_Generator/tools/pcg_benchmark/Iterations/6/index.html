@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Iteration 6 — PCG Benchmark</title><style>
+:root { color-scheme: light; }
+* { box-sizing: border-box; }
+body { font-family: -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+       margin: 0; color: #1f2933; background: #f5f7fa; line-height: 1.5; }
+.container { max-width: 1100px; margin: 0 auto; padding: 32px 24px 80px; }
+h1 { font-size: 28px; margin: 0 0 4px; }
+h2 { font-size: 21px; margin: 40px 0 12px; border-bottom: 2px solid #e4e7eb; padding-bottom: 6px; }
+h3 { font-size: 16px; margin: 28px 0 8px; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.subtitle { color: #616e7c; margin: 0 0 24px; }
+.verdict { display: inline-block; padding: 10px 18px; border-radius: 8px; font-weight: 600;
+           background: #e8f0fe; color: #1a3e8c; margin: 8px 0 16px; }
+.verdict.llm { background: #e6f4ea; color: #1e7d34; }
+.verdict.pcg { background: #fdeceb; color: #b3261e; }
+.verdict.tie { background: #f3f0e6; color: #8a6d1f; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; background: #fff;
+        box-shadow: 0 1px 2px rgba(0,0,0,.06); border-radius: 8px; overflow: hidden; }
+th, td { padding: 8px 10px; text-align: right; border-bottom: 1px solid #eef1f4; }
+th:first-child, td:first-child { text-align: left; }
+thead th { background: #1f2933; color: #fff; font-weight: 600; }
+tbody tr:hover { background: #f8fafc; }
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+.card { background: #fff; border-radius: 10px; padding: 18px; box-shadow: 0 1px 3px rgba(0,0,0,.08);
+        display: block; }
+.card h3 { margin: 0 0 6px; }
+img.chart { max-width: 100%; background: #fff; border-radius: 8px; padding: 8px;
+            box-shadow: 0 1px 2px rgba(0,0,0,.06); margin: 8px 0; }
+.gallery { margin: 8px 0 24px; }
+.gallery .row { display: flex; gap: 24px; flex-wrap: wrap; }
+.gallery .col { flex: 1 1 360px; }
+.gallery .strip { display: flex; flex-wrap: wrap; gap: 4px; }
+.gallery .strip img { height: 72px; image-rendering: pixelated; border: 1px solid #d2d6dc;
+                      background: #fff; border-radius: 2px; }
+.method-label { font-weight: 600; font-size: 13px; margin: 4px 0; color: #3e4c59; }
+.muted { color: #9aa5b1; font-size: 13px; }
+</style></head>
+<body><div class="container">
+<p><a href="../index.html">&larr; All iterations</a></p>
+<h1>Iteration 6</h1>
+<p class="subtitle">Iteration 6</p>
+<div class="verdict llm">Overall winner: LLM
+&nbsp;·&nbsp; 21 variant(s)</div>
+
+<h2>Metric comparison</h2>
+<table><thead><tr><th>Metric</th><th>LLM mean</th><th>Non-LLM mean</th><th>Δ</th>
+<th>LLM wins</th><th>Non-LLM wins</th><th>Ties</th><th>Winner</th></tr></thead>
+<tbody><tr><td>Quality</td><td>0.864</td><td>0.512</td><td>+0.352</td><td>18</td><td>3</td><td>0</td><td>LLM</td></tr><tr><td>Diversity</td><td>0.751</td><td>0.633</td><td>+0.118</td><td>12</td><td>9</td><td>0</td><td>LLM</td></tr><tr><td>Controlability</td><td>0.681</td><td>0.758</td><td>-0.076</td><td>5</td><td>16</td><td>0</td><td>Non-LLM</td></tr></tbody></table>
+
+<h2>Charts</h2>
+<img class="chart" src="chart_overall.png" alt="overall means"><img class="chart" src="chart_quality.png" alt="quality by variant"><img class="chart" src="chart_diversity.png" alt="diversity by variant"><img class="chart" src="chart_controlability.png" alt="controlability by variant">
+
+<h2>Per-variant summary</h2>
+<table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Variant</th>
+      <th>LLM qual</th>
+      <th>PCG qual</th>
+      <th>Δ qual</th>
+      <th>Win qual</th>
+      <th>LLM dive</th>
+      <th>PCG dive</th>
+      <th>Δ dive</th>
+      <th>Win dive</th>
+      <th>LLM cont</th>
+      <th>PCG cont</th>
+      <th>Δ cont</th>
+      <th>Win cont</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Binary V0</td>
+      <td>1.000</td>
+      <td>0.997</td>
+      <td>+0.003</td>
+      <td>LLM</td>
+      <td>0.857</td>
+      <td>1.000</td>
+      <td>-0.143</td>
+      <td>Non-LLM</td>
+      <td>0.792</td>
+      <td>0.890</td>
+      <td>-0.098</td>
+      <td>Non-LLM</td>
+    </tr>
+    <tr>
+      <td>Binary Large V0</td>
+      <td>0.924</td>
+      <td>0.871</td>
+      <td>+0.053</td>
+      <td>LLM</td>
+      <td>0.917</td>
+      <td>1.000</td>
+      <td>-0.083</td>
+      <td>Non-LLM</td>
+      <td>0.391</td>
+      <td>0.592</td>
+      <td>-0.201</td>
+      <td>Non-LLM</td>
+    </tr>
+    <tr>
+      <td>Binary Wide V0</td>
+      <td>0.962</td>
+      <td>0.944</td>
+      <td>+0.018</td>
+      <td>LLM</td>
+      <td>0.927</td>
+      <td>1.000</td>
+      <td>-0.073</td>
+      <td>Non-LLM</td>
+      <td>0.642</td>
+      <td>0.721</td>
+      <td>-0.079</td>
+      <td>Non-LLM</td>
+    </tr>
+    <tr>
+      <td>Ddave V0</td>
+      <td>0.970</td>
+      <td>0.321</td>
+      <td>+0.649</td>
+      <td>LLM</td>
+      <td>0.998</td>
+      <td>0.340</td>
+      <td>+0.659</td>
+      <td>LLM</td>
+      <td>0.782</td>
+      <td>1.000</td>
+      <td>-0.218</td>
+      <td>Non-LLM</td>
+    </tr>
+    <tr>
+      <td>Ddave Complex V0</td>
+      <td>0.845</td>
+      <td>0.378</td>
+      <td>+0.467</td>
+      <td>LLM</td>
+      <td>0.660</td>
+      <td>0.340</td>
+      <td>+0.321</td>
+      <td>LLM</td>
+      <td>0.828</td>
+      <td>0.951</td>
+      <td>-0.123</td>
+      <td>Non-LLM</td>
+    </tr>
+    <tr>
+      <td>Ddave Large V0</td>
+      <td>0.647</td>
+      <td>0.293</td>
+      <td>+0.354</td>
+      <td>LLM</td>
+      <td>0.449</td>
+      <td>0.340</td>
+      <td>+0.109</td>
+      <td>LLM</td>
+      <td>0.741</td>
+      <td>0.999</td>
+      <td>-0.258</td>
+      <td>Non-LLM</td>
+    </tr>
+    <tr>
+      <td>Loderunner V0</td>
+      <td>0.638</td>
+      <td>0.224</td>
+      <td>+0.414</td>
+      <td>LLM</td>
+      <td>0.680</td>
+      <td>0.340</td>
+      <td>+0.340</td>
+      <td>LLM</td>
+      <td>0.772</td>
+      <td>0.991</td>
+      <td>-0.218</td>
+      <td>Non-LLM</td>
+    </tr>
+    <tr>
+      <td>Loderunner Gold V0</td>
+      <td>0.756</td>
+      <td>0.227</td>
+      <td>+0.530</td>
+      <td>LLM</td>
+      <td>0.656</td>
+      <td>0.340</td>
+      <td>+0.317</td>
+      <td>LLM</td>
+      <td>0.753</td>
+      <td>0.992</td>
+      <td>-0.240</td>
+      <td>Non-LLM</td>
+    </tr>
+    <tr>
+      <td>Loderunner Enemies V0</td>
+      <td>0.715</td>
+      <td>0.226</td>
+      <td>+0.489</td>
+      <td>LLM</td>
+      <td>0.662</td>
+      <td>0.340</td>
+      <td>+0.322</td>
+      <td>LLM</td>
+      <td>0.733</td>
+      <td>0.992</td>
+      <td>-0.259</td>
+      <td>Non-LLM</td>
+    </tr>
+    <tr>
+      <td>Mdungeons V0</td>
+      <td>0.623</td>
+      <td>0.959</td>
+      <td>-0.336</td>
+      <td>Non-LLM</td>
+      <td>0.591</td>
+      <td>1.000</td>
+      <td>-0.409</td>
+      <td>Non-LLM</td>
+      <td>0.243</td>
+      <td>0.694</td>
+      <td>-0.451</td>
+      <td>Non-LLM</td>
+    </tr>
+    <tr>
+      <td>Mdungeons Large V0</td>
+      <td>0.812</td>
+      <td>0.319</td>
+      <td>+0.493</td>
+      <td>LLM</td>
+      <td>0.803</td>
+      <td>0.620</td>
+      <td>+0.183</td>
+      <td>LLM</td>
+      <td>0.302</td>
+      <td>0.000</td>
+      <td>+0.302</td>
+      <td>LLM</td>
+    </tr>
+    <tr>
+      <td>Mdungeons Enemies V0</td>
+      <td>1.000</td>
+      <td>0.886</td>
+      <td>+0.114</td>
+      <td>LLM</td>
+      <td>0.797</td>
+      <td>0.996</td>
+      <td>-0.199</td>
+      <td>Non-LLM</td>
+      <td>0.613</td>
+      <td>0.605</td>
+      <td>+0.008</td>
+      <td>LLM</td>
+    </tr>
+    <tr>
+      <td>Sokoban V0</td>
+      <td>0.962</td>
+      <td>0.818</td>
+      <td>+0.144</td>
+      <td>LLM</td>
+      <td>0.871</td>
+      <td>0.660</td>
+      <td>+0.211</td>
+      <td>LLM</td>
+      <td>0.978</td>
+      <td>1.000</td>
+      <td>-0.022</td>
+      <td>Non-LLM</td>
+    </tr>
+    <tr>
+      <td>Sokoban Large V0</td>
+      <td>0.694</td>
+      <td>0.710</td>
+      <td>-0.016</td>
+      <td>Non-LLM</td>
+      <td>0.493</td>
+      <td>0.370</td>
+      <td>+0.122</td>
+      <td>LLM</td>
+      <td>0.588</td>
+      <td>0.986</td>
+      <td>-0.397</td>
+      <td>Non-LLM</td>
+    </tr>
+    <tr>
+      <td>Sokoban Complex V0</td>
+      <td>0.662</td>
+      <td>0.770</td>
+      <td>-0.107</td>
+      <td>Non-LLM</td>
+      <td>0.340</td>
+      <td>0.660</td>
+      <td>-0.321</td>
+      <td>Non-LLM</td>
+      <td>0.978</td>
+      <td>1.000</td>
+      <td>-0.022</td>
+      <td>Non-LLM</td>
+    </tr>
+    <tr>
+      <td>Smbtile V0</td>
+      <td>0.963</td>
+      <td>0.114</td>
+      <td>+0.848</td>
+      <td>LLM</td>
+      <td>0.667</td>
+      <td>0.340</td>
+      <td>+0.327</td>
+      <td>LLM</td>
+      <td>0.585</td>
+      <td>0.125</td>
+      <td>+0.460</td>
+      <td>LLM</td>
+    </tr>
+    <tr>
+      <td>Smbtile Medium V0</td>
+      <td>0.982</td>
+      <td>0.120</td>
+      <td>+0.862</td>
+      <td>LLM</td>
+      <td>0.769</td>
+      <td>0.340</td>
+      <td>+0.429</td>
+      <td>LLM</td>
+      <td>0.692</td>
+      <td>0.208</td>
+      <td>+0.483</td>
+      <td>LLM</td>
+    </tr>
+    <tr>
+      <td>Smbtile Small V0</td>
+      <td>0.999</td>
+      <td>0.132</td>
+      <td>+0.866</td>
+      <td>LLM</td>
+      <td>0.930</td>
+      <td>0.340</td>
+      <td>+0.590</td>
+      <td>LLM</td>
+      <td>0.654</td>
+      <td>0.208</td>
+      <td>+0.446</td>
+      <td>LLM</td>
+    </tr>
+    <tr>
+      <td>Zelda V0</td>
+      <td>0.995</td>
+      <td>0.487</td>
+      <td>+0.509</td>
+      <td>LLM</td>
+      <td>0.861</td>
+      <td>0.976</td>
+      <td>-0.114</td>
+      <td>Non-LLM</td>
+      <td>0.778</td>
+      <td>1.000</td>
+      <td>-0.222</td>
+      <td>Non-LLM</td>
+    </tr>
+    <tr>
+      <td>Zelda Enemies V0</td>
+      <td>1.000</td>
+      <td>0.492</td>
+      <td>+0.508</td>
+      <td>LLM</td>
+      <td>0.925</td>
+      <td>0.966</td>
+      <td>-0.041</td>
+      <td>Non-LLM</td>
+      <td>0.766</td>
+      <td>1.000</td>
+      <td>-0.234</td>
+      <td>Non-LLM</td>
+    </tr>
+    <tr>
+      <td>Zelda Large V0</td>
+      <td>1.000</td>
+      <td>0.470</td>
+      <td>+0.530</td>
+      <td>LLM</td>
+      <td>0.926</td>
+      <td>0.990</td>
+      <td>-0.064</td>
+      <td>Non-LLM</td>
+      <td>0.695</td>
+      <td>0.954</td>
+      <td>-0.259</td>
+      <td>Non-LLM</td>
+    </tr>
+  </tbody>
+</table>
+<p class="muted">Raw data: <a href="analysis.csv">analysis.csv</a> (per map) ·
+<a href="summary.csv">summary.csv</a> (per variant) ·
+<a href="eval_results.json">eval_results.json</a></p>
+
+<h2>Map gallery</h2>
+
+        <h3>Binary V0</h3>
+        <div class="gallery"><div class="row">
+          <div class="col"><div class="method-label">LLM</div><div class="strip"><img src="binary_v0_llm_0.png" alt="binary_v0_llm_0.png"><img src="binary_v0_llm_1.png" alt="binary_v0_llm_1.png"><img src="binary_v0_llm_2.png" alt="binary_v0_llm_2.png"><img src="binary_v0_llm_3.png" alt="binary_v0_llm_3.png"><img src="binary_v0_llm_4.png" alt="binary_v0_llm_4.png"><img src="binary_v0_llm_5.png" alt="binary_v0_llm_5.png"><img src="binary_v0_llm_6.png" alt="binary_v0_llm_6.png"><img src="binary_v0_llm_7.png" alt="binary_v0_llm_7.png"></div></div>
+          <div class="col"><div class="method-label">Non-LLM (random)</div><div class="strip"><img src="binary_v0_pcg_0.png" alt="binary_v0_pcg_0.png"><img src="binary_v0_pcg_1.png" alt="binary_v0_pcg_1.png"><img src="binary_v0_pcg_2.png" alt="binary_v0_pcg_2.png"><img src="binary_v0_pcg_3.png" alt="binary_v0_pcg_3.png"><img src="binary_v0_pcg_4.png" alt="binary_v0_pcg_4.png"><img src="binary_v0_pcg_5.png" alt="binary_v0_pcg_5.png"><img src="binary_v0_pcg_6.png" alt="binary_v0_pcg_6.png"><img src="binary_v0_pcg_7.png" alt="binary_v0_pcg_7.png"></div></div>
+        </div></div>
+        <h3>Binary Large V0</h3>
+        <div class="gallery"><div class="row">
+          <div class="col"><div class="method-label">LLM</div><div class="strip"><img src="binary_large_v0_llm_0.png" alt="binary_large_v0_llm_0.png"><img src="binary_large_v0_llm_1.png" alt="binary_large_v0_llm_1.png"><img src="binary_large_v0_llm_2.png" alt="binary_large_v0_llm_2.png"><img src="binary_large_v0_llm_3.png" alt="binary_large_v0_llm_3.png"><img src="binary_large_v0_llm_4.png" alt="binary_large_v0_llm_4.png"><img src="binary_large_v0_llm_5.png" alt="binary_large_v0_llm_5.png"><img src="binary_large_v0_llm_6.png" alt="binary_large_v0_llm_6.png"><img src="binary_large_v0_llm_7.png" alt="binary_large_v0_llm_7.png"></div></div>
+          <div class="col"><div class="method-label">Non-LLM (random)</div><div class="strip"><img src="binary_large_v0_pcg_0.png" alt="binary_large_v0_pcg_0.png"><img src="binary_large_v0_pcg_1.png" alt="binary_large_v0_pcg_1.png"><img src="binary_large_v0_pcg_2.png" alt="binary_large_v0_pcg_2.png"><img src="binary_large_v0_pcg_3.png" alt="binary_large_v0_pcg_3.png"><img src="binary_large_v0_pcg_4.png" alt="binary_large_v0_pcg_4.png"><img src="binary_large_v0_pcg_5.png" alt="binary_large_v0_pcg_5.png"><img src="binary_large_v0_pcg_6.png" alt="binary_large_v0_pcg_6.png"><img src="binary_large_v0_pcg_7.png" alt="binary_large_v0_pcg_7.png"></div></div>
+        </div></div>
+        <h3>Binary Wide V0</h3>
+        <div class="gallery"><div class="row">
+          <div class="col"><div class="method-label">LLM</div><div class="strip"><img src="binary_wide_v0_llm_0.png" alt="binary_wide_v0_llm_0.png"><img src="binary_wide_v0_llm_1.png" alt="binary_wide_v0_llm_1.png"><img src="binary_wide_v0_llm_2.png" alt="binary_wide_v0_llm_2.png"><img src="binary_wide_v0_llm_3.png" alt="binary_wide_v0_llm_3.png"><img src="binary_wide_v0_llm_4.png" alt="binary_wide_v0_llm_4.png"><img src="binary_wide_v0_llm_5.png" alt="binary_wide_v0_llm_5.png"><img src="binary_wide_v0_llm_6.png" alt="binary_wide_v0_llm_6.png"><img src="binary_wide_v0_llm_7.png" alt="binary_wide_v0_llm_7.png"></div></div>
+          <div class="col"><div class="method-label">Non-LLM (random)</div><div class="strip"><img src="binary_wide_v0_pcg_0.png" alt="binary_wide_v0_pcg_0.png"><img src="binary_wide_v0_pcg_1.png" alt="binary_wide_v0_pcg_1.png"><img src="binary_wide_v0_pcg_2.png" alt="binary_wide_v0_pcg_2.png"><img src="binary_wide_v0_pcg_3.png" alt="binary_wide_v0_pcg_3.png"><img src="binary_wide_v0_pcg_4.png" alt="binary_wide_v0_pcg_4.png"><img src="binary_wide_v0_pcg_5.png" alt="binary_wide_v0_pcg_5.png"><img src="binary_wide_v0_pcg_6.png" alt="binary_wide_v0_pcg_6.png"><img src="binary_wide_v0_pcg_7.png" alt="binary_wide_v0_pcg_7.png"></div></div>
+        </div></div>
+        <h3>Ddave V0</h3>
+        <div class="gallery"><div class="row">
+          <div class="col"><div class="method-label">LLM</div><div class="strip"><img src="ddave_v0_llm_0.png" alt="ddave_v0_llm_0.png"><img src="ddave_v0_llm_1.png" alt="ddave_v0_llm_1.png"><img src="ddave_v0_llm_2.png" alt="ddave_v0_llm_2.png"><img src="ddave_v0_llm_3.png" alt="ddave_v0_llm_3.png"><img src="ddave_v0_llm_4.png" alt="ddave_v0_llm_4.png"><img src="ddave_v0_llm_5.png" alt="ddave_v0_llm_5.png"><img src="ddave_v0_llm_6.png" alt="ddave_v0_llm_6.png"><img src="ddave_v0_llm_7.png" alt="ddave_v0_llm_7.png"></div></div>
+          <div class="col"><div class="method-label">Non-LLM (random)</div><div class="strip"><img src="ddave_v0_pcg_0.png" alt="ddave_v0_pcg_0.png"><img src="ddave_v0_pcg_1.png" alt="ddave_v0_pcg_1.png"><img src="ddave_v0_pcg_2.png" alt="ddave_v0_pcg_2.png"><img src="ddave_v0_pcg_3.png" alt="ddave_v0_pcg_3.png"><img src="ddave_v0_pcg_4.png" alt="ddave_v0_pcg_4.png"><img src="ddave_v0_pcg_5.png" alt="ddave_v0_pcg_5.png"><img src="ddave_v0_pcg_6.png" alt="ddave_v0_pcg_6.png"><img src="ddave_v0_pcg_7.png" alt="ddave_v0_pcg_7.png"></div></div>
+        </div></div>
+        <h3>Ddave Complex V0</h3>
+        <div class="gallery"><div class="row">
+          <div class="col"><div class="method-label">LLM</div><div class="strip"><img src="ddave_complex_v0_llm_0.png" alt="ddave_complex_v0_llm_0.png"><img src="ddave_complex_v0_llm_1.png" alt="ddave_complex_v0_llm_1.png"><img src="ddave_complex_v0_llm_2.png" alt="ddave_complex_v0_llm_2.png"><img src="ddave_complex_v0_llm_3.png" alt="ddave_complex_v0_llm_3.png"><img src="ddave_complex_v0_llm_4.png" alt="ddave_complex_v0_llm_4.png"><img src="ddave_complex_v0_llm_5.png" alt="ddave_complex_v0_llm_5.png"><img src="ddave_complex_v0_llm_6.png" alt="ddave_complex_v0_llm_6.png"><img src="ddave_complex_v0_llm_7.png" alt="ddave_complex_v0_llm_7.png"></div></div>
+          <div class="col"><div class="method-label">Non-LLM (random)</div><div class="strip"><img src="ddave_complex_v0_pcg_0.png" alt="ddave_complex_v0_pcg_0.png"><img src="ddave_complex_v0_pcg_1.png" alt="ddave_complex_v0_pcg_1.png"><img src="ddave_complex_v0_pcg_2.png" alt="ddave_complex_v0_pcg_2.png"><img src="ddave_complex_v0_pcg_3.png" alt="ddave_complex_v0_pcg_3.png"><img src="ddave_complex_v0_pcg_4.png" alt="ddave_complex_v0_pcg_4.png"><img src="ddave_complex_v0_pcg_5.png" alt="ddave_complex_v0_pcg_5.png"><img src="ddave_complex_v0_pcg_6.png" alt="ddave_complex_v0_pcg_6.png"><img src="ddave_complex_v0_pcg_7.png" alt="ddave_complex_v0_pcg_7.png"></div></div>
+        </div></div>
+        <h3>Ddave Large V0</h3>
+        <div class="gallery"><div class="row">
+          <div class="col"><div class="method-label">LLM</div><div class="strip"><img src="ddave_large_v0_llm_0.png" alt="ddave_large_v0_llm_0.png"><img src="ddave_large_v0_llm_1.png" alt="ddave_large_v0_llm_1.png"><img src="ddave_large_v0_llm_2.png" alt="ddave_large_v0_llm_2.png"><img src="ddave_large_v0_llm_3.png" alt="ddave_large_v0_llm_3.png"><img src="ddave_large_v0_llm_4.png" alt="ddave_large_v0_llm_4.png"><img src="ddave_large_v0_llm_5.png" alt="ddave_large_v0_llm_5.png"><img src="ddave_large_v0_llm_6.png" alt="ddave_large_v0_llm_6.png"><img src="ddave_large_v0_llm_7.png" alt="ddave_large_v0_llm_7.png"></div></div>
+          <div class="col"><div class="method-label">Non-LLM (random)</div><div class="strip"><img src="ddave_large_v0_pcg_0.png" alt="ddave_large_v0_pcg_0.png"><img src="ddave_large_v0_pcg_1.png" alt="ddave_large_v0_pcg_1.png"><img src="ddave_large_v0_pcg_2.png" alt="ddave_large_v0_pcg_2.png"><img src="ddave_large_v0_pcg_3.png" alt="ddave_large_v0_pcg_3.png"><img src="ddave_large_v0_pcg_4.png" alt="ddave_large_v0_pcg_4.png"><img src="ddave_large_v0_pcg_5.png" alt="ddave_large_v0_pcg_5.png"><img src="ddave_large_v0_pcg_6.png" alt="ddave_large_v0_pcg_6.png"><img src="ddave_large_v0_pcg_7.png" alt="ddave_large_v0_pcg_7.png"></div></div>
+        </div></div>
+        <h3>Loderunner V0</h3>
+        <div class="gallery"><div class="row">
+          <div class="col"><div class="method-label">LLM</div><div class="strip"><img src="loderunner_v0_llm_0.png" alt="loderunner_v0_llm_0.png"><img src="loderunner_v0_llm_1.png" alt="loderunner_v0_llm_1.png"><img src="loderunner_v0_llm_2.png" alt="loderunner_v0_llm_2.png"><img src="loderunner_v0_llm_3.png" alt="loderunner_v0_llm_3.png"><img src="loderunner_v0_llm_4.png" alt="loderunner_v0_llm_4.png"><img src="loderunner_v0_llm_5.png" alt="loderunner_v0_llm_5.png"><img src="loderunner_v0_llm_6.png" alt="loderunner_v0_llm_6.png"><img src="loderunner_v0_llm_7.png" alt="loderunner_v0_llm_7.png"></div></div>
+          <div class="col"><div class="method-label">Non-LLM (random)</div><div class="strip"><img src="loderunner_v0_pcg_0.png" alt="loderunner_v0_pcg_0.png"><img src="loderunner_v0_pcg_1.png" alt="loderunner_v0_pcg_1.png"><img src="loderunner_v0_pcg_2.png" alt="loderunner_v0_pcg_2.png"><img src="loderunner_v0_pcg_3.png" alt="loderunner_v0_pcg_3.png"><img src="loderunner_v0_pcg_4.png" alt="loderunner_v0_pcg_4.png"><img src="loderunner_v0_pcg_5.png" alt="loderunner_v0_pcg_5.png"><img src="loderunner_v0_pcg_6.png" alt="loderunner_v0_pcg_6.png"><img src="loderunner_v0_pcg_7.png" alt="loderunner_v0_pcg_7.png"></div></div>
+        </div></div>
+        <h3>Loderunner Gold V0</h3>
+        <div class="gallery"><div class="row">
+          <div class="col"><div class="method-label">LLM</div><div class="strip"><img src="loderunner_gold_v0_llm_0.png" alt="loderunner_gold_v0_llm_0.png"><img src="loderunner_gold_v0_llm_1.png" alt="loderunner_gold_v0_llm_1.png"><img src="loderunner_gold_v0_llm_2.png" alt="loderunner_gold_v0_llm_2.png"><img src="loderunner_gold_v0_llm_3.png" alt="loderunner_gold_v0_llm_3.png"><img src="loderunner_gold_v0_llm_4.png" alt="loderunner_gold_v0_llm_4.png"><img src="loderunner_gold_v0_llm_5.png" alt="loderunner_gold_v0_llm_5.png"><img src="loderunner_gold_v0_llm_6.png" alt="loderunner_gold_v0_llm_6.png"><img src="loderunner_gold_v0_llm_7.png" alt="loderunner_gold_v0_llm_7.png"></div></div>
+          <div class="col"><div class="method-label">Non-LLM (random)</div><div class="strip"><img src="loderunner_gold_v0_pcg_0.png" alt="loderunner_gold_v0_pcg_0.png"><img src="loderunner_gold_v0_pcg_1.png" alt="loderunner_gold_v0_pcg_1.png"><img src="loderunner_gold_v0_pcg_2.png" alt="loderunner_gold_v0_pcg_2.png"><img src="loderunner_gold_v0_pcg_3.png" alt="loderunner_gold_v0_pcg_3.png"><img src="loderunner_gold_v0_pcg_4.png" alt="loderunner_gold_v0_pcg_4.png"><img src="loderunner_gold_v0_pcg_5.png" alt="loderunner_gold_v0_pcg_5.png"><img src="loderunner_gold_v0_pcg_6.png" alt="loderunner_gold_v0_pcg_6.png"><img src="loderunner_gold_v0_pcg_7.png" alt="loderunner_gold_v0_pcg_7.png"></div></div>
+        </div></div>
+        <h3>Loderunner Enemies V0</h3>
+        <div class="gallery"><div class="row">
+          <div class="col"><div class="method-label">LLM</div><div class="strip"><img src="loderunner_enemies_v0_llm_0.png" alt="loderunner_enemies_v0_llm_0.png"><img src="loderunner_enemies_v0_llm_1.png" alt="loderunner_enemies_v0_llm_1.png"><img src="loderunner_enemies_v0_llm_2.png" alt="loderunner_enemies_v0_llm_2.png"><img src="loderunner_enemies_v0_llm_3.png" alt="loderunner_enemies_v0_llm_3.png"><img src="loderunner_enemies_v0_llm_4.png" alt="loderunner_enemies_v0_llm_4.png"><img src="loderunner_enemies_v0_llm_5.png" alt="loderunner_enemies_v0_llm_5.png"><img src="loderunner_enemies_v0_llm_6.png" alt="loderunner_enemies_v0_llm_6.png"><img src="loderunner_enemies_v0_llm_7.png" alt="loderunner_enemies_v0_llm_7.png"></div></div>
+          <div class="col"><div class="method-label">Non-LLM (random)</div><div class="strip"><img src="loderunner_enemies_v0_pcg_0.png" alt="loderunner_enemies_v0_pcg_0.png"><img src="loderunner_enemies_v0_pcg_1.png" alt="loderunner_enemies_v0_pcg_1.png"><img src="loderunner_enemies_v0_pcg_2.png" alt="loderunner_enemies_v0_pcg_2.png"><img src="loderunner_enemies_v0_pcg_3.png" alt="loderunner_enemies_v0_pcg_3.png"><img src="loderunner_enemies_v0_pcg_4.png" alt="loderunner_enemies_v0_pcg_4.png"><img src="loderunner_enemies_v0_pcg_5.png" alt="loderunner_enemies_v0_pcg_5.png"><img src="loderunner_enemies_v0_pcg_6.png" alt="loderunner_enemies_v0_pcg_6.png"><img src="loderunner_enemies_v0_pcg_7.png" alt="loderunner_enemies_v0_pcg_7.png"></div></div>
+        </div></div>
+        <h3>Mdungeons V0</h3>
+        <div class="gallery"><div class="row">
+          <div class="col"><div class="method-label">LLM</div><div class="strip"><img src="mdungeons_v0_llm_0.png" alt="mdungeons_v0_llm_0.png"><img src="mdungeons_v0_llm_1.png" alt="mdungeons_v0_llm_1.png"><img src="mdungeons_v0_llm_2.png" alt="mdungeons_v0_llm_2.png"><img src="mdungeons_v0_llm_3.png" alt="mdungeons_v0_llm_3.png"><img src="mdungeons_v0_llm_4.png" alt="mdungeons_v0_llm_4.png"><img src="mdungeons_v0_llm_5.png" alt="mdungeons_v0_llm_5.png"><img src="mdungeons_v0_llm_6.png" alt="mdungeons_v0_llm_6.png"><img src="mdungeons_v0_llm_7.png" alt="mdungeons_v0_llm_7.png"></div></div>
+          <div class="col"><div class="method-label">Non-LLM (random)</div><div class="strip"><img src="mdungeons_v0_pcg_0.png" alt="mdungeons_v0_pcg_0.png"><img src="mdungeons_v0_pcg_1.png" alt="mdungeons_v0_pcg_1.png"><img src="mdungeons_v0_pcg_2.png" alt="mdungeons_v0_pcg_2.png"><img src="mdungeons_v0_pcg_3.png" alt="mdungeons_v0_pcg_3.png"><img src="mdungeons_v0_pcg_4.png" alt="mdungeons_v0_pcg_4.png"><img src="mdungeons_v0_pcg_5.png" alt="mdungeons_v0_pcg_5.png"><img src="mdungeons_v0_pcg_6.png" alt="mdungeons_v0_pcg_6.png"><img src="mdungeons_v0_pcg_7.png" alt="mdungeons_v0_pcg_7.png"></div></div>
+        </div></div>
+        <h3>Mdungeons Large V0</h3>
+        <div class="gallery"><div class="row">
+          <div class="col"><div class="method-label">LLM</div><div class="strip"><img src="mdungeons_large_v0_llm_0.png" alt="mdungeons_large_v0_llm_0.png"><img src="mdungeons_large_v0_llm_1.png" alt="mdungeons_large_v0_llm_1.png"><img src="mdungeons_large_v0_llm_2.png" alt="mdungeons_large_v0_llm_2.png"><img src="mdungeons_large_v0_llm_3.png" alt="mdungeons_large_v0_llm_3.png"><img src="mdungeons_large_v0_llm_4.png" alt="mdungeons_large_v0_llm_4.png"><img src="mdungeons_large_v0_llm_5.png" alt="mdungeons_large_v0_llm_5.png"><img src="mdungeons_large_v0_llm_6.png" alt="mdungeons_large_v0_llm_6.png"><img src="mdungeons_large_v0_llm_7.png" alt="mdungeons_large_v0_llm_7.png"></div></div>
+          <div class="col"><div class="method-label">Non-LLM (random)</div><div class="strip"><img src="mdungeons_large_v0_pcg_0.png" alt="mdungeons_large_v0_pcg_0.png"><img src="mdungeons_large_v0_pcg_1.png" alt="mdungeons_large_v0_pcg_1.png"><img src="mdungeons_large_v0_pcg_2.png" alt="mdungeons_large_v0_pcg_2.png"><img src="mdungeons_large_v0_pcg_3.png" alt="mdungeons_large_v0_pcg_3.png"><img src="mdungeons_large_v0_pcg_4.png" alt="mdungeons_large_v0_pcg_4.png"><img src="mdungeons_large_v0_pcg_5.png" alt="mdungeons_large_v0_pcg_5.png"><img src="mdungeons_large_v0_pcg_6.png" alt="mdungeons_large_v0_pcg_6.png"><img src="mdungeons_large_v0_pcg_7.png" alt="mdungeons_large_v0_pcg_7.png"></div></div>
+        </div></div>
+        <h3>Mdungeons Enemies V0</h3>
+        <div class="gallery"><div class="row">
+          <div class="col"><div class="method-label">LLM</div><div class="strip"><img src="mdungeons_enemies_v0_llm_0.png" alt="mdungeons_enemies_v0_llm_0.png"><img src="mdungeons_enemies_v0_llm_1.png" alt="mdungeons_enemies_v0_llm_1.png"><img src="mdungeons_enemies_v0_llm_2.png" alt="mdungeons_enemies_v0_llm_2.png"><img src="mdungeons_enemies_v0_llm_3.png" alt="mdungeons_enemies_v0_llm_3.png"><img src="mdungeons_enemies_v0_llm_4.png" alt="mdungeons_enemies_v0_llm_4.png"><img src="mdungeons_enemies_v0_llm_5.png" alt="mdungeons_enemies_v0_llm_5.png"><img src="mdungeons_enemies_v0_llm_6.png" alt="mdungeons_enemies_v0_llm_6.png"><img src="mdungeons_enemies_v0_llm_7.png" alt="mdungeons_enemies_v0_llm_7.png"></div></div>
+          <div class="col"><div class="method-label">Non-LLM (random)</div><div class="strip"><img src="mdungeons_enemies_v0_pcg_0.png" alt="mdungeons_enemies_v0_pcg_0.png"><img src="mdungeons_enemies_v0_pcg_1.png" alt="mdungeons_enemies_v0_pcg_1.png"><img src="mdungeons_enemies_v0_pcg_2.png" alt="mdungeons_enemies_v0_pcg_2.png"><img src="mdungeons_enemies_v0_pcg_3.png" alt="mdungeons_enemies_v0_pcg_3.png"><img src="mdungeons_enemies_v0_pcg_4.png" alt="mdungeons_enemies_v0_pcg_4.png"><img src="mdungeons_enemies_v0_pcg_5.png" alt="mdungeons_enemies_v0_pcg_5.png"><img src="mdungeons_enemies_v0_pcg_6.png" alt="mdungeons_enemies_v0_pcg_6.png"><img src="mdungeons_enemies_v0_pcg_7.png" alt="mdungeons_enemies_v0_pcg_7.png"></div></div>
+        </div></div>
+        <h3>Sokoban V0</h3>
+        <div class="gallery"><div class="row">
+          <div class="col"><div class="method-label">LLM</div><div class="strip"><img src="sokoban_v0_llm_0.png" alt="sokoban_v0_llm_0.png"><img src="sokoban_v0_llm_1.png" alt="sokoban_v0_llm_1.png"><img src="sokoban_v0_llm_2.png" alt="sokoban_v0_llm_2.png"><img src="sokoban_v0_llm_3.png" alt="sokoban_v0_llm_3.png"><img src="sokoban_v0_llm_4.png" alt="sokoban_v0_llm_4.png"><img src="sokoban_v0_llm_5.png" alt="sokoban_v0_llm_5.png"><img src="sokoban_v0_llm_6.png" alt="sokoban_v0_llm_6.png"><img src="sokoban_v0_llm_7.png" alt="sokoban_v0_llm_7.png"></div></div>
+          <div class="col"><div class="method-label">Non-LLM (random)</div><div class="strip"><img src="sokoban_v0_pcg_0.png" alt="sokoban_v0_pcg_0.png"><img src="sokoban_v0_pcg_1.png" alt="sokoban_v0_pcg_1.png"><img src="sokoban_v0_pcg_2.png" alt="sokoban_v0_pcg_2.png"><img src="sokoban_v0_pcg_3.png" alt="sokoban_v0_pcg_3.png"><img src="sokoban_v0_pcg_4.png" alt="sokoban_v0_pcg_4.png"><img src="sokoban_v0_pcg_5.png" alt="sokoban_v0_pcg_5.png"><img src="sokoban_v0_pcg_6.png" alt="sokoban_v0_pcg_6.png"><img src="sokoban_v0_pcg_7.png" alt="sokoban_v0_pcg_7.png"></div></div>
+        </div></div>
+        <h3>Sokoban Large V0</h3>
+        <div class="gallery"><div class="row">
+          <div class="col"><div class="method-label">LLM</div><div class="strip"><img src="sokoban_large_v0_llm_0.png" alt="sokoban_large_v0_llm_0.png"><img src="sokoban_large_v0_llm_1.png" alt="sokoban_large_v0_llm_1.png"><img src="sokoban_large_v0_llm_2.png" alt="sokoban_large_v0_llm_2.png"><img src="sokoban_large_v0_llm_3.png" alt="sokoban_large_v0_llm_3.png"><img src="sokoban_large_v0_llm_4.png" alt="sokoban_large_v0_llm_4.png"><img src="sokoban_large_v0_llm_5.png" alt="sokoban_large_v0_llm_5.png"><img src="sokoban_large_v0_llm_6.png" alt="sokoban_large_v0_llm_6.png"></div></div>
+          <div class="col"><div class="method-label">Non-LLM (random)</div><div class="strip"><img src="sokoban_large_v0_pcg_0.png" alt="sokoban_large_v0_pcg_0.png"><img src="sokoban_large_v0_pcg_1.png" alt="sokoban_large_v0_pcg_1.png"><img src="sokoban_large_v0_pcg_2.png" alt="sokoban_large_v0_pcg_2.png"><img src="sokoban_large_v0_pcg_3.png" alt="sokoban_large_v0_pcg_3.png"><img src="sokoban_large_v0_pcg_4.png" alt="sokoban_large_v0_pcg_4.png"><img src="sokoban_large_v0_pcg_5.png" alt="sokoban_large_v0_pcg_5.png"><img src="sokoban_large_v0_pcg_6.png" alt="sokoban_large_v0_pcg_6.png"></div></div>
+        </div></div>
+        <h3>Sokoban Complex V0</h3>
+        <div class="gallery"><div class="row">
+          <div class="col"><div class="method-label">LLM</div><div class="strip"><img src="sokoban_complex_v0_llm_0.png" alt="sokoban_complex_v0_llm_0.png"><img src="sokoban_complex_v0_llm_1.png" alt="sokoban_complex_v0_llm_1.png"><img src="sokoban_complex_v0_llm_2.png" alt="sokoban_complex_v0_llm_2.png"><img src="sokoban_complex_v0_llm_3.png" alt="sokoban_complex_v0_llm_3.png"><img src="sokoban_complex_v0_llm_4.png" alt="sokoban_complex_v0_llm_4.png"><img src="sokoban_complex_v0_llm_5.png" alt="sokoban_complex_v0_llm_5.png"><img src="sokoban_complex_v0_llm_6.png" alt="sokoban_complex_v0_llm_6.png"><img src="sokoban_complex_v0_llm_7.png" alt="sokoban_complex_v0_llm_7.png"></div></div>
+          <div class="col"><div class="method-label">Non-LLM (random)</div><div class="strip"><img src="sokoban_complex_v0_pcg_0.png" alt="sokoban_complex_v0_pcg_0.png"><img src="sokoban_complex_v0_pcg_1.png" alt="sokoban_complex_v0_pcg_1.png"><img src="sokoban_complex_v0_pcg_2.png" alt="sokoban_complex_v0_pcg_2.png"><img src="sokoban_complex_v0_pcg_3.png" alt="sokoban_complex_v0_pcg_3.png"><img src="sokoban_complex_v0_pcg_4.png" alt="sokoban_complex_v0_pcg_4.png"><img src="sokoban_complex_v0_pcg_5.png" alt="sokoban_complex_v0_pcg_5.png"><img src="sokoban_complex_v0_pcg_6.png" alt="sokoban_complex_v0_pcg_6.png"><img src="sokoban_complex_v0_pcg_7.png" alt="sokoban_complex_v0_pcg_7.png"></div></div>
+        </div></div>
+        <h3>Smbtile V0</h3>
+        <div class="gallery"><div class="row">
+          <div class="col"><div class="method-label">LLM</div><div class="strip"><img src="smbtile_v0_llm_0.png" alt="smbtile_v0_llm_0.png"><img src="smbtile_v0_llm_1.png" alt="smbtile_v0_llm_1.png"><img src="smbtile_v0_llm_2.png" alt="smbtile_v0_llm_2.png"><img src="smbtile_v0_llm_3.png" alt="smbtile_v0_llm_3.png"><img src="smbtile_v0_llm_4.png" alt="smbtile_v0_llm_4.png"><img src="smbtile_v0_llm_5.png" alt="smbtile_v0_llm_5.png"><img src="smbtile_v0_llm_6.png" alt="smbtile_v0_llm_6.png"><img src="smbtile_v0_llm_7.png" alt="smbtile_v0_llm_7.png"></div></div>
+          <div class="col"><div class="method-label">Non-LLM (random)</div><div class="strip"><img src="smbtile_v0_pcg_0.png" alt="smbtile_v0_pcg_0.png"><img src="smbtile_v0_pcg_1.png" alt="smbtile_v0_pcg_1.png"><img src="smbtile_v0_pcg_2.png" alt="smbtile_v0_pcg_2.png"><img src="smbtile_v0_pcg_3.png" alt="smbtile_v0_pcg_3.png"><img src="smbtile_v0_pcg_4.png" alt="smbtile_v0_pcg_4.png"><img src="smbtile_v0_pcg_5.png" alt="smbtile_v0_pcg_5.png"><img src="smbtile_v0_pcg_6.png" alt="smbtile_v0_pcg_6.png"><img src="smbtile_v0_pcg_7.png" alt="smbtile_v0_pcg_7.png"></div></div>
+        </div></div>
+        <h3>Smbtile Medium V0</h3>
+        <div class="gallery"><div class="row">
+          <div class="col"><div class="method-label">LLM</div><div class="strip"><img src="smbtile_medium_v0_llm_0.png" alt="smbtile_medium_v0_llm_0.png"><img src="smbtile_medium_v0_llm_1.png" alt="smbtile_medium_v0_llm_1.png"><img src="smbtile_medium_v0_llm_2.png" alt="smbtile_medium_v0_llm_2.png"><img src="smbtile_medium_v0_llm_3.png" alt="smbtile_medium_v0_llm_3.png"><img src="smbtile_medium_v0_llm_4.png" alt="smbtile_medium_v0_llm_4.png"><img src="smbtile_medium_v0_llm_5.png" alt="smbtile_medium_v0_llm_5.png"><img src="smbtile_medium_v0_llm_6.png" alt="smbtile_medium_v0_llm_6.png"><img src="smbtile_medium_v0_llm_7.png" alt="smbtile_medium_v0_llm_7.png"></div></div>
+          <div class="col"><div class="method-label">Non-LLM (random)</div><div class="strip"><img src="smbtile_medium_v0_pcg_0.png" alt="smbtile_medium_v0_pcg_0.png"><img src="smbtile_medium_v0_pcg_1.png" alt="smbtile_medium_v0_pcg_1.png"><img src="smbtile_medium_v0_pcg_2.png" alt="smbtile_medium_v0_pcg_2.png"><img src="smbtile_medium_v0_pcg_3.png" alt="smbtile_medium_v0_pcg_3.png"><img src="smbtile_medium_v0_pcg_4.png" alt="smbtile_medium_v0_pcg_4.png"><img src="smbtile_medium_v0_pcg_5.png" alt="smbtile_medium_v0_pcg_5.png"><img src="smbtile_medium_v0_pcg_6.png" alt="smbtile_medium_v0_pcg_6.png"><img src="smbtile_medium_v0_pcg_7.png" alt="smbtile_medium_v0_pcg_7.png"></div></div>
+        </div></div>
+        <h3>Smbtile Small V0</h3>
+        <div class="gallery"><div class="row">
+          <div class="col"><div class="method-label">LLM</div><div class="strip"><img src="smbtile_small_v0_llm_0.png" alt="smbtile_small_v0_llm_0.png"><img src="smbtile_small_v0_llm_1.png" alt="smbtile_small_v0_llm_1.png"><img src="smbtile_small_v0_llm_2.png" alt="smbtile_small_v0_llm_2.png"><img src="smbtile_small_v0_llm_3.png" alt="smbtile_small_v0_llm_3.png"><img src="smbtile_small_v0_llm_4.png" alt="smbtile_small_v0_llm_4.png"><img src="smbtile_small_v0_llm_5.png" alt="smbtile_small_v0_llm_5.png"><img src="smbtile_small_v0_llm_6.png" alt="smbtile_small_v0_llm_6.png"><img src="smbtile_small_v0_llm_7.png" alt="smbtile_small_v0_llm_7.png"></div></div>
+          <div class="col"><div class="method-label">Non-LLM (random)</div><div class="strip"><img src="smbtile_small_v0_pcg_0.png" alt="smbtile_small_v0_pcg_0.png"><img src="smbtile_small_v0_pcg_1.png" alt="smbtile_small_v0_pcg_1.png"><img src="smbtile_small_v0_pcg_2.png" alt="smbtile_small_v0_pcg_2.png"><img src="smbtile_small_v0_pcg_3.png" alt="smbtile_small_v0_pcg_3.png"><img src="smbtile_small_v0_pcg_4.png" alt="smbtile_small_v0_pcg_4.png"><img src="smbtile_small_v0_pcg_5.png" alt="smbtile_small_v0_pcg_5.png"><img src="smbtile_small_v0_pcg_6.png" alt="smbtile_small_v0_pcg_6.png"><img src="smbtile_small_v0_pcg_7.png" alt="smbtile_small_v0_pcg_7.png"></div></div>
+        </div></div>
+        <h3>Zelda V0</h3>
+        <div class="gallery"><div class="row">
+          <div class="col"><div class="method-label">LLM</div><div class="strip"><img src="zelda_v0_llm_0.png" alt="zelda_v0_llm_0.png"><img src="zelda_v0_llm_1.png" alt="zelda_v0_llm_1.png"><img src="zelda_v0_llm_2.png" alt="zelda_v0_llm_2.png"><img src="zelda_v0_llm_3.png" alt="zelda_v0_llm_3.png"><img src="zelda_v0_llm_4.png" alt="zelda_v0_llm_4.png"><img src="zelda_v0_llm_5.png" alt="zelda_v0_llm_5.png"><img src="zelda_v0_llm_6.png" alt="zelda_v0_llm_6.png"><img src="zelda_v0_llm_7.png" alt="zelda_v0_llm_7.png"></div></div>
+          <div class="col"><div class="method-label">Non-LLM (random)</div><div class="strip"><img src="zelda_v0_pcg_0.png" alt="zelda_v0_pcg_0.png"><img src="zelda_v0_pcg_1.png" alt="zelda_v0_pcg_1.png"><img src="zelda_v0_pcg_2.png" alt="zelda_v0_pcg_2.png"><img src="zelda_v0_pcg_3.png" alt="zelda_v0_pcg_3.png"><img src="zelda_v0_pcg_4.png" alt="zelda_v0_pcg_4.png"><img src="zelda_v0_pcg_5.png" alt="zelda_v0_pcg_5.png"><img src="zelda_v0_pcg_6.png" alt="zelda_v0_pcg_6.png"><img src="zelda_v0_pcg_7.png" alt="zelda_v0_pcg_7.png"></div></div>
+        </div></div>
+        <h3>Zelda Enemies V0</h3>
+        <div class="gallery"><div class="row">
+          <div class="col"><div class="method-label">LLM</div><div class="strip"><img src="zelda_enemies_v0_llm_0.png" alt="zelda_enemies_v0_llm_0.png"><img src="zelda_enemies_v0_llm_1.png" alt="zelda_enemies_v0_llm_1.png"><img src="zelda_enemies_v0_llm_2.png" alt="zelda_enemies_v0_llm_2.png"><img src="zelda_enemies_v0_llm_3.png" alt="zelda_enemies_v0_llm_3.png"><img src="zelda_enemies_v0_llm_4.png" alt="zelda_enemies_v0_llm_4.png"><img src="zelda_enemies_v0_llm_5.png" alt="zelda_enemies_v0_llm_5.png"><img src="zelda_enemies_v0_llm_6.png" alt="zelda_enemies_v0_llm_6.png"><img src="zelda_enemies_v0_llm_7.png" alt="zelda_enemies_v0_llm_7.png"></div></div>
+          <div class="col"><div class="method-label">Non-LLM (random)</div><div class="strip"><img src="zelda_enemies_v0_pcg_0.png" alt="zelda_enemies_v0_pcg_0.png"><img src="zelda_enemies_v0_pcg_1.png" alt="zelda_enemies_v0_pcg_1.png"><img src="zelda_enemies_v0_pcg_2.png" alt="zelda_enemies_v0_pcg_2.png"><img src="zelda_enemies_v0_pcg_3.png" alt="zelda_enemies_v0_pcg_3.png"><img src="zelda_enemies_v0_pcg_4.png" alt="zelda_enemies_v0_pcg_4.png"><img src="zelda_enemies_v0_pcg_5.png" alt="zelda_enemies_v0_pcg_5.png"><img src="zelda_enemies_v0_pcg_6.png" alt="zelda_enemies_v0_pcg_6.png"><img src="zelda_enemies_v0_pcg_7.png" alt="zelda_enemies_v0_pcg_7.png"></div></div>
+        </div></div>
+        <h3>Zelda Large V0</h3>
+        <div class="gallery"><div class="row">
+          <div class="col"><div class="method-label">LLM</div><div class="strip"><img src="zelda_large_v0_llm_0.png" alt="zelda_large_v0_llm_0.png"><img src="zelda_large_v0_llm_1.png" alt="zelda_large_v0_llm_1.png"><img src="zelda_large_v0_llm_2.png" alt="zelda_large_v0_llm_2.png"><img src="zelda_large_v0_llm_3.png" alt="zelda_large_v0_llm_3.png"><img src="zelda_large_v0_llm_4.png" alt="zelda_large_v0_llm_4.png"><img src="zelda_large_v0_llm_5.png" alt="zelda_large_v0_llm_5.png"><img src="zelda_large_v0_llm_6.png" alt="zelda_large_v0_llm_6.png"><img src="zelda_large_v0_llm_7.png" alt="zelda_large_v0_llm_7.png"></div></div>
+          <div class="col"><div class="method-label">Non-LLM (random)</div><div class="strip"><img src="zelda_large_v0_pcg_0.png" alt="zelda_large_v0_pcg_0.png"><img src="zelda_large_v0_pcg_1.png" alt="zelda_large_v0_pcg_1.png"><img src="zelda_large_v0_pcg_2.png" alt="zelda_large_v0_pcg_2.png"><img src="zelda_large_v0_pcg_3.png" alt="zelda_large_v0_pcg_3.png"><img src="zelda_large_v0_pcg_4.png" alt="zelda_large_v0_pcg_4.png"><img src="zelda_large_v0_pcg_5.png" alt="zelda_large_v0_pcg_5.png"><img src="zelda_large_v0_pcg_6.png" alt="zelda_large_v0_pcg_6.png"><img src="zelda_large_v0_pcg_7.png" alt="zelda_large_v0_pcg_7.png"></div></div>
+        </div></div>
+</div></body></html>
