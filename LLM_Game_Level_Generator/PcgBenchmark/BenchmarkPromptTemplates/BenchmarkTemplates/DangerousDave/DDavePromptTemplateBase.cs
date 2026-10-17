@@ -5,7 +5,7 @@
 
     using System.Collections.Generic;
 
-    public class DDavePromptTemplateBase : PromptTemplateV1
+    public class DDavePromptTemplateBase : PromptTemplateV2
     {
         protected Dictionary<string, Dictionary<string, int>> Ranges;
 

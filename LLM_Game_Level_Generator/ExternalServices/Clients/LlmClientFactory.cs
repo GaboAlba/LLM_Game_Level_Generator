@@ -5,7 +5,7 @@
 
     public class LlmClientFactory
     {
-        public static ILlmClient CreateClient(LLMProviders.Providers llmProvider, Enum clientType, string apiKey)
+        public static ILlmClient CreateClient(LLMProviders.Providers llmProvider, Enum clientType, string apiKey, string model = "gpt-5.2")
         {
             if (!LLMProviders.IsSupportedClientType(clientType))
             {
@@ -35,7 +35,7 @@
                                 throw new NotImplementedException();
                             case LLMProviders.OpenAIClients.Responses:
                             default:
-                                return new ResponsesClient(apiKey);
+                                return new ResponsesClient(apiKey, model);
                         }
 
                     }

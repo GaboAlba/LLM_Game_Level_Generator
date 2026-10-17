@@ -2,7 +2,7 @@
   "profiles": {
     "PcgBenchmark": {
       "commandName": "Project",
-      "commandLineArgs": "-b Debug -n 1"
+      "commandLineArgs": "-b All -n 8"
     }
   }
 }

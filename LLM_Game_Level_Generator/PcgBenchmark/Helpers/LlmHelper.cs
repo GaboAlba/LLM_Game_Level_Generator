@@ -21,11 +21,11 @@ namespace PcgBenchmark.Helpers
 
     internal static class LlmHelper
     {
-        internal static async Task<(string, int)> InvokeModelAsync(string prompt, PromptTemplateV1 benchmarkObject, string model = "gpt-5.2")
+        internal static async Task<(string, int)> InvokeModelAsync(string prompt, PromptGroundingData benchmarkObject, string model = "gpt-5.2")
         {
             var responseMap = string.Empty;
             var apiKeys = GetApiKeys();
-            var llmClient = LlmClientFactory.CreateClient(LLMProviders.Providers.OpenAI, LLMProviders.OpenAIClients.Responses, apiKeys.GetValueOrDefault(LLMProviders.Providers.OpenAI.ToString()));
+            var llmClient = LlmClientFactory.CreateClient(LLMProviders.Providers.OpenAI, LLMProviders.OpenAIClients.Responses, apiKeys.GetValueOrDefault(LLMProviders.Providers.OpenAI.ToString()), model);
 
             try
             {
@@ -39,11 +39,6 @@ namespace PcgBenchmark.Helpers
                        width: int.Parse(benchmarkObject.Width),
                        mapTiles: PromptGroundingDataInjector.StringToList(benchmarkObject.Tiles) as ObservableCollection<MapTile>)),
                    jsonSchemaIsStrict: true);
-
-                if (GetValidModels().Contains(model))
-                {
-                    responsesClient.Model = model;
-                }
 
                 var response = await llmClient.GetResponseAsync(request, null) ?? null;
 
@@ -69,8 +64,12 @@ namespace PcgBenchmark.Helpers
                 {
                     throw new NullReferenceException(
                         $"Either the LLM response, or the output are null. Or there was an error" +
-                        $"Error: {response?.Error}, " +
-                        $"Output: {response?.OutputText}");
+                        $" Error Code: {response?.Error?.Code}, " +
+                        $" Error Message: {response?.Error?.Message}, " +
+                        $" Status: {response?.Status}, " +
+                        $" IncompleteReason: {response?.IncompleteReason}, " +
+                        $" Output: {response?.OutputText}, " +
+                        $" Reasoning: {response?.ReasoningText}");
                 }
             }
             catch (Exception ex)

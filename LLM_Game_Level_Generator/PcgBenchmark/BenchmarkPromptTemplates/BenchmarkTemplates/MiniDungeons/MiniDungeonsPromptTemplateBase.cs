@@ -6,7 +6,7 @@ namespace PcgBenchmark.BenchmarkPromptTemplates.BenchmarkTemplates.MiniDungeons
 
     using System.Collections.Generic;
 
-    public class MiniDungeonsPromptTemplateBase : PromptTemplateV1
+    public class MiniDungeonsPromptTemplateBase : PromptTemplateV2
     {
         public MiniDungeonsPromptTemplateBase(string width, string height)
         {

@@ -10,24 +10,49 @@
 
     public static class PromptGroundingDataInjector
     {
-        public static string CreatePrompt(PromptUserData promptUserData)
+        public static string CreatePrompt(PromptUserData promptUserData, int promptVersion = 1)
         {
-            var template = new PromptTemplateV1
+            PromptGroundingData template;
+            switch (promptVersion)
             {
-                GameName = promptUserData.GeneralElements.GameName,
-                GameDescription = promptUserData.GeneralElements.GameDescription,
-                LevelName = promptUserData.GeneralElements.LevelName,
-                LevelDescription = promptUserData.GeneralElements.LevelDescription,
-                Tiles = ListToString(promptUserData.MapTileOptions),
-                Width = promptUserData.MapConstraints.Width.ToString(),
-                Height = promptUserData.MapConstraints.Height.ToString(),
-                GameType = promptUserData.MapConstraints.GameType.ToString(),
-                GameGenre = promptUserData.MapConstraints.GameGenre,
-                DifficultyLevel = promptUserData.MapConstraints.DifficultyLevel.ToString(),
-                HazardLevel = promptUserData.MapConstraints.HazardDensity.ToString(),
-                CustomConstraints = promptUserData.MapConstraints.CustomConstraints
-            };
+                case 2:
+                    template = new PromptTemplateV2
+                    {
+                        GameName = promptUserData.GeneralElements.GameName,
+                        GameDescription = promptUserData.GeneralElements.GameDescription,
+                        LevelName = promptUserData.GeneralElements.LevelName,
+                        LevelDescription = promptUserData.GeneralElements.LevelDescription,
+                        Tiles = ListToString(promptUserData.MapTileOptions),
+                        Width = promptUserData.MapConstraints.Width.ToString(),
+                        Height = promptUserData.MapConstraints.Height.ToString(),
+                        GameType = promptUserData.MapConstraints.GameType.ToString(),
+                        GameGenre = promptUserData.MapConstraints.GameGenre,
+                        DifficultyLevel = promptUserData.MapConstraints.DifficultyLevel.ToString(),
+                        HazardLevel = promptUserData.MapConstraints.HazardDensity.ToString(),
+                        CustomConstraints = promptUserData.MapConstraints.CustomConstraints
+                    };
+                    break;
+                case 1:
+                default:
+                    template = new PromptTemplateV1
+                    {
+                        GameName = promptUserData.GeneralElements.GameName,
+                        GameDescription = promptUserData.GeneralElements.GameDescription,
+                        LevelName = promptUserData.GeneralElements.LevelName,
+                        LevelDescription = promptUserData.GeneralElements.LevelDescription,
+                        Tiles = ListToString(promptUserData.MapTileOptions),
+                        Width = promptUserData.MapConstraints.Width.ToString(),
+                        Height = promptUserData.MapConstraints.Height.ToString(),
+                        GameType = promptUserData.MapConstraints.GameType.ToString(),
+                        GameGenre = promptUserData.MapConstraints.GameGenre,
+                        DifficultyLevel = promptUserData.MapConstraints.DifficultyLevel.ToString(),
+                        HazardLevel = promptUserData.MapConstraints.HazardDensity.ToString(),
+                        CustomConstraints = promptUserData.MapConstraints.CustomConstraints
+                    };
+                    break;
 
+            }
+            
             var handleBarsEngine = new HandlebarsEngine();
 
             return handleBarsEngine.ParsePrompt(template);

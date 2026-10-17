@@ -23,7 +23,9 @@
             this.HazardLevel = "Easy";
             this.CustomConstraints = $"The solution length **must** take at least 18 steps\n\n" +
                 $"The amount of steps from the starting position to the key **must** be between {this.PlayerKeyDistanceRange["min"]} and {this.PlayerKeyDistanceRange["max"]}\n\n" +
-                $"The amount of steps from the key to the door **must** be between {this.KeyDoorDistanceRange["min"]} and {this.KeyDoorDistanceRange["max"]}";
+                $"The amount of steps from the key to the door **must** be between {this.KeyDoorDistanceRange["min"]} and {this.KeyDoorDistanceRange["max"]}\n\n" +
+                $"Do **not** achieve these distances by carving a single one-tile-wide winding corridor (a snake/spiral pattern) through the map; this is explicitly forbidden even if it satisfies the distance requirements\n\n" +
+                $"Instead, build the level as a set of open, irregular dungeon rooms (at least 2x2 contiguous floor tiles each) connected by corridors and doors, with at least one loop or side room where space allows, distributing enemies across rooms rather than stringing them along one hallway";
         }
     }
 }

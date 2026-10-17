@@ -6,7 +6,7 @@ namespace PcgBenchmark.BenchmarkPromptTemplates.BenchmarkTemplates.Sokoban
 
     using System.Collections.Generic;
 
-    public class SokobanPromptTemplateBase : PromptTemplateV1
+    public class SokobanPromptTemplateBase : PromptTemplateV2
     {
         public SokobanPromptTemplateBase()
         {}

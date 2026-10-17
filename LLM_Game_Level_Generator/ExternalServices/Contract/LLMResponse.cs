@@ -22,6 +22,16 @@
         public LLMError? Error { get; set; }
 
         /// <summary>
+        /// The completion status of the response (e.g. Completed, Incomplete, Failed)
+        /// </summary>
+        public string? Status { get; set; }
+
+        /// <summary>
+        /// When Status is Incomplete, the reason generation stopped early (e.g. MaxOutputTokens, ContentFilter)
+        /// </summary>
+        public string? IncompleteReason { get; set; }
+
+        /// <summary>
         /// An upper bound for the number of tokens that can be generated for a response
         /// </summary>
         public int? MaxOutputTokens { get; set; }

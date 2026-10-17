@@ -6,7 +6,7 @@ namespace PcgBenchmark.BenchmarkPromptTemplates.BenchmarkTemplates.LodeRunnerTil
 
     using System.Collections.Generic;
 
-    public class LodeRunnerPromptTemplateBase : PromptTemplateV1
+    public class LodeRunnerPromptTemplateBase : PromptTemplateV2
     {
         public LodeRunnerPromptTemplateBase()
         {}
