@@ -39,7 +39,8 @@
                 { "min", 0 },
                 { "max", Math.Max(2, int.Parse(this.Width) / 7) },
             };
-            this.CustomConstraints = $"The level **must** have unbroken pipes (pipes are in groups of 2 tiles side by side)\n\n" +
+            this.CustomConstraints = $"The level **must** have unbroken pipes: each pipe is a single solid vertical rectangle exactly 2 tiles wide, occupying the exact same 2 columns in every row of its height, with no horizontal offset between rows (no staggered or zig-zag pipes) and no gaps within the column\n\n" +
+                $"Every pipe **must** rest directly on the ground/floor, with its bottom row flush against a solid floor tile; a pipe must never float in the air disconnected from the ground\n\n" +
                 $"The level **must** have 50% or more of just flat platform to comply with mario distribution of tiles\n\n" +
                 $"There **must** not be \"floating\" enemies\n\n" +
                 $"The level **must** be solvable by an A* agent\n\n" +

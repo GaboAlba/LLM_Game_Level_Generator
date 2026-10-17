@@ -44,3 +44,6 @@ htmlcov/
 *.swp
 *.swo
 *~
+
+# Published results page (its own git repo, deployed by GitHub Pages)
+LLM_Game_Level_Generator_Benchmark_Results_Page/

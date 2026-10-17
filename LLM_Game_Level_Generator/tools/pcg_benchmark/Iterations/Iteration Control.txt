@@ -1,3 +1,0 @@
-0: Only Binary Levels
-1: Slight Prompt Changes to Binary Levels
-2: Complete Benchmark run

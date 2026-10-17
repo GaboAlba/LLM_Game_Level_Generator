@@ -8,8 +8,8 @@
 
     internal static class ConsoleHelper
     {
-        private const int MaxTokensPerDay = 1000000;
-        private const int MaxConcurrentRequests = 8;
+        private const int MaxTokensPerDay = 850000;
+        private const int MaxConcurrentRequests = 16;
 
         internal struct ConsoleOutput
         {
@@ -51,7 +51,7 @@
         internal async static Task<ConsoleOutput?> HandleRequestAsync(string[] args)
         {
             var output = new ConsoleOutput();
-            var model = string.Empty;
+            var model = "gpt-5.2";
             var numberOfIterations = 1;
             if (args.Length == 0)
             {
@@ -108,7 +108,7 @@
             var currentConcurrentRequests = 0;
             var tasks = output.BenchmarksToRun.Select(async benchmark =>
             {
-                var prompt = handleBarsEngine.ParsePrompt(benchmark.Value as PromptTemplateV1);
+                var prompt = handleBarsEngine.ParsePrompt(benchmark.Value as PromptTemplateV2);
                 if (prompt != null)
                 {
                     try
@@ -142,7 +142,7 @@
                             }
 
                             Console.WriteLine($"LLM Call for benchmark {benchmark.Key} has started");
-                            (var outputString, var tokenCount) = await LlmHelper.InvokeModelAsync(prompt, benchmark.Value as PromptTemplateV1);
+                            (var outputString, var tokenCount) = await LlmHelper.InvokeModelAsync(prompt, benchmark.Value as PromptTemplateV2, model);
                             Console.WriteLine($"LLM Call for benchmark {benchmark.Key} has successfully ended");
                             lock (lockObj)
                             {

@@ -199,7 +199,7 @@ namespace GeneratorUI
             {
                 this.Output.GeneratedMap = string.Empty;
                 this.progressBar1.IsIndeterminate = true;
-                var prompt = PromptGroundingDataInjector.CreatePrompt(this.promptUserData);
+                var prompt = PromptGroundingDataInjector.CreatePrompt(this.promptUserData, promptVersion: 2);
                 var messages = this.LlmClient.BuildMessages(prompt);
                 var request = this.LlmClient.BuildRequest(messages, false);
 
@@ -246,8 +246,12 @@ namespace GeneratorUI
                 {
                     throw new NullReferenceException(
                         $"Either the LLM response, or the output are null. Or there was an error" +
-                        $"Error: {response?.Error}, " +
-                        $"Output: {response?.OutputText}");
+                        $" Error Code: {response?.Error?.Code}, " +
+                        $" Error Message: {response?.Error?.Message}, " +
+                        $" Status: {response?.Status}, " +
+                        $" IncompleteReason: {response?.IncompleteReason}, " +
+                        $" Output: {response?.OutputText}, " +
+                        $" Reasoning: {response?.ReasoningText}");
                 }
             }
             catch (Exception ex)

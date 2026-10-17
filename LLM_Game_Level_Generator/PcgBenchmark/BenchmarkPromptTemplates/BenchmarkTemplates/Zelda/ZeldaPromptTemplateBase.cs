@@ -6,7 +6,7 @@
 
     using System.Collections.Generic;
 
-    public class ZeldaPromptTemplateBase : PromptTemplateV1
+    public class ZeldaPromptTemplateBase : PromptTemplateV2
     {
         protected Dictionary<string, int> PlayerKeyDistanceRange;
         protected Dictionary<string, int> KeyDoorDistanceRange;

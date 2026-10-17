@@ -32,7 +32,10 @@
             this.CustomConstraints = $"The solution length **must** be between {solutionLengthRange["min"]} and {solutionLengthRange["max"]} \n" +
                 $"The wall and floor tiles **must** compose at least 50% of the map\n" +
                 $"The amount of enemies killed on the shortest solution for the level **must** be more than {minEnemies}. Think thoroughly through it to make sure this is **ALWAYS** true.\n" +
-                $"The level **must** be fully connected";
+                $"The level **must** be fully connected\n" +
+                $"Do **not** satisfy the solution length by carving a single one-tile-wide winding corridor (a snake/spiral pattern) through the map; this is explicitly forbidden even if it satisfies the length requirement\n" +
+                $"Instead, build multiple irregular open rooms (at least 2 tiles wide) connected by corridors and, where space allows, branching paths, distributing enemies, potions, and treasure across distinct rooms rather than stringing them along one hallway\n" +
+                $"Rooms **must not** ambush the player with 3 or more simultaneous enemies; place enemies so the player fights them one or two at a time through doorways or corners, with potions nearby for healing between fights";
         }
     }
 }

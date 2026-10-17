@@ -19,6 +19,18 @@ namespace ExternalServices.Clients.OpenAi
         /// </summary>
         public ResponseTextFormat? ResponseTextFormat { get; set; } = null;
 
+        /// <summary>
+        /// Number of extra attempts allowed when a response comes back incomplete due to running out
+        /// of output tokens (reasoning models can unpredictably consume most/all of the budget on
+        /// reasoning, leaving nothing for the actual output).
+        /// </summary>
+        private const int MaxIncompleteRetries = 2;
+
+        /// <summary>
+        /// How much to grow MaxOutputTokenCount by on each retry triggered by a max-output-tokens truncation.
+        /// </summary>
+        private const int RetryMaxOutputTokenIncrement = 10000;
+
         private readonly OpenAIResponseClient responseClient;
 
         public override ISet<string> AllowedModels => new HashSet<string>
@@ -28,9 +40,9 @@ namespace ExternalServices.Clients.OpenAi
             "gpt-5.2"
         };
 
-        public ResponsesClient(string apiKey)
+        public ResponsesClient(string apiKey, string model = "gpt-5.2")
             : base(
-                  model: "gpt-5.2",
+                  model: model,
                   apiKey: apiKey,
                   temperature: 0.3f,
                   maxOutputTokens: 20000,
@@ -42,7 +54,7 @@ namespace ExternalServices.Clients.OpenAi
         {
             var clientOptions = new OpenAIClientOptions
             {
-                NetworkTimeout = new TimeSpan(0, 0, seconds: 300)
+                NetworkTimeout = new TimeSpan(0, 0, seconds: 900)
             };
             var apiKeyCredential = new ApiKeyCredential(apiKey);
 
@@ -77,17 +89,27 @@ namespace ExternalServices.Clients.OpenAi
 
             try
             {
-                var openAIResponse = await this.responseClient.CreateResponseAsync(responseItems, options);
-
-                var reasoningMessage = openAIResponse.Value.OutputItems.Where(x => x is ReasoningResponseItem).FirstOrDefault() as ReasoningResponseItem;
-                if (reasoningMessage != null)
+                for (var attempt = 0; ; attempt++)
                 {
-                    reasoningProgress?.Report(reasoningMessage.GetSummaryText());
+                    var openAIResponse = await this.responseClient.CreateResponseAsync(responseItems, options);
+
+                    var reasoningMessage = openAIResponse.Value.OutputItems.Where(x => x is ReasoningResponseItem).FirstOrDefault() as ReasoningResponseItem;
+                    if (reasoningMessage != null)
+                    {
+                        reasoningProgress?.Report(reasoningMessage.GetSummaryText());
+                    }
+
+                    var headers = openAIResponse.GetRawResponse().Headers;
+
+                    if (attempt < MaxIncompleteRetries && IsIncompleteDueToMaxOutputTokens(openAIResponse.Value))
+                    {
+                        options.MaxOutputTokenCount = (options.MaxOutputTokenCount ?? this.MaxOutputTokens) + RetryMaxOutputTokenIncrement;
+                        Console.WriteLine($"Response incomplete due to max_output_tokens. Retrying with MaxOutputTokenCount={options.MaxOutputTokenCount}.");
+                        continue;
+                    }
+
+                    return this.GetLLMResponseFromResponsesApiResponse(openAIResponse.Value);
                 }
-
-                var headers = openAIResponse.GetRawResponse().Headers;
-
-                return this.GetLLMResponseFromResponsesApiResponse(openAIResponse.Value);
             }
             catch (Exception ex)
             {
@@ -102,52 +124,72 @@ namespace ExternalServices.Clients.OpenAi
 
             var responseItems = this.CreateOpenAIResponseItemList(request);
 
-            AsyncCollectionResult<StreamingResponseUpdate> updates = this.responseClient.CreateResponseStreamingAsync(responseItems, options);
-            ReasoningResponseItem reasoningResponseItem = new(string.Empty);
-            bool reasoningResponseItemAssigned = false;
-            var sb = new StringBuilder();
-            await foreach (StreamingResponseUpdate update in updates)
+            for (var attempt = 0; ; attempt++)
             {
-                switch (update)
+                var retryForTokenBudget = false;
+                AsyncCollectionResult<StreamingResponseUpdate> updates = this.responseClient.CreateResponseStreamingAsync(responseItems, options);
+                ReasoningResponseItem reasoningResponseItem = new(string.Empty);
+                bool reasoningResponseItemAssigned = false;
+                var sb = new StringBuilder();
+                await foreach (StreamingResponseUpdate update in updates)
                 {
-                    case StreamingResponseOutputItemAddedUpdate added
-                        when added.Item is ReasoningResponseItem:
+                    switch (update)
+                    {
+                        case StreamingResponseOutputItemAddedUpdate added
+                            when added.Item is ReasoningResponseItem:
 
-                        reasoningResponseItemAssigned = true;
-                        sb.AppendLine("[START REASONING]");
-                        reasoningProgress?.Report(sb.ToString());
-                        break;
+                            reasoningResponseItemAssigned = true;
+                            sb.AppendLine("[START REASONING]");
+                            reasoningProgress?.Report(sb.ToString());
+                            break;
 
-                    case StreamingResponseOutputItemDoneUpdate done
-                        when done.Item is ReasoningResponseItem reasoningResponse:
+                        case StreamingResponseOutputItemDoneUpdate done
+                            when done.Item is ReasoningResponseItem reasoningResponse:
 
-                        reasoningResponseItemAssigned = false;
-                        sb.Clear();
-                        foreach (var part in reasoningResponse.SummaryParts)
-                        {
-                            if (part is ReasoningSummaryTextPart text)
+                            reasoningResponseItemAssigned = false;
+                            sb.Clear();
+                            foreach (var part in reasoningResponse.SummaryParts)
                             {
-                                sb.Append(text.Text);
-                                reasoningProgress?.Report(sb.ToString());
+                                if (part is ReasoningSummaryTextPart text)
+                                {
+                                    sb.Append(text.Text);
+                                    reasoningProgress?.Report(sb.ToString());
+                                }
                             }
-                        }
 
+                            break;
+
+                        case StreamingResponseOutputTextDeltaUpdate delta
+                             when reasoningResponseItemAssigned:
+
+                            sb.Append(delta.Delta);
+                            reasoningProgress?.Report(sb.ToString());
+
+                            break;
+
+                        case StreamingResponseCompletedUpdate completed:
+                            if (attempt < MaxIncompleteRetries && IsIncompleteDueToMaxOutputTokens(completed.Response))
+                            {
+                                options.MaxOutputTokenCount = (options.MaxOutputTokenCount ?? this.MaxOutputTokens) + RetryMaxOutputTokenIncrement;
+                                Console.WriteLine($"Response incomplete due to max_output_tokens. Retrying with MaxOutputTokenCount={options.MaxOutputTokenCount}.");
+                                retryForTokenBudget = true;
+                                break;
+                            }
+
+                            return this.GetLLMResponseFromResponsesApiResponse(completed.Response);
+                    }
+
+                    if (retryForTokenBudget)
+                    {
                         break;
+                    }
+                }
 
-                    case StreamingResponseOutputTextDeltaUpdate delta
-                         when reasoningResponseItemAssigned:
-
-                        sb.Append(delta.Delta);
-                        reasoningProgress?.Report(sb.ToString());
-
-                        break;
-
-                    case StreamingResponseCompletedUpdate completed:
-                        return this.GetLLMResponseFromResponsesApiResponse(completed.Response);
+                if (!retryForTokenBudget)
+                {
+                    return new LLMResponse { Id = "" };
                 }
             }
-
-            return new LLMResponse { Id = "" };
         }
 
         private ResponseCreationOptions SetResponseCreationOptions(LLMRequest request, ResponseTextFormat? responseTextFormat = null)
@@ -162,11 +204,11 @@ namespace ExternalServices.Clients.OpenAi
                 {
                     TextFormat = responseTextFormat,
                 },
-                ServiceTier = ResponseServiceTier.Flex, // This wnsures lower costs (equivalent to the Batch API)
             };
 
             if (this.ReasoningModels.Contains(request.Model) && request.ReasoningOptions != null)
             {
+                responseCreationOptions.ServiceTier = ResponseServiceTier.Flex; // This ensures lower costs (equivalent to the Batch API) -- only supported for reasoning models
                 responseCreationOptions.Temperature = null; // WORKAROUND: Needs to be set to null for reasoning models
                 responseCreationOptions.TopP = null; // WORKAROUND: Needs to be set to null for reasoning models
                 responseCreationOptions.ReasoningOptions = new()
@@ -209,6 +251,12 @@ namespace ExternalServices.Clients.OpenAi
             return responseItems;
         }
 
+        private static bool IsIncompleteDueToMaxOutputTokens(OpenAIResponse openAIResponse)
+        {
+            return openAIResponse.Status == ResponseStatus.Incomplete &&
+                   openAIResponse.IncompleteStatusDetails?.Reason == ResponseIncompleteStatusReason.MaxOutputTokens;
+        }
+
         private LLMResponse GetLLMResponseFromResponsesApiResponse(OpenAIResponse openAIResponse)
         {
             return new LLMResponse
@@ -220,6 +268,8 @@ namespace ExternalServices.Clients.OpenAi
                     Code = openAIResponse.Error?.Code.ToString(),
                     Message = openAIResponse.Error?.Message,
                 },
+                Status = openAIResponse.Status?.ToString(),
+                IncompleteReason = openAIResponse.IncompleteStatusDetails?.Reason.ToString(),
                 MaxOutputTokens = openAIResponse.MaxOutputTokenCount,
                 OutputText = openAIResponse.GetOutputText(),
                 Usage = new Contract.LLM_Response.LLMUsage

@@ -8,7 +8,7 @@
     using System.Text.Json;
     using System.Text.Json.Serialization;
 
-    public class SuperMarioBrosTilePromptTemplateBase : PromptTemplateV1
+    public class SuperMarioBrosTilePromptTemplateBase : PromptTemplateV2
     {
         public SuperMarioBrosTilePromptTemplateBase()
         {}
@@ -51,7 +51,7 @@
                 {
                     TileCharacter = "5",
                     TileName = "Tube",
-                    TileDescription = "Used as platforms or \"tunnels\" to other sub-levels",
+                    TileDescription = "Used as platforms or \"tunnels\" to other sub-levels. Must form a single solid vertical column exactly 2 tiles wide, occupying the same 2 columns in every row of its height, resting flush on the ground with no floating segments or gaps",
                 },
                 new MapTile()
                 {
