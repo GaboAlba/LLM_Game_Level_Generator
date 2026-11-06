@@ -54,7 +54,10 @@ namespace ExternalServices.Clients.OpenAi
         {
             var clientOptions = new OpenAIClientOptions
             {
-                NetworkTimeout = new TimeSpan(0, 0, seconds: 900)
+                // Reasoning calls can run long; a timed-out call is still billed, so give it time
+                // to finish and retry a timeout only once (other transient errors keep 3 retries).
+                NetworkTimeout = TimeSpan.FromMinutes(30),
+                RetryPolicy = new TimeoutAwareRetryPolicy(maxRetries: 3, maxTimeoutRetries: 1),
             };
             var apiKeyCredential = new ApiKeyCredential(apiKey);
 
