@@ -1,0 +1,3 @@
+{
+ "wfc_p2000": ["wfc", {"polish_iterations": 2000}]
+}

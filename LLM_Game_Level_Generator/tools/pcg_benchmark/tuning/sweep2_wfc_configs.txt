@@ -1,0 +1,22 @@
+{
+ "wfc_p2000": [
+  "wfc",
+  {
+   "polish_iterations": 2000
+  }
+ ],
+ "wfc_p500_m05": [
+  "wfc",
+  {
+   "polish_iterations": 500,
+   "mutation_rate": 0.05
+  }
+ ],
+ "wfc_p2000_m05": [
+  "wfc",
+  {
+   "polish_iterations": 2000,
+   "mutation_rate": 0.05
+  }
+ ]
+}

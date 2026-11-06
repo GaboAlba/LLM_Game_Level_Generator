@@ -1,0 +1,4 @@
+wall 3111s
+
+== wfc_p5000: fit 0.889  Q 0.939  C 0.840  cpu-s/map 451.7 (max 3060)
+   binary:0.95/35s  ddave:0.96/369s  loderunnertile:0.43/47s  mdungeons:1.00/1782s  sokoban:1.00/473s  zelda:1.00/4s

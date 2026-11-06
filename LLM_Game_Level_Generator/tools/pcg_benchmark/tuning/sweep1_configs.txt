@@ -1,0 +1,8 @@
+{
+ "ga_default":   ["ga", {}],
+ "ga_100x100":   ["ga", {"population_size": 100, "generations": 100, "elite_count": 10}],
+ "ga_100x100_m02": ["ga", {"population_size": 100, "generations": 100, "elite_count": 10, "mutation_rate": 0.02}],
+ "wfc_default":  ["wfc", {}],
+ "wfc_p500":     ["wfc", {"polish_iterations": 500}],
+ "wfc_p500_m02": ["wfc", {"polish_iterations": 500, "mutation_rate": 0.02}]
+}

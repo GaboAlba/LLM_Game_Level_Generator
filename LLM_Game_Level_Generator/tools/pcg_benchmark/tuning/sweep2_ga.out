@@ -1,0 +1,13 @@
+wall 14685s
+
+== ga_200x200_m02: fit 0.793  Q 0.742  C 0.845  cpu-s/map 884.4 (max 7648)
+   binary:0.99/249s  ddave:0.91/129s  loderunnertile:0.62/462s  mdungeons:1.00/3682s  smbtile:0.09/757s  sokoban:0.98/787s  zelda:0.96/124s
+
+== ga_100x100_m01: fit 0.786  Q 0.729  C 0.843  cpu-s/map 638.7 (max 4508)
+   binary:0.99/75s  ddave:0.94/45s  loderunnertile:0.62/117s  mdungeons:1.00/3414s  smbtile:0.09/193s  sokoban:0.96/577s  zelda:0.90/51s
+
+== ga_100x100_m02_p2000: fit 0.767  Q 0.702  C 0.832  cpu-s/map 351.9 (max 3413)
+   binary:0.99/88s  ddave:0.86/37s  loderunnertile:0.62/134s  mdungeons:1.00/1673s  smbtile:0.09/220s  sokoban:0.89/262s  zelda:0.92/49s
+
+== ga_100x100_m02_t5: fit 0.776  Q 0.710  C 0.842  cpu-s/map 538.0 (max 11023)
+   binary:0.97/71s  ddave:0.95/64s  loderunnertile:0.62/117s  mdungeons:1.00/1413s  smbtile:0.09/194s  sokoban:0.89/1866s  zelda:0.92/41s

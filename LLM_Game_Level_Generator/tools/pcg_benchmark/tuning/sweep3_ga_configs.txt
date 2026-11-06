@@ -1,0 +1,5 @@
+{
+ "ga_200x200_m01":    ["ga", {"population_size": 200, "generations": 200, "elite_count": 20, "mutation_rate": 0.01}],
+ "ga_200x200_m01_t5": ["ga", {"population_size": 200, "generations": 200, "elite_count": 20, "mutation_rate": 0.01, "tournament_size": 5}],
+ "ga_300x300_m01":    ["ga", {"population_size": 300, "generations": 300, "elite_count": 30, "mutation_rate": 0.01}]
+}

@@ -1,0 +1,40 @@
+{
+ "ga_200x200_m02": [
+  "ga",
+  {
+   "population_size": 200,
+   "generations": 200,
+   "elite_count": 20,
+   "mutation_rate": 0.02
+  }
+ ],
+ "ga_100x100_m01": [
+  "ga",
+  {
+   "population_size": 100,
+   "generations": 100,
+   "elite_count": 10,
+   "mutation_rate": 0.01
+  }
+ ],
+ "ga_100x100_m02_p2000": [
+  "ga",
+  {
+   "population_size": 100,
+   "generations": 100,
+   "elite_count": 10,
+   "mutation_rate": 0.02,
+   "polish_iterations": 2000
+  }
+ ],
+ "ga_100x100_m02_t5": [
+  "ga",
+  {
+   "population_size": 100,
+   "generations": 100,
+   "elite_count": 10,
+   "mutation_rate": 0.02,
+   "tournament_size": 5
+  }
+ ]
+}
